@@ -28,6 +28,8 @@ The visual presentation of the simulation will be managed by a GridView class, w
 
 There will be a UI  view class that is responsible for producing the user interface. The interface will have methods to produce visual elements such as buttons and a sliding scale to control simulation speed. These buttons will start, stop and increment the simulation, and will acquire any required text from the XML file.
 
+![visualization picture](images/image00.jpg "An alternate design")
+
 #### Use Cases
 > Apply the rules to a middle cell: set the next state of a cell to dead by counting its number of neighbors using the Game of Life rules for a cell in the middle (i.e., with all its neighbors)
 
@@ -49,6 +51,8 @@ Click on upload, and browse to the XML file that describes the configuration for
 
 ### User Interface
 The user will interact with the simulation primarily through several buttons and components beside the grid. First, a load button will launch a file browser, allowing the user to select an XML configuration file. A start button will begin the simulation, a stop button will pause the simulation, and a slider will control the speed of the simulation. A reset button will restart the simulation from its initial configuration.
+
+![user interface picture](images/image01.jpg "An alternate design")
 
 -----
 
