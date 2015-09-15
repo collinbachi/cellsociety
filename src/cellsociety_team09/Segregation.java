@@ -34,21 +34,22 @@ public class Segregation extends Simulation {
             }
             else {
                 cell.setMyNextState(BLANK);
-                moveAgent(cell, cell, false);
+                this.moveCell(cell, cell, false);
             }
         }
     }
-
-    private void moveAgent(Cell agent, Cell cell, boolean moved) {
-        for(Cell neighbor : agent.getMyNeighbors()) {
-            if (!moved && neighbor != null) {
-                if(neighbor.getMyNextState()==BLANK ) {
-                    neighbor.setMyNextState(agent.getMyCurrentState());
-                    agent.setMyNextState(BLANK);
+    
+    private void moveCell(Cell cellToMove, Cell neighborCell, boolean moved) {
+        if (moved) return;
+        for(Cell neighbor : neighborCell.getMyNeighbors()) {
+            if (neighbor != null) {
+                if(neighbor.getMyNextState()==BLANK) {
+                    neighbor.setMyNextState(cellToMove.getMyCurrentState());
+                    cellToMove.setMyNextState(BLANK);
                     moved = true;
                     return;
                 }
-                moveAgent(agent, neighbor, moved);
+                moveCell(cellToMove, neighbor, moved);
             }
         }
 
