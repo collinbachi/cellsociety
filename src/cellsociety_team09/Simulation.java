@@ -1,4 +1,3 @@
-package cellsociety_team09;
 
 public abstract class Simulation {
     

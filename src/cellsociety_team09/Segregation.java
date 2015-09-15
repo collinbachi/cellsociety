@@ -1,4 +1,3 @@
-package cellsociety_team09;
 
 import java.util.HashMap;
 import javafx.scene.paint.Color;

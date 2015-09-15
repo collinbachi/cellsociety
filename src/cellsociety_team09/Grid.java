@@ -1,5 +1,3 @@
-package cellsociety_team09;
-
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -12,18 +10,21 @@ import java.util.TimerTask;
 
 
 public class Grid{
-	private ArrayList<ArrayList> myRows;
+	private ArrayList<ArrayList<Cell>> myRows;
 	private Simulation mySim;
 
 	public static final long delay = 0;
 	public static long interval = 1000;
 
-	public void Grid(ArrayList<ArrayList> rows, String sim){
+	public void Grid(ArrayList<ArrayList<Cell>> rows, String sim){
 		myRows = rows;
 
 		try{
 			mySim = (Simulation) Class.forName(sim).newInstance();
-		}catch(Exception e){ return; }
+		}catch(Exception e){ 
+ 			System.out.println("There was a problem instantiating the class" +
+ 							   "by name in Grid.java");
+		}
 
 		// If we want Simulation classes to use a constructor
 		/*Class<?> temp = Class.forName(sim);
@@ -35,6 +36,19 @@ public class Grid{
 		};
 		Timer timer = new Timer();
 		timer.scheduleAtFixedRate(task, delay, interval);
+	}
+
+	public int getWidth(){
+		return myRows.get(0).size();
+	}
+
+	public int getHeight(){
+		return myRows.size();
+	}
+
+	public Cell getCell(int row, int col){
+		ArrayList<Cell> temp = myRows.get(row);
+		return temp.get(col);
 	}
 
 	public void step(){
