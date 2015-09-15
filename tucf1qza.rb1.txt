@@ -1,0 +1,14 @@
+﻿Initial reader and writer classes
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+# On branch master
+# Your branch is up-to-date with 'origin/master'.
+#
+# Changes to be committed:
+#	new file:   XML/Conway
+#	new file:   XML/Conway.xml
+#	new file:   src/cellsociety_team09/XMLFields.java
+#	new file:   src/cellsociety_team09/XMLReader.java
+#	new file:   src/cellsociety_team09/XMLWriter.java
+#
+
