@@ -14,7 +14,6 @@ public class Segregation extends Simulation {
     
     public Segregation () {
         super(TOTAL_STATES, COLORS);
-        // TODO Auto-generated constructor stub
     }
 
     @Override
@@ -29,7 +28,7 @@ public class Segregation extends Simulation {
 
     private void satisfiedSurroundingsRule(Cell cell, int[] neighborInfo) {
         if(isNotBlank(cell)) {
-            int percentSimilarNeighbors = neighborInfo[cell.getMyCurrentState()] / (neighborInfo[AGENTX] + neighborInfo[AGENTY]);
+            int percentSimilarNeighbors = neighborInfo[cell.getMyCurrentState()] / (neighborInfo[AGENTX] + neighborInfo[AGENTY]) * 100;
             if (percentSimilarNeighbors >= SIMILAR_THRESHOLD) {
                 cell.setMyNextState(cell.getMyCurrentState());
             }
@@ -41,7 +40,6 @@ public class Segregation extends Simulation {
     }
 
     private void moveAgent(Cell agent, Cell cell, boolean moved) {
-        // TODO write a depth first search method.... :(
         for(Cell neighbor : agent.getMyNeighbors()) {
             if (!moved && neighbor != null) {
                 if(neighbor.getMyNextState()==BLANK ) {
