@@ -1,3 +1,4 @@
+package cellsociety_team09;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -13,9 +14,9 @@ public class Main extends Application {
 
     @Override
     public void start (Stage s) {
-        myView = new UIView();
-        s.setTitle(myView.getTitle());
-        Scene scene = myView.init(800, 800);
+        myUIView = new UIView();
+       // s.setTitle(myUIView.getTitle());
+        Scene scene = myUIView.init(800, 600);
         s.setScene(scene);
         s.show();    
     }
