@@ -1,22 +1,16 @@
 package cellsociety_team09;
 
+import java.util.HashMap;
 import javafx.scene.paint.Color;
 
 public class Segregation extends Simulation {
     // TODO write in XML commands
-    private static final String DESCRIPTION;
-    private static final String AUTHOR;
     private static final Color[] COLORS = {Color.WHITE, Color.BLUE, Color.RED};
     private static final int SIMILAR_THRESHOLD = 30;
     private static final int BLANK = 0;
     private static final int AGENTX = 1;
     private static final int AGENTY = 2;
     private static final int TOTAL_STATES = 3;
-
-    public Segregation () {
-        super(DESCRIPTION, AUTHOR);
-        
-    }
 
     private int[] collectNeighborInfo(Cell cell) {
         int[] countNeighbors = new int[TOTAL_STATES];
@@ -45,21 +39,25 @@ public class Segregation extends Simulation {
             }
             else {
                 cell.setMyNextState(BLANK);
-                moveAgent(cell);
+                moveAgent(cell, cell, false);
             }
         }
     }
-    
-    private void moveAgent(Cell agent) {
+
+    private void moveAgent(Cell agent, Cell cell, boolean moved) {
+        // TODO write a depth first search method.... :(
         for(Cell neighbor : agent.getMyNeighbors()) {
-            if(neighbor.getMyNextState()==BLANK) {
-                neighbor.setMyNextState(agent.getMyCurrentState());
-                agent.setMyNextState(BLANK);
-                return;
+            if (!moved && neighbor != null) {
+                if(neighbor.getMyNextState()==BLANK ) {
+                    neighbor.setMyNextState(agent.getMyCurrentState());
+                    agent.setMyNextState(BLANK);
+                    moved = true;
+                    return;
+                }
+                moveAgent(agent, neighbor, moved);
             }
-            
         }
-        
+
     }
 
     @Override

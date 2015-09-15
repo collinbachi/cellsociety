@@ -9,10 +9,10 @@ public class Cell {
     private Color myColor;
     private Cell[] myNeighbors;
     
-    public Cell(int state) {
+    public Cell(int state, Color color) {
         myCurrentState = state;
         myNextState = myCurrentState;
-        myColor = Color.WHITE;
+        myColor = color;
     }
     
     public Color getMyColor () {
