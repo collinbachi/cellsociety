@@ -1,6 +1,9 @@
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.scene.Group;
+import javafx.scene.Scene;
+import javafx.scene.paint.Color;
 
 /**
  * This is the main program, it is basically boilerplate to create
@@ -9,17 +12,24 @@ import javafx.stage.Stage;
  * @author D. Collin Bachi (adapted from class example)
  */
 public class Main extends Application {
-    private UIView myUIView;
+    //private UIView myUIView;
 
     @Override
     public void start (Stage s) {
-        myView = new UIView();
-        s.setTitle(myView.getTitle());
-        Scene scene = myView.init(800, 800);
+        //myUIView = new UIView();
+        s.setTitle("asdf");
+        Scene scene = init(800,800);//myUIView.init(800, 800);
         s.setScene(scene);
         s.show();    
     }
 
+    // testing - REMOVE
+    public Scene init (int width, int height) {
+        // Create a scene graph to organize the scene
+        Group root = new Group();
+        Scene myScene = new Scene(root, width, height, Color.WHITE);
+        return myScene;
+    }
     /**
      * Start the program.
      */
