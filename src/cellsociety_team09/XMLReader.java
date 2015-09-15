@@ -9,7 +9,7 @@ import org.xml.sax.SAXException;
 
 public class XMLReader {
 	
-	
+	private String fileName;
 	private String title;
 	private String name;
 	private String author;
@@ -18,7 +18,10 @@ public class XMLReader {
 	private int numberOfStates;
 	private int[][] cellArray;
 
-	
+	XMLReader(String fileName) throws ParserConfigurationException, SAXException, IOException
+	{
+		parseFile(fileName);
+	}
 	
 	public void parseFile(String fileName) throws ParserConfigurationException, SAXException, IOException
 	{
@@ -38,7 +41,6 @@ public class XMLReader {
 		cellArray=new int[gridWidth][gridHeight];
 		
 		populateInitialStates(cellArray,cellList);
-		
 		
 	}
 	public void populateInitialStates(int[][] cellArray,NodeList cellList)
