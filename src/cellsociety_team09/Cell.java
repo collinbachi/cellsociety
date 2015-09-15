@@ -3,16 +3,16 @@ package cellsociety_team09;
 import javafx.scene.paint.Color;
 
 public class Cell {
+    
     private int myCurrentState;
     private int myNextState;
     private Color myColor;
     private Cell[] myNeighbors;
     
-    public Cell(int state, Cell[] neighbors) {
+    public Cell(int state) {
         myCurrentState = state;
         myNextState = myCurrentState;
         myColor = Color.WHITE;
-        myNeighbors = neighbors;
     }
     
     public Color getMyColor () {
