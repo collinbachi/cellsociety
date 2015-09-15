@@ -6,7 +6,7 @@ public class Segregation extends Simulation {
 
     // TODO write in XML commands
     private static final Color[] COLORS = {Color.WHITE, Color.BLUE, Color.RED};
-    private static final int SIMILAR_THRESHOLD = 30;
+    private static final double SIMILAR_THRESHOLD = .3;
     private static final int BLANK = 0;
     private static final int AGENTX = 1;
     private static final int AGENTY = 2;
@@ -28,7 +28,7 @@ public class Segregation extends Simulation {
 
     private void satisfiedSurroundingsRule(Cell cell, int[] neighborInfo) {
         if(isNotBlank(cell)) {
-            int percentSimilarNeighbors = neighborInfo[cell.getMyCurrentState()] / (neighborInfo[AGENTX] + neighborInfo[AGENTY]) * 100;
+            double percentSimilarNeighbors = neighborInfo[cell.getMyCurrentState()] / (neighborInfo[AGENTX] + neighborInfo[AGENTY]);
             if (percentSimilarNeighbors >= SIMILAR_THRESHOLD) {
                 cell.setMyNextState(cell.getMyCurrentState());
             }

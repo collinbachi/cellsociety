@@ -133,7 +133,7 @@ public class PredatorPrey extends Simulation {
             shark.setMyNextState(BLANK);
         }
     }
-
+    
     private int randomNum (int bound) {
         Random rand = new Random();
         return rand.nextInt(bound);
