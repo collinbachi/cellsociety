@@ -15,15 +15,18 @@ public class Conway extends Simulation {
 	@Override
 	public void checkRules(Cell cell) {
 		int[] neighborInfo = collectNeighborInfo(cell);
+		System.out.println(neighborInfo.toString());
 		if (neighborInfo[ON] < 2) {
-			cell.setMyNextState(OFF);
-		} else if (neighborInfo[ON] <= 3) {
-			cell.setMyNextState(ON);
-		} else if (neighborInfo[ON] > 3) {
 			cell.setMyNextState(OFF);
 		} else if (neighborInfo[ON] == 3 && cell.getMyCurrentState() == OFF) {
 			cell.setMyNextState(ON);
+		} else if (neighborInfo[ON] > 3) {
+			cell.setMyNextState(OFF);
+		} else if (neighborInfo[ON] <= 3) {
+			cell.setMyNextState(ON);
 		}
+
+		System.out.println(cell.getMyNextState());
 	}
 
 }

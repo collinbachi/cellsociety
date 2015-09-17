@@ -8,6 +8,7 @@ public abstract class Simulation {
     private Color[] myColors;
     
     public Simulation(int totalStates, Color[] colors) {
+        System.out.println("DEBUG");
         myTotalStates = totalStates;
         myColors = colors;
     }
@@ -20,10 +21,15 @@ public abstract class Simulation {
     }
     
     protected int[] collectNeighborInfo(Cell cell) {
-        int[] countNeighbors = new int[myTotalStates];
+        int[] countNeighbors = new int[myTotalStates+1];
+        for (int i=0; i<countNeighbors.length; i++){
+            countNeighbors[i]=0;
+        }
         Cell[] neighbors = cell.getMyNeighbors();
+        //System.out.println(myTotalStates); //debug
         for(int i = 0; i < neighbors.length; i++) {
-            countNeighbors[neighbors[i].getMyCurrentState()]++;
+            if (neighbors[i]==null) continue;
+            countNeighbors[neighbors[i].getMyCurrentState()] = countNeighbors[neighbors[i].getMyCurrentState()]+1;
         }
         return countNeighbors;
     }
