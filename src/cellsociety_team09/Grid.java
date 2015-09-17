@@ -1,6 +1,9 @@
+package cellsociety_team09;
+
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
+import javafx.scene.paint.Color;
 /** 
  * Class for holding the 2d array of Cells that compose the Grid, along with
  * the current Simulation.
@@ -16,8 +19,14 @@ public class Grid{
 	public static final long delay = 0;
 	public static long interval = 1000;
 
-	public void Grid(ArrayList<ArrayList<Cell>> rows, String sim){
-		myRows = rows;
+	public void Grid(ArrayList<ArrayList<Integer>> rows, String sim){
+		for (ArrayList<Integer> row : rows){
+			ArrayList<Cell> cellRow = new ArrayList<Cell>();
+			for (int state : row){
+				cellRow.add(new Cell(state, Color.BLACK));
+			}
+			myRows.add(cellRow);
+		}
 
 		try{
 			mySim = (Simulation) Class.forName(sim).newInstance();

@@ -1,7 +1,4 @@
-<<<<<<< HEAD:src/cellsociety_team09/XMLFields.java
-=======
 package xmlManagement;
->>>>>>> 3f6957bb200d4d49fdcc9d5326af026015268b1d:src/xmlManagement/XMLFields.java
 
 public class XMLFields {
 
