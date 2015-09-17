@@ -92,7 +92,7 @@ public class UIView {
 				myXMLReader = new XMLReader();
 				myXMLReader.parseFile(selectedFile, myGrid);
 				GridView gridView = new GridView(myGrid, grid.getBoundsInLocal());
-				gridPane.add(gridView,0,0);
+				gridPane.add(gridView,0,0,4,6);
 
 				KeyFrame frame = new KeyFrame(Duration.millis(300),
                                               e -> myGrid.step());
