@@ -18,13 +18,13 @@ public class Cell {
         myColor = color;
         myLives = 0;
     }
-
-    public int getMyLives () {
-        return myLives;
+    
+    public boolean checkMyLives(double mySharkReproductionTime) {
+        return myLives == mySharkReproductionTime;
     }
 
-    public void setMyLives (int myLives) {
-        this.myLives = myLives;
+    public void incrementLives () {
+        myLives++;
     }
     
     public void resetLives() {

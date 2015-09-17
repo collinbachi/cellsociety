@@ -1,19 +1,24 @@
 package cellsociety_team09;
 
 import javafx.scene.paint.Color;
+import xmlManagement.XMLReader;
 
 public class Segregation extends Simulation {
 
     // TODO write in XML commands
     private static final Color[] COLORS = {Color.WHITE, Color.BLUE, Color.RED};
-    private static final double SIMILAR_THRESHOLD = .3;
     private static final int BLANK = 0;
     private static final int AGENTX = 1;
     private static final int AGENTY = 2;
     private static final int TOTAL_STATES = 3;
+    public static final String SIMILAR_THRESHOLD = "SIMILAR_THRESHOLD";
+    
+    private double mySimilarThreshold;
     
     public Segregation () {
         super(TOTAL_STATES, COLORS);
+        XMLReader reader = new XMLReader();
+        mySimilarThreshold = reader.getParameterMap().get(SIMILAR_THRESHOLD);
     }
 
     @Override
@@ -29,7 +34,7 @@ public class Segregation extends Simulation {
     private void satisfiedSurroundingsRule(Cell cell, int[] neighborInfo) {
         if(isNotBlank(cell)) {
             double percentSimilarNeighbors = neighborInfo[cell.getMyCurrentState()] / (neighborInfo[AGENTX] + neighborInfo[AGENTY]);
-            if (percentSimilarNeighbors >= SIMILAR_THRESHOLD) {
+            if (percentSimilarNeighbors >= mySimilarThreshold) {
                 cell.setMyNextState(cell.getMyCurrentState());
             }
             else {
