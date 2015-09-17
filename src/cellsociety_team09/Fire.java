@@ -2,6 +2,7 @@ package cellsociety_team09;
 
 import java.util.Random;
 import javafx.scene.paint.Color;
+import xmlManagement.XMLReader;
 
 public class Fire extends Simulation {
     private static final int TOTAL_STATES = 3;
@@ -10,10 +11,14 @@ public class Fire extends Simulation {
     private static final int TREE = 1;
     private static final int BURNING = 2;
     private static final int[] VALID_NEIGHBORS = { 1, 3, 4, 6 };
-    private static final double PROB_CATCH = .15;
+    public static final String PROB_CATCH = "PROB_CATCH";
+    
+    private double myProbCatch;
 
     public Fire () {
         super(TOTAL_STATES, COLORS);
+        XMLReader reader = new XMLReader();
+        myProbCatch = reader.getParameterMap().get(PROB_CATCH);
     }
 
     @Override
@@ -42,7 +47,7 @@ public class Fire extends Simulation {
     private void mayCatchFire(Cell cell) {
         for (int i : VALID_NEIGHBORS) {
             int neighborState = cell.getMyNeighbors()[i].getMyCurrentState();
-            if(neighborState == BURNING && randomDouble() < PROB_CATCH) {
+            if(neighborState == BURNING && randomDouble() < myProbCatch) {
                     cell.setMyNextState(BURNING);
             }
         }

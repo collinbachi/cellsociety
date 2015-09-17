@@ -1,4 +1,4 @@
-package cellsociety_team09;
+package xmlManagement;
 
 public class XMLFields {
 

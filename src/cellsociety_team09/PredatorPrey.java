@@ -3,6 +3,7 @@ package cellsociety_team09;
 import java.util.ArrayList;
 import java.util.Random;
 import javafx.scene.paint.Color;
+import xmlManagement.XMLReader;
 
 
 public class PredatorPrey extends Simulation {
@@ -26,7 +27,10 @@ public class PredatorPrey extends Simulation {
     public PredatorPrey () {
         super(TOTAL_STATES, COLORS);
         XMLReader reader = new XMLReader();
-        myFishReproductionTime = reader.
+        myFishReproductionTime = reader.getParameterMap().get(FISH_REPRODUCTION_TIME).intValue();
+        mySharkReproductionTime = (int) reader.getParameterMap().get(SHARK_REPRODUCTION_TIME).intValue();
+        myFishEnergy = (int) reader.getParameterMap().get(FISH_ENERGY).intValue();
+        myUnitEnergy = (int) reader.getParameterMap().get(UNIT_ENERGY).intValue();
     }
 
     private boolean isFish (Cell cell) {
@@ -57,11 +61,11 @@ public class PredatorPrey extends Simulation {
                 return;
             }
         }
-        fish.setMyLives(fish.getMyLives() + 1);
+        fish.incrementLives();
     }
 
     private void fishReproductionRules (Cell fish, Cell neighbor) {
-        if (fish.getMyLives() == FISH_REPRODUCTION_TIME) {
+        if (fish.checkMyLives(myFishReproductionTime)) {
             fish.setMyNextState(FISH);
             neighbor.setMyNextState(FISH);
             neighbor.resetLives();
@@ -69,12 +73,12 @@ public class PredatorPrey extends Simulation {
         else {
             neighbor.setMyNextState(FISH);
             fish.setMyNextState(BLANK);
-            neighbor.setMyLives(fish.getMyLives() + 1);
+            neighbor.incrementLives();
         }
     }
 
     private void sharkRules (Cell shark) {
-        shark.setMyCurrentState(shark.getMyCurrentState() + UNIT_ENERGY);
+        shark.setMyCurrentState(shark.getMyCurrentState() + myUnitEnergy);
         if(!sharkIsDead(shark)) {
             Cell[] neighbors = shark.getMyNeighbors();
             ArrayList<Integer> fishLocations = getFishLocations(neighbors);
@@ -119,8 +123,8 @@ public class PredatorPrey extends Simulation {
     private void eatFish (Cell shark, ArrayList<Integer> fishLocations, Cell[] neighbors) {
         int fishToEat = fishLocations.get(randomNum(fishLocations.size()));
         sharkReproductionRules(shark);
-        neighbors[fishToEat].setMyNextState(shark.getMyCurrentState() - FISH_ENERGY);
-        neighbors[fishToEat].setMyLives(shark.getMyLives() + 1);
+        neighbors[fishToEat].setMyNextState(shark.getMyCurrentState() - myFishEnergy);
+        neighbors[fishToEat].incrementLives();
         shark.resetLives();
     }
 
@@ -128,12 +132,12 @@ public class PredatorPrey extends Simulation {
         int placeToMove = blankLocations.get(randomNum(blankLocations.size()));
         sharkReproductionRules(shark);
         neighbors[placeToMove].setMyNextState(shark.getMyCurrentState());
-        neighbors[placeToMove].setMyLives(shark.getMyLives() + 1);
+        neighbors[placeToMove].incrementLives();
         shark.resetLives();
     }
 
     private void sharkReproductionRules (Cell shark) {
-        if(shark.getMyLives() == SHARK_REPRODUCTION_TIME) {
+        if(shark.checkMyLives(mySharkReproductionTime)) {
             shark.setMyNextState(SHARK);
         }
         else {
