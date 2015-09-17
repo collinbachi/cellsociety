@@ -1,26 +1,33 @@
 package cellsociety_team09;
 
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
 public class ConwayWriter extends XMLWriter{
+	//Local Hard-coded values that get passed to super methods
+	
+	private static final String fileName = "XML/Conway.xml";
+	private static final String simName = "Conway's Game of Life";
+	private static final String simTitle = "Celluar Automaton";
+	private static final String simAuthor = "Jasper Hancock";
+	private static final int height = 100;
+	private static final int width= 100;
+	private static final int possibleStates = 2;
 	
 	ConwayWriter()
-	{
-		/*
-		super.DestinationFile = "XML/Conway.xml";
-		super.nameToWrite = "Conway's Game of Life";
-		super.titleToWrite = "Celluar Automaton";
-		super.authorToWrite = "Jasper Hancock";
-		super.gridHeightToWrite = 100;
-		super.gridWidthToWrite = 100;
-		super.numberOfStatesToWrite = 2;
-		?
-		*/
+	{		
+		super(fileName, simName, simTitle, simAuthor, height, width, possibleStates);
+		
+		super.writeFile();
 	}
 
-	public static void main(String args[])
-	{
-		ConwayWriter writer=new ConwayWriter();
-		writer.writeFile();
+	@Override
+	public void populateParameterMap() {
+
+		//The Conway simulation is the only one that does not require specific parameters
+	
 	}
+
 	
 	
 

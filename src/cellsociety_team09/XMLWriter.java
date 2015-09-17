@@ -10,28 +10,38 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+
+import java.util.HashMap;
 import java.util.concurrent.ThreadLocalRandom;
 
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-public class XMLWriter {
+public abstract class XMLWriter {
 
-	public static final String DestinationFile = "XML/Conway.xml";
+	protected final String myDestinationFile;
+	protected final String myName;
+	protected final String myTitle;
+	protected final String myAuthor;
+	protected final int myGridHeight;
+	protected final int myGridWidth;
+	protected final int myPossibleStates;
 
-	private final static String nameToWrite = "Conway's Game of Life";
-	private final static String titleToWrite = "Celluar Automaton";
-	private final static String authorToWrite = "Jasper Hancock";
-	private final static int gridHeightToWrite = 100;
-	private final static int gridWidthToWrite = 100;
-	private  int numberOfStatesToWrite = 2;
+	protected final HashMap<String, Double> parameterMap = new HashMap<String, Double>();
 
-	public static void main(String args[])
-	{
-		XMLWriter writer=new XMLWriter();
-		writer.writeFile();
+	// TODO Abstract createParameterMap
+	XMLWriter(String fileName, String simName, String simTitle, String simAuthor, int height, int width,
+			int possibleStates) {
+		myDestinationFile = fileName;
+		myName = simName;
+		myTitle = simTitle;
+		myAuthor = simAuthor;
+		myGridHeight = height;
+		myGridWidth = width;
+		myPossibleStates = possibleStates;
 	}
+
 	public void writeFile() {
 		DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
 		XMLFields fields = new XMLFields();
@@ -43,23 +53,17 @@ public class XMLWriter {
 
 			Element root = newFile.createElement("SimFile");
 			newFile.appendChild(root);
-
 			Element sim = newFile.createElement("simulation");
-
 			root.appendChild(sim);
-			XMLWriter writer = new XMLWriter();
-			writer.addNodeToSim(newFile, sim, fields.getNameFieldTitle(), nameToWrite);
-			writer.addNodeToSim(newFile, sim, fields.getTitleFieldTitle(), titleToWrite);
-			writer.addNodeToSim(newFile, sim, fields.getAuthorFieldTitle(), authorToWrite);
-			writer.addNodeToSim(newFile, sim, fields.getHeightFieldTitle(), Integer.toString(gridHeightToWrite));
-			writer.addNodeToSim(newFile, sim, fields.getWidthFieldTitle(), Integer.toString(gridWidthToWrite));
-			writer.addNodeToSim(newFile, sim, fields.getStateFieldTitle(), Integer.toString(numberOfStatesToWrite));
-			writer.configureInitialPositions(newFile, sim);
+
+			addHeaderData(fields, newFile, sim);
+			addSpecificParameters(newFile, sim);
+			configureInitialPositions(newFile, sim, myGridWidth, myGridHeight, myPossibleStates);
 
 			TransformerFactory transformerFactory = TransformerFactory.newInstance();
 			Transformer transformer = transformerFactory.newTransformer();
 			DOMSource source = new DOMSource(newFile);
-			StreamResult result = new StreamResult(new File("XML/Conway.xml"));
+			StreamResult result = new StreamResult(new File(myDestinationFile));
 
 			transformer.transform(source, result);
 
@@ -69,16 +73,38 @@ public class XMLWriter {
 		}
 	}
 
-	public void addNodeToSim(Document newFile, Element sim, String fieldName, String content) {
-		Element newNode = newFile.createElement(fieldName);
-		newNode.appendChild(newFile.createTextNode(content));
-		sim.appendChild(newNode);
+	public void addHeaderData(XMLFields fields, Document newFile, Element sim) {
+		addNodeToElement(newFile, sim, fields.getNameFieldTitle(), myName);
+		addNodeToElement(newFile, sim, fields.getTitleFieldTitle(), myTitle);
+		addNodeToElement(newFile, sim, fields.getAuthorFieldTitle(), myAuthor);
+		addNodeToElement(newFile, sim, fields.getHeightFieldTitle(), Integer.toString(myGridHeight));
+		addNodeToElement(newFile, sim, fields.getWidthFieldTitle(), Integer.toString(myGridWidth));
+		addNodeToElement(newFile, sim, fields.getStateFieldTitle(), Integer.toString(myPossibleStates));
 	}
 
-	public void configureInitialPositions(Document newFile, Element sim) {
+	public void addSpecificParameters(Document newFile, Element sim) {
+		Element parameters=newFile.createElement("parameters");
+		for (String fieldName : parameterMap.keySet()) {
+			Element parameter = newFile.createElement("parameter");
+			addNodeToElement(newFile, parameter, fieldName, Double.toString(parameterMap.get(fieldName)));
+			parameters.appendChild(parameter);
+
+		}
+		sim.appendChild(parameters);
+	}
+
+	public abstract void populateParameterMap();
+
+	public void addNodeToElement(Document newFile, Element element, String fieldName, String content) {
+		Element newNode = newFile.createElement(fieldName);
+		newNode.appendChild(newFile.createTextNode(content));
+		element.appendChild(newNode);
+	}
+
+	public void configureInitialPositions(Document newFile, Element sim, int width, int height, int states) {
 		Element cells = newFile.createElement("cells");
-		for (int x = 0; x < gridWidthToWrite; x++) {
-			for (int y = 0; y < gridHeightToWrite; y++) {
+		for (int x = 0; x < width; x++) {
+			for (int y = 0; y < height; y++) {
 				Element newCell = newFile.createElement("cell");
 				Element cellX = newFile.createElement("cellX");
 				cellX.appendChild(newFile.createTextNode(Integer.toString(x)));
@@ -87,7 +113,7 @@ public class XMLWriter {
 				cellY.appendChild(newFile.createTextNode(Integer.toString(y)));
 
 				Element cellState = newFile.createElement("state");
-				int randomState = ThreadLocalRandom.current().nextInt(0, numberOfStatesToWrite);
+				int randomState = ThreadLocalRandom.current().nextInt(0, states);
 				cellState.appendChild(newFile.createTextNode(Integer.toString(randomState)));
 
 				newCell.appendChild(cellX);
@@ -97,6 +123,10 @@ public class XMLWriter {
 			}
 		}
 		sim.appendChild(cells);
+	}
+
+	public HashMap<String, Double> getParameterMap() {
+		return parameterMap;
 	}
 
 }
