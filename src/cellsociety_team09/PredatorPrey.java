@@ -13,13 +13,20 @@ public class PredatorPrey extends Simulation {
     private static final int FISH = 1;
     private static final int SHARK = -1;
     private static final int SHARK_COLOR = 2;
-    private static final int FISH_REPRODUCTION_TIME = 3;
-    private static final int SHARK_REPRODUCTION_TIME = 3;
-    private static final int FISH_ENERGY = 1;
-    private static final int UNIT_ENERGY = 1;
+    public static final String FISH_REPRODUCTION_TIME = "FISH_REPRODUCTION_TIME";
+    public static final String SHARK_REPRODUCTION_TIME = "SHARK_REPRODUCTION_TIME";
+    public static final String FISH_ENERGY = "SHARK_REPRODUCTION_TIME";
+    public static final String UNIT_ENERGY = "UNIT_ENERGY";
+    
+    private int myFishReproductionTime;
+    private int mySharkReproductionTime;
+    private int myFishEnergy;
+    private int myUnitEnergy;
 
     public PredatorPrey () {
         super(TOTAL_STATES, COLORS);
+        XMLReader reader = new XMLReader();
+        myFishReproductionTime = reader.
     }
 
     private boolean isFish (Cell cell) {
