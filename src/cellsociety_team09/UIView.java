@@ -1,4 +1,3 @@
-package cellsociety_team09;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;

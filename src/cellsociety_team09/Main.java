@@ -1,4 +1,3 @@
-package cellsociety_team09;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -13,7 +12,7 @@ import javafx.scene.paint.Color;
  * @author D. Collin Bachi (adapted from class example)
  */
 public class Main extends Application {
-    //private UIView myUIView;
+    private UIView myUIView;
 
     @Override
     public void start (Stage s) {
