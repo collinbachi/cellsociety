@@ -9,7 +9,7 @@ public class Fire extends Simulation {
     private static final Color[] COLORS = {Color.YELLOW, Color.DARKOLIVEGREEN, Color.DARKRED};
     private static final int EMPTY = 0;
     private static final int TREE = 1;
-    private static final int BURNING = 2;
+    private static final int BURNING = 2; 
     private static final int[] VALID_NEIGHBORS = { 1, 3, 4, 6 };
     public static final String PROB_CATCH = "PROB_CATCH";
     

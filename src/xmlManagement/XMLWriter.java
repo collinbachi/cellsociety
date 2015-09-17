@@ -18,6 +18,9 @@ import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+
+import cellsociety_team09.Simulation;
+
 public abstract class XMLWriter {
 
 	protected final String myDestinationFile;
@@ -27,8 +30,8 @@ public abstract class XMLWriter {
 	protected final int myGridHeight;
 	protected final int myGridWidth;
 	protected final int myPossibleStates;
-
 	protected final HashMap<String, Double> parameterMap = new HashMap<String, Double>();
+	protected Simulation specificParameterNames;
 
 	// TODO Abstract createParameterMap
 	XMLWriter(String fileName, String simName, String simTitle, String simAuthor, int height, int width,
@@ -40,6 +43,7 @@ public abstract class XMLWriter {
 		myGridHeight = height;
 		myGridWidth = width;
 		myPossibleStates = possibleStates;
+		populateParameterMap();
 	}
 
 	public void writeFile() {
@@ -73,7 +77,7 @@ public abstract class XMLWriter {
 		}
 	}
 
-	public void addHeaderData(XMLFields fields, Document newFile, Element sim) {
+	private void addHeaderData(XMLFields fields, Document newFile, Element sim) {
 		addNodeToElement(newFile, sim, fields.getNameFieldTitle(), myName);
 		addNodeToElement(newFile, sim, fields.getTitleFieldTitle(), myTitle);
 		addNodeToElement(newFile, sim, fields.getAuthorFieldTitle(), myAuthor);
@@ -82,7 +86,7 @@ public abstract class XMLWriter {
 		addNodeToElement(newFile, sim, fields.getStateFieldTitle(), Integer.toString(myPossibleStates));
 	}
 
-	public void addSpecificParameters(Document newFile, Element sim) {
+	private void addSpecificParameters(Document newFile, Element sim) {
 		Element parameters=newFile.createElement("parameters");
 		for (String fieldName : parameterMap.keySet()) {
 			Element parameter = newFile.createElement("parameter");
@@ -93,6 +97,7 @@ public abstract class XMLWriter {
 		sim.appendChild(parameters);
 	}
 
+	//sets the values of simulation specific parameters 
 	public abstract void populateParameterMap();
 
 	public void addNodeToElement(Document newFile, Element element, String fieldName, String content) {
