@@ -16,11 +16,20 @@ public class Grid{
 	private ArrayList<ArrayList<Cell>> myRows;
 	private Simulation mySim;
 
-	public static final long delay = 0;
-	public static long interval = 1000;
+	public static final long delay = 10000;
+	public static long interval = 50000;
 
-	public void Grid(ArrayList<ArrayList<Integer>> rows, String sim){
-		for (ArrayList<Integer> row : rows){
+	//remove this later
+	private GridView myGridView;
+
+	public void Grid(){
+		//do nothing
+	}
+
+	public void init(int[][] rows, String sim){
+		System.out.println(sim);
+		myRows = new ArrayList<ArrayList<Cell>>();
+		for (int[] row : rows){
 			ArrayList<Cell> cellRow = new ArrayList<Cell>();
 			for (int state : row){
 				cellRow.add(new Cell(state, Color.BLACK));
@@ -28,23 +37,52 @@ public class Grid{
 			myRows.add(cellRow);
 		}
 
+		initNeighbors();
+
 		try{
-			mySim = (Simulation) Class.forName(sim).newInstance();
+			mySim = (Simulation) Class.forName("cellsociety_team09." + sim).newInstance();
 		}catch(Exception e){ 
  			System.out.println("There was a problem instantiating the class" +
- 							   "by name in Grid.java");
+ 							   " by name in Grid.java");
 		}
 
 		// If we want Simulation classes to use a constructor
 		/*Class<?> temp = Class.forName(sim);
 		Constructor<?> constructor = temp.getConstructor(String.class, Integer.class);
 		Object instance = constructor.newInstance("stringparam", 42);*/
-		TimerTask task = new TimerTask(){
+		/*TimerTask task = new TimerTask(){
 			@Override
 			public void run(){ step(); }
 		};
 		Timer timer = new Timer();
-		timer.scheduleAtFixedRate(task, delay, interval);
+		timer.scheduleAtFixedRate(task, delay, interval);*/
+	}
+
+	private void initNeighbors(){
+		for (int i=0; i<myRows.size(); i++){
+			ArrayList<Cell> row = myRows.get(i);
+			for (int j=0; j<row.size(); j++){
+				Cell[] neighbors = new Cell[8];
+				neighbors[0] = safeIndex(i-1, j-1) ? myRows.get(i-1).get(j-1) : null;
+				neighbors[1] = safeIndex(i-1, j) ? myRows.get(i-1).get(j) : null;
+				neighbors[2] = safeIndex(i-1, j+1) ? myRows.get(i-1).get(j+1) : null;
+				neighbors[3] = safeIndex(i, j-1) ? myRows.get(i).get(j-1) : null;
+				neighbors[4] = safeIndex(i, j+1) ? myRows.get(i).get(j+1) : null;
+				neighbors[5] = safeIndex(i+1, j-1) ? myRows.get(i+1).get(j-1) : null;
+				neighbors[6] = safeIndex(i+1, j) ? myRows.get(i+1).get(j) : null;
+				neighbors[7] = safeIndex(i+1, j+1) ? myRows.get(i+1).get(j+1) : null;
+				myRows.get(i).get(j).setMyNeighbors(neighbors);
+			}
+		}
+	}
+
+	private boolean safeIndex(int i, int j){
+		try{
+			Cell c = myRows.get(i).get(j);
+			return true;
+		}catch(Exception e){
+			return false;
+		}
 	}
 
 	public int getWidth(){
@@ -71,5 +109,13 @@ public class Grid{
 				mySim.updateCell(c);
 			}
 		}
+
+		if (myGridView!=null){
+			myGridView.updateCells();
+		}
+	}
+
+	public void setGridView(GridView g){
+		myGridView = g;
 	}
 }

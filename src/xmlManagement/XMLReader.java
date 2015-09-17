@@ -9,6 +9,8 @@ import javax.xml.parsers.*;
 import org.w3c.dom.*;
 import org.xml.sax.SAXException;
 
+import cellsociety_team09.Grid;
+
 public class XMLReader {
 
 	private String myFileName;
@@ -23,7 +25,7 @@ public class XMLReader {
 
 
 
-	public void parseFile(File testFile) throws ParserConfigurationException, SAXException, IOException {
+	public void parseFile(File testFile, Grid grid) throws ParserConfigurationException, SAXException, IOException {
 		DocumentBuilderFactory fac = DocumentBuilderFactory.newInstance();
 		DocumentBuilder build = fac.newDocumentBuilder();
 
@@ -40,19 +42,20 @@ public class XMLReader {
 		NodeList cellList = simDetails.getElementsByTagName("cell");
 		myCellArray = new int[myGridWidth][myGridHeight];
 
-		populateInitialStates(myCellArray, cellList);
+		grid.init(populateInitialStates(myCellArray, cellList), testFile.getName().substring(0, testFile.getName().indexOf(".xml")));
 		
 		
 
 	}
 
-	private void populateInitialStates(int[][] cellArray, NodeList cellList) {
+	private int[][] populateInitialStates(int[][] cellArray, NodeList cellList) {
 		for (int pos = 0; pos < cellList.getLength(); pos++) {
 			int xPos = Integer.parseInt(cellList.item(pos).getChildNodes().item(0).getTextContent());
 			int yPos = Integer.parseInt(cellList.item(pos).getChildNodes().item(1).getTextContent());
 			int state = Integer.parseInt(cellList.item(pos).getChildNodes().item(2).getTextContent());
 			cellArray[xPos][yPos] = state;
 		}
+		return cellArray;
 	}
 
 	private void getParameterMap(HashMap<String,Double> parameterMap,NodeList parameterList)

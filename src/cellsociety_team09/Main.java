@@ -6,6 +6,7 @@ import javafx.stage.Stage;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.paint.Color;
+import xmlManagement.ConwayWriter;
 
 /**
  * This is the main program, it is basically boilerplate to create
@@ -36,6 +37,9 @@ public class Main extends Application {
      * Start the program.
      */
     public static void main (String[] args) {
+        ConwayWriter writer = new ConwayWriter();
+        writer.writeFile();
+
         launch(args);
     }
 }

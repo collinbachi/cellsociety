@@ -17,13 +17,15 @@ public class Conway extends Simulation {
 		int[] neighborInfo = collectNeighborInfo(cell);
 		if (neighborInfo[ON] < 2) {
 			cell.setMyNextState(OFF);
-		} else if (neighborInfo[ON] <= 3) {
+		} else if (neighborInfo[ON] == 3 && cell.getMyCurrentState() == OFF) {
 			cell.setMyNextState(ON);
 		} else if (neighborInfo[ON] > 3) {
 			cell.setMyNextState(OFF);
-		} else if (neighborInfo[ON] == 3 && cell.getMyCurrentState() == OFF) {
+		} else if (neighborInfo[ON] <= 3) {
 			cell.setMyNextState(ON);
 		}
+
+		System.out.println(cell.getMyNextState());
 	}
 
 }
