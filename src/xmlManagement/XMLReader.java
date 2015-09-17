@@ -23,11 +23,10 @@ public class XMLReader {
 
 
 
-	public void parseFile(String fileName) throws ParserConfigurationException, SAXException, IOException {
+	public void parseFile(File testFile) throws ParserConfigurationException, SAXException, IOException {
 		DocumentBuilderFactory fac = DocumentBuilderFactory.newInstance();
 		DocumentBuilder build = fac.newDocumentBuilder();
 
-		File testFile = new File(fileName);
 		Document doc = build.parse(testFile);
 		doc.getDocumentElement().normalize();
 
@@ -47,7 +46,7 @@ public class XMLReader {
 
 	}
 
-	public void populateInitialStates(int[][] cellArray, NodeList cellList) {
+	private void populateInitialStates(int[][] cellArray, NodeList cellList) {
 		for (int pos = 0; pos < cellList.getLength(); pos++) {
 			int xPos = Integer.parseInt(cellList.item(pos).getChildNodes().item(0).getTextContent());
 			int yPos = Integer.parseInt(cellList.item(pos).getChildNodes().item(1).getTextContent());
@@ -56,7 +55,7 @@ public class XMLReader {
 		}
 	}
 
-	public void getParameterMap(HashMap<String,Double> parameterMap,NodeList parameterList)
+	private void getParameterMap(HashMap<String,Double> parameterMap,NodeList parameterList)
 	{
 		for(int pos=0; pos< parameterList.getLength();pos++)
 		{
@@ -65,7 +64,7 @@ public class XMLReader {
 		}
 		
 	}
-	public void getHeaderData(Element simDetails) {
+	private void getHeaderData(Element simDetails) {
 		myName = simDetails.getElementsByTagName("simName").item(0).getTextContent();
 		myTitle = simDetails.getElementsByTagName("title").item(0).getTextContent();
 		myAuthor = simDetails.getElementsByTagName("author").item(0).getTextContent();

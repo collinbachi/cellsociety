@@ -1,5 +1,12 @@
 package cellsociety_team09;
 
+import java.io.File;
+import java.io.IOException;
+
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.xml.sax.SAXException;
+
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.HPos;
@@ -13,6 +20,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.stage.FileChooser;
 import xmlManagement.XMLReader;
 
 public class UIView {
@@ -35,10 +43,14 @@ public class UIView {
 
 		Button selectSim = new Button();
 		selectSim.setText("Select New Simulation");
+		FileChooser simBrowser=new FileChooser();
 		selectSim.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(final ActionEvent e) {
+			selectSimulation(simBrowser);
 			
 			}
+
+		
 		});
 		gridPane.add(selectSim, 5, 1);
 
@@ -65,7 +77,16 @@ public class UIView {
 		return myScene;
 
 	}
-
+	public void selectSimulation(FileChooser simBrowser) {
+		File selectedFile=simBrowser.showOpenDialog(myScene.getWindow());
+		try {
+			if(selectedFile!=null)
+			fileReader.parseFile(selectedFile);
+		} catch (ParserConfigurationException | SAXException | IOException e1) {
+			e1.printStackTrace();
+		}
+	}
+	
 	public void configureSlider(Slider slider) {
 		slider.setMin(0);
 		slider.setMax(100);
@@ -76,5 +97,7 @@ public class UIView {
 		slider.setMinorTickCount(5);
 		slider.setBlockIncrement(10);
 	}
+	
+	
 
 }
