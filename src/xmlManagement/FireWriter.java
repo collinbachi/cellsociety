@@ -17,11 +17,4 @@ public class FireWriter extends XMLWriter {
 		super.getParameterMap().put(Fire.PROB_CATCH, PROB_CATCH);
 	}
 	
-	public static void main(String args[])
-	{
-		FireWriter writer=new FireWriter();
-		writer.populateParameterMap();
-		writer.writeFile();
-	}
-
 }
