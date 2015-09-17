@@ -1,4 +1,4 @@
-package cellsociety_team09;
+package xmlManagement;
 
 import java.io.File;
 import javax.xml.parsers.DocumentBuilder;

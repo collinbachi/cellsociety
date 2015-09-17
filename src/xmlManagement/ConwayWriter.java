@@ -1,4 +1,4 @@
-package cellsociety_team09;
+package xmlManagement;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;

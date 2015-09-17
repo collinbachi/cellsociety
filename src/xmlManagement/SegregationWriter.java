@@ -1,4 +1,4 @@
-package cellsociety_team09;
+package xmlManagement;
 
 public class SegregationWriter extends XMLWriter {
 
@@ -16,7 +16,6 @@ public class SegregationWriter extends XMLWriter {
 		super.getParameterMap().put("SIMILAR_THRESHOLD", SIMILAR_THRESHOLD);
 
 	}
-
 
 
 }

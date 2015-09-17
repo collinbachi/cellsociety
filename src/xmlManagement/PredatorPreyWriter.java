@@ -1,4 +1,4 @@
-package cellsociety_team09;
+package xmlManagement;
 
 import java.io.IOException;
 
@@ -23,12 +23,5 @@ public class PredatorPreyWriter extends XMLWriter {
 		
 	}
 
-	public static void main(String args[]) throws ParserConfigurationException, SAXException, IOException
-	{
-		SegregationWriter writer=new SegregationWriter();
-		writer.populateParameterMap();
-		writer.writeFile();
-		XMLReader reader=new XMLReader("XML/PredatorPrey.xml");
-	}
 
 }

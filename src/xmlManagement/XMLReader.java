@@ -1,4 +1,4 @@
-package cellsociety_team09;
+package xmlManagement;
 
 import java.io.File;
 import java.io.IOException;
@@ -11,19 +11,17 @@ import org.xml.sax.SAXException;
 
 public class XMLReader {
 
-	private String fileName;
-	private String title;
-	private String name;
-	private String author;
-	private int gridWidth;
-	private int gridHeight;
-	private int numberOfStates;
-	private int[][] cellArray;
-	private HashMap<String,Double> parameterMap=new HashMap<String,Double>();
+	private String myFileName;
+	private String myTitle;
+	private String myName;
+	private String myAuthor;
+	private int myGridWidth;
+	private int myGridHeight;
+	private int myNumberOfStates;
+	private int[][] myCellArray;
+	private HashMap<String,Double> myParameterMap=new HashMap<String,Double>();
 
-	XMLReader(String fileName) throws ParserConfigurationException, SAXException, IOException {
-		parseFile(fileName);
-	}
+
 
 	public void parseFile(String fileName) throws ParserConfigurationException, SAXException, IOException {
 		DocumentBuilderFactory fac = DocumentBuilderFactory.newInstance();
@@ -38,12 +36,12 @@ public class XMLReader {
 		getHeaderData(simDetails);
 
 		NodeList parameterList=doc.getElementsByTagName("parameter");
-		getParameterMap(parameterMap,parameterList);
+		getParameterMap(myParameterMap,parameterList);
 		
 		NodeList cellList = simDetails.getElementsByTagName("cell");
-		cellArray = new int[gridWidth][gridHeight];
+		myCellArray = new int[myGridWidth][myGridHeight];
 
-		populateInitialStates(cellArray, cellList);
+		populateInitialStates(myCellArray, cellList);
 		
 		
 
@@ -68,43 +66,43 @@ public class XMLReader {
 		
 	}
 	public void getHeaderData(Element simDetails) {
-		name = simDetails.getElementsByTagName("simName").item(0).getTextContent();
-		title = simDetails.getElementsByTagName("title").item(0).getTextContent();
-		author = simDetails.getElementsByTagName("author").item(0).getTextContent();
-		gridWidth = Integer.parseInt(simDetails.getElementsByTagName("gridWidth").item(0).getTextContent());
-		gridHeight = Integer.parseInt(simDetails.getElementsByTagName("gridHeight").item(0).getTextContent());
-		numberOfStates = Integer.parseInt(simDetails.getElementsByTagName("numberOfStates").item(0).getTextContent());
+		myName = simDetails.getElementsByTagName("simName").item(0).getTextContent();
+		myTitle = simDetails.getElementsByTagName("title").item(0).getTextContent();
+		myAuthor = simDetails.getElementsByTagName("author").item(0).getTextContent();
+		myGridWidth = Integer.parseInt(simDetails.getElementsByTagName("gridWidth").item(0).getTextContent());
+		myGridHeight = Integer.parseInt(simDetails.getElementsByTagName("gridHeight").item(0).getTextContent());
+		myNumberOfStates = Integer.parseInt(simDetails.getElementsByTagName("numberOfStates").item(0).getTextContent());
 	}
 
 	public String getTitle() {
-		return title;
+		return myTitle;
 	}
 
 	public String getName() {
-		return name;
+		return myName;
 	}
 
 	public String getAuthor() {
-		return author;
+		return myAuthor;
 	}
 
 	public int getGridWidth() {
-		return gridWidth;
+		return myGridWidth;
 	}
 
 	public int getGridHeight() {
-		return gridHeight;
+		return myGridHeight;
 	}
 
 	public int getNumberOfStates() {
-		return numberOfStates;
+		return myNumberOfStates;
 	}
 
 	public int[][] getCellArray() {
-		return cellArray;
+		return myCellArray;
 	}
 	public HashMap<String, Double> getParameterMap() {
-		return parameterMap;
+		return myParameterMap;
 	}
 
 }
