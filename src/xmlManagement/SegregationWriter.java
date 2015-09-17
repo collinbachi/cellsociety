@@ -1,5 +1,7 @@
 package xmlManagement;
 
+import cellsociety_team09.Segregation;
+
 public class SegregationWriter extends XMLWriter {
 
 	private static final double SIMILAR_THRESHOLD = 0.3;
@@ -12,8 +14,7 @@ public class SegregationWriter extends XMLWriter {
 
 	@Override
 	public void populateParameterMap() {
-
-		super.getParameterMap().put("SIMILAR_THRESHOLD", SIMILAR_THRESHOLD);
+		super.getParameterMap().put(Segregation.SIMILAR_THRESHOLD, SIMILAR_THRESHOLD);
 
 	}
 
