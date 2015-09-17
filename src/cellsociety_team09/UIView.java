@@ -13,11 +13,13 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import xmlManagement.XMLReader;
 
 public class UIView {
 
 	private Scene myScene;
-
+	XMLReader fileReader=new XMLReader();
+	
 	public Scene init(int width, int height) {
 
 		BorderPane root = new BorderPane();
@@ -35,7 +37,7 @@ public class UIView {
 		selectSim.setText("Select New Simulation");
 		selectSim.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(final ActionEvent e) {
-
+			
 			}
 		});
 		gridPane.add(selectSim, 5, 1);
