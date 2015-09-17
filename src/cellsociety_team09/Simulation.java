@@ -15,7 +15,7 @@ public abstract class Simulation {
     public abstract void checkRules(Cell cell);
     
     public void updateCell(Cell cell) {
-        cell.setMyCurrentState(cell.getMyNextState());
+        cell.updateCurrentState();
         cell.setMyColor(myColors[cell.getMyCurrentState()]);
     }
     
