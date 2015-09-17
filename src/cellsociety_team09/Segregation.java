@@ -1,18 +1,23 @@
 
 import javafx.scene.paint.Color;
+import xmlManagement.XMLReader;
 
 public class Segregation extends Simulation {
 
     // TODO write in XML commands
     private static final Color[] COLORS = {Color.WHITE, Color.BLUE, Color.RED};
-    private static final int SIMILAR_THRESHOLD = 30;
     private static final int BLANK = 0;
     private static final int AGENTX = 1;
     private static final int AGENTY = 2;
     private static final int TOTAL_STATES = 3;
+    public static final String SIMILAR_THRESHOLD = "SIMILAR_THRESHOLD";
+    
+    private double mySimilarThreshold;
     
     public Segregation () {
         super(TOTAL_STATES, COLORS);
+        XMLReader reader = new XMLReader();
+        mySimilarThreshold = reader.getParameterMap().get(SIMILAR_THRESHOLD);
     }
 
     @Override
@@ -27,27 +32,28 @@ public class Segregation extends Simulation {
 
     private void satisfiedSurroundingsRule(Cell cell, int[] neighborInfo) {
         if(isNotBlank(cell)) {
-            int percentSimilarNeighbors = neighborInfo[cell.getMyCurrentState()] / (neighborInfo[AGENTX] + neighborInfo[AGENTY]) * 100;
-            if (percentSimilarNeighbors >= SIMILAR_THRESHOLD) {
+            double percentSimilarNeighbors = neighborInfo[cell.getMyCurrentState()] / (neighborInfo[AGENTX] + neighborInfo[AGENTY]);
+            if (percentSimilarNeighbors >= mySimilarThreshold) {
                 cell.setMyNextState(cell.getMyCurrentState());
             }
             else {
                 cell.setMyNextState(BLANK);
-                moveAgent(cell, cell, false);
+                this.moveCell(cell, cell, false);
             }
         }
     }
-
-    private void moveAgent(Cell agent, Cell cell, boolean moved) {
-        for(Cell neighbor : agent.getMyNeighbors()) {
-            if (!moved && neighbor != null) {
-                if(neighbor.getMyNextState()==BLANK ) {
-                    neighbor.setMyNextState(agent.getMyCurrentState());
-                    agent.setMyNextState(BLANK);
+    
+    private void moveCell(Cell cellToMove, Cell neighborCell, boolean moved) {
+        if (moved) return;
+        for(Cell neighbor : neighborCell.getMyNeighbors()) {
+            if (neighbor != null) {
+                if(neighbor.getMyNextState()==BLANK) {
+                    neighbor.setMyNextState(cellToMove.getMyCurrentState());
+                    cellToMove.setMyNextState(BLANK);
                     moved = true;
                     return;
                 }
-                moveAgent(agent, neighbor, moved);
+                moveCell(cellToMove, neighbor, moved);
             }
         }
 

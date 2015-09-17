@@ -1,18 +1,34 @@
 import javafx.scene.paint.Color;
 
+
 public class Cell {
-    
+    private static final int NO_LIVES = 0;
+
     private int myCurrentState;
     private int myNextState;
     private Color myColor;
     private Cell[] myNeighbors;
-    
-    public Cell(int state, Color color) {
+    private int myLives;
+
+    public Cell (int state, Color color) {
         myCurrentState = state;
         myNextState = myCurrentState;
         myColor = color;
+        myLives = 0;
     }
     
+    public boolean checkMyLives(double mySharkReproductionTime) {
+        return myLives == mySharkReproductionTime;
+    }
+
+    public void incrementLives () {
+        myLives++;
+    }
+    
+    public void resetLives() {
+        myLives = NO_LIVES;
+    }
+
     public Color getMyColor () {
         return myColor;
     }
@@ -41,7 +57,7 @@ public class Cell {
         this.myNeighbors = myNeighbors;
     }
 
-    public void setMyNextState(int nextState) {
+    public void setMyNextState (int nextState) {
         myNextState = nextState;
     }
 
