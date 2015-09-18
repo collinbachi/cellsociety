@@ -6,8 +6,8 @@ import org.w3c.dom.Element;
 public class ConwayWriter extends XMLWriter{
 	//Local Hard-coded values that get passed to super methods
 	
-	
-	ConwayWriter()
+
+	public ConwayWriter()
 	{		
 		super("XML/Conway.xml", "Conway's Game of Life", "Conway's Game of Life", "Brenna Milligan", 100, 100, 2);
 		

@@ -21,6 +21,10 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.FileChooser;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.util.Duration;
+
 import xmlManagement.XMLReader;
 
 /*
@@ -32,19 +36,22 @@ public class UIView {
 
 	private Scene myScene;
 	private File xmlFileFolder = new File("XML");
-	XMLReader fileReader = new XMLReader();
-
+	private Grid myGrid;
+	private XMLReader myXMLReader;
+	private GridPane gridPane;
+	private Rectangle grid;
+	
 	public Scene init(int width, int height) {
 
 		BorderPane root = new BorderPane();
 		myScene = new Scene(root, width, height, Color.GRAY);
 
-		GridPane gridPane = new GridPane();
+		gridPane = new GridPane();
 		gridPane.setHgap(50);
 		gridPane.setVgap(50);
 		gridPane.setPadding(new Insets(0, 10, 0, 10));
 
-		Rectangle grid = new Rectangle(500, 500);
+		grid = new Rectangle(500, 500);
 		gridPane.add(grid, 0, 0, 4, 6);
 
 		Button selectSim = new Button();
@@ -53,6 +60,7 @@ public class UIView {
 		simBrowser.setInitialDirectory(xmlFileFolder);
 		
 		selectSim.setOnAction(event-> selectSimulation(simBrowser));
+
 		
 		gridPane.add(selectSim, 5, 1);
 
@@ -78,6 +86,8 @@ public class UIView {
 		GridPane description =new GridPane();
 		root.setCenter(gridPane);
 
+		
+
 		return myScene;
 
 	}
@@ -85,8 +95,21 @@ public class UIView {
 	public void selectSimulation(FileChooser simBrowser) {
 		File selectedFile = simBrowser.showOpenDialog(myScene.getWindow());
 		try {
-			if (selectedFile != null)
-				fileReader.parseFile(selectedFile);
+
+			if(selectedFile!=null){
+				myGrid = new Grid();
+				myXMLReader = new XMLReader();
+				myXMLReader.parseFile(selectedFile, myGrid);
+				GridView gridView = new GridView(myGrid, grid.getBoundsInLocal());
+				gridPane.add(gridView,0,0,4,6);
+
+				KeyFrame frame = new KeyFrame(Duration.millis(300),
+                                              e -> myGrid.step());
+                Timeline animation = new Timeline();
+                animation.setCycleCount(Timeline.INDEFINITE);
+                animation.getKeyFrames().add(frame);
+                animation.play();
+			}
 		} catch (ParserConfigurationException | SAXException | IOException e1) {
 			e1.printStackTrace();
 		}

@@ -1,8 +1,8 @@
 package cellsociety_team09;
 
+import java.util.HashMap;
 import java.util.Random;
 import javafx.scene.paint.Color;
-import xmlManagement.XMLReader;
 
 public class Fire extends Simulation {
     private static final int TOTAL_STATES = 3;
@@ -12,13 +12,12 @@ public class Fire extends Simulation {
     private static final int BURNING = 2; 
     private static final int[] VALID_NEIGHBORS = { 1, 3, 4, 6 };
     public static final String PROB_CATCH = "PROB_CATCH";
-    
+
     private double myProbCatch;
 
     public Fire () {
         super(TOTAL_STATES, COLORS);
-        XMLReader reader = new XMLReader();
-        myProbCatch = reader.getParameterMap().get(PROB_CATCH);
+        myProbCatch = myParameterMap.get(PROB_CATCH);
     }
 
     @Override
@@ -29,30 +28,32 @@ public class Fire extends Simulation {
         else if (isTree(cell)) {
             mayCatchFire(cell);
         }
-        
+
     }
-    
+
     private boolean isTree(Cell cell) {
         return cell.getMyCurrentState() == TREE;
     }
-    
+
     private boolean isBurning(Cell cell) {
         return cell.getMyCurrentState() == BURNING;
     }
-    
+
     private void burnDown(Cell cell) {
         cell.setMyNextState(EMPTY);
     }
-    
+
     private void mayCatchFire(Cell cell) {
         for (int i : VALID_NEIGHBORS) {
-            int neighborState = cell.getMyNeighbors()[i].getMyCurrentState();
-            if(neighborState == BURNING && randomDouble() < myProbCatch) {
+            if (cell.getMyNeighbors()[i] != null) {
+                int neighborState = cell.getMyNeighbors()[i].getMyCurrentState();
+                if(neighborState == BURNING && randomDouble() < myProbCatch) {
                     cell.setMyNextState(BURNING);
+                }
             }
         }
     }
-    
+
     protected double randomDouble () {
         Random rand = new Random();
         return rand.nextDouble();
