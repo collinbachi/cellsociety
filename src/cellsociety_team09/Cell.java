@@ -11,12 +11,30 @@ public class Cell {
     private Color myColor;
     private Cell[] myNeighbors;
     private int myLives;
+    private int myEnergy;
 
     public Cell (int state, Color color) {
         myCurrentState = state;
         myNextState = myCurrentState;
         myColor = color;
         myLives = 0;
+        myEnergy = 0;
+    }
+    
+    public int getMyEnergy () {
+        return myEnergy;
+    }
+
+    public void setMyEnergy (int myEnergy) {
+        this.myEnergy = myEnergy;
+    }
+
+    public void setMyLives(int lives) {
+        myLives = lives;
+    }
+    
+    public int getMyLives() {
+        return myLives;
     }
     
     public void updateCurrentState() {
