@@ -1,5 +1,6 @@
 package cellsociety_team09;
 
+import java.util.HashMap;
 import javafx.scene.paint.Color;
 
 public class Segregation extends Simulation {
@@ -14,14 +15,14 @@ public class Segregation extends Simulation {
     
     private double mySimilarThreshold;
     
-    public Segregation () {
-        super(TOTAL_STATES, COLORS);
+    public Segregation (HashMap<String, Double> parameterMap) {
+        super(TOTAL_STATES, COLORS, parameterMap);
         mySimilarThreshold = myParameterMap.get(SIMILAR_THRESHOLD);
     }
 
     @Override
     public void checkRules (Cell cell) {
-        int[] neighborInfo = collectNeighborInfo(cell);
+        int[] neighborInfo = collectNeighborInfo(cell.getMyNeighbors());
         satisfiedSurroundingsRule(cell, neighborInfo);
     }
 
@@ -30,30 +31,23 @@ public class Segregation extends Simulation {
     }
 
     private void satisfiedSurroundingsRule(Cell cell, int[] neighborInfo) {
-        if(isNotBlank(cell)) {
+        if(isNotBlank(cell) && (neighborInfo[AGENTX] != 0 || neighborInfo[AGENTY] != 0)) {
             double percentSimilarNeighbors = neighborInfo[cell.getMyCurrentState()] / (neighborInfo[AGENTX] + neighborInfo[AGENTY]);
             if (percentSimilarNeighbors >= mySimilarThreshold) {
                 cell.setMyNextState(cell.getMyCurrentState());
             }
             else {
                 cell.setMyNextState(BLANK);
-                this.moveCell(cell, cell, false);
+                moveCell(cell);
             }
         }
     }
     
-    private void moveCell(Cell cellToMove, Cell neighborCell, boolean moved) {
-        if (moved) return;
-        for(Cell neighbor : neighborCell.getMyNeighbors()) {
-            if (neighbor != null) {
-                if(neighbor.getMyNextState()==BLANK) {
-                    neighbor.setMyNextState(cellToMove.getMyCurrentState());
-                    cellToMove.setMyNextState(BLANK);
-                    moved = true;
-                    return;
-                }
-                moveCell(cellToMove, neighbor, moved);
-            }
+    private void moveCell(Cell cell) {
+        Cell randomBlankNeighbor = getRandomNeighbor(cell.getMyNeighbors(), BLANK);
+        if (randomBlankNeighbor != null) {
+            randomBlankNeighbor.setMyNextState(cell.getMyCurrentState());
+            cell.setMyNextState(BLANK);
         }
 
     }
