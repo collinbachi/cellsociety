@@ -7,6 +7,7 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.paint.Color;
 import xmlManagement.ConwayWriter;
+import xmlManagement.FireWriter;
 
 /**
  * This is the main program, it is basically boilerplate to create

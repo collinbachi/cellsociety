@@ -28,7 +28,6 @@ public class Grid{
 	}
 
 	public void init(int[][] rows, String sim, HashMap<String, Double> parameterMap){
-		System.out.println(sim);
 		myRows = new ArrayList<ArrayList<Cell>>();
 		for (int[] row : rows){
 			ArrayList<Cell> cellRow = new ArrayList<Cell>();
@@ -41,8 +40,7 @@ public class Grid{
 		initNeighbors();
 
 		try{
-			mySim = (Simulation) Class.forName("cellsociety_team09." + sim).newInstance();
-			mySim.setMyParameterMap(parameterMap);
+			mySim = (Simulation) Class.forName("cellsociety_team09." + sim).getConstructor(HashMap.class).newInstance(parameterMap);
 		}catch(Exception e){ 
  			System.out.println("There was a problem instantiating the class" +
  							   " by name in Grid.java");

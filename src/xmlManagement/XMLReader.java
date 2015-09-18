@@ -8,6 +8,7 @@ import javax.xml.parsers.*;
 
 import org.w3c.dom.*;
 import org.xml.sax.SAXException;
+import cellsociety_team09.Fire;
 import cellsociety_team09.Grid;
 
 /*
@@ -48,8 +49,7 @@ public class XMLReader {
 		NodeList cellList = simDetails.getElementsByTagName(xmlTags.CELL_TAG_TITLE);
 		myCellArray = new int[myGridWidth][myGridHeight];
 
-
-		grid.init(populateInitialStates(myCellArray, cellList), testFile.getName().substring(0, testFile.getName().indexOf(".xml")), this.myParameterMap);
+		grid.init(populateInitialStates(myCellArray, cellList), testFile.getName().substring(0, testFile.getName().indexOf(".xml")), myParameterMap);
 		
 	
 
