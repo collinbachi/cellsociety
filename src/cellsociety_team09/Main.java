@@ -1,7 +1,12 @@
 package cellsociety_team09;
+
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.scene.Group;
+import javafx.scene.Scene;
+import javafx.scene.paint.Color;
+import xmlManagement.ConwayWriter;
 
 /**
  * This is the main program, it is basically boilerplate to create
@@ -15,16 +20,26 @@ public class Main extends Application {
     @Override
     public void start (Stage s) {
         myUIView = new UIView();
-       // s.setTitle(myUIView.getTitle());
         Scene scene = myUIView.init(800, 600);
         s.setScene(scene);
+        s.setTitle("asdf");
         s.show();    
     }
 
+    // testing - REMOVE
+    public Scene init (int width, int height) {
+        // Create a scene graph to organize the scene
+        Group root = new Group();
+        Scene myScene = new Scene(root, width, height, Color.WHITE);
+        return myScene;
+    }
     /**
      * Start the program.
      */
     public static void main (String[] args) {
+        ConwayWriter writer = new ConwayWriter();
+        writer.writeFile();
+
         launch(args);
     }
 }

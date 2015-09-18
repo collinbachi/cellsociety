@@ -3,7 +3,6 @@ package cellsociety_team09;
 import java.util.ArrayList;
 import java.util.Random;
 import javafx.scene.paint.Color;
-import xmlManagement.XMLReader;
 
 
 public class PredatorPrey extends Simulation {
@@ -26,11 +25,10 @@ public class PredatorPrey extends Simulation {
 
     public PredatorPrey () {
         super(TOTAL_STATES, COLORS);
-        XMLReader reader = new XMLReader();
-        myFishReproductionTime = reader.getParameterMap().get(FISH_REPRODUCTION_TIME).intValue();
-        mySharkReproductionTime = (int) reader.getParameterMap().get(SHARK_REPRODUCTION_TIME).intValue();
-        myFishEnergy = (int) reader.getParameterMap().get(FISH_ENERGY).intValue();
-        myUnitEnergy = (int) reader.getParameterMap().get(UNIT_ENERGY).intValue();
+        myFishReproductionTime = myParameterMap.get(FISH_REPRODUCTION_TIME).intValue();
+        mySharkReproductionTime = (int) myParameterMap.get(SHARK_REPRODUCTION_TIME).intValue();
+        myFishEnergy = (int) myParameterMap.get(FISH_ENERGY).intValue();
+        myUnitEnergy = (int) myParameterMap.get(UNIT_ENERGY).intValue();
     }
 
     private boolean isFish (Cell cell) {

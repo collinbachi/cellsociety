@@ -9,6 +9,8 @@ import javax.xml.parsers.*;
 import org.w3c.dom.*;
 import org.xml.sax.SAXException;
 
+import cellsociety_team09.Grid;
+
 public class XMLReader {
 
 	private String myFileName;
@@ -23,11 +25,10 @@ public class XMLReader {
 
 
 
-	public void parseFile(String fileName) throws ParserConfigurationException, SAXException, IOException {
+	public void parseFile(File testFile, Grid grid) throws ParserConfigurationException, SAXException, IOException {
 		DocumentBuilderFactory fac = DocumentBuilderFactory.newInstance();
 		DocumentBuilder build = fac.newDocumentBuilder();
 
-		File testFile = new File(fileName);
 		Document doc = build.parse(testFile);
 		doc.getDocumentElement().normalize();
 
@@ -36,36 +37,39 @@ public class XMLReader {
 		getHeaderData(simDetails);
 
 		NodeList parameterList=doc.getElementsByTagName("parameter");
-		getParameterMap(myParameterMap,parameterList);
+		populateParameterMap(myParameterMap,parameterList);
 		
 		NodeList cellList = simDetails.getElementsByTagName("cell");
 		myCellArray = new int[myGridWidth][myGridHeight];
 
-		populateInitialStates(myCellArray, cellList);
+		grid.init(populateInitialStates(myCellArray, cellList), testFile.getName().substring(0, testFile.getName().indexOf(".xml")), this.myParameterMap);
 		
 		
 
 	}
 
-	public void populateInitialStates(int[][] cellArray, NodeList cellList) {
+	private int[][] populateInitialStates(int[][] cellArray, NodeList cellList) {
 		for (int pos = 0; pos < cellList.getLength(); pos++) {
 			int xPos = Integer.parseInt(cellList.item(pos).getChildNodes().item(0).getTextContent());
 			int yPos = Integer.parseInt(cellList.item(pos).getChildNodes().item(1).getTextContent());
 			int state = Integer.parseInt(cellList.item(pos).getChildNodes().item(2).getTextContent());
 			cellArray[xPos][yPos] = state;
 		}
+		return cellArray;
 	}
 
-	public void getParameterMap(HashMap<String,Double> parameterMap,NodeList parameterList)
+	private void populateParameterMap(HashMap<String,Double> parameterMap,NodeList parameterList)
 	{
 		for(int pos=0; pos< parameterList.getLength();pos++)
 		{
 			Node newParameter=parameterList.item(pos).getChildNodes().item(0);
-			parameterMap.put(newParameter.getNodeName(),Double.parseDouble(newParameter.getTextContent()));
+			parameterMap.put(newParameter.getNodeName(), Double.parseDouble(newParameter.getTextContent()));
+			System.out.println(newParameter.getNodeName());
+			System.out.println(newParameter.getNodeValue());
 		}
 		
 	}
-	public void getHeaderData(Element simDetails) {
+	private void getHeaderData(Element simDetails) {
 		myName = simDetails.getElementsByTagName("simName").item(0).getTextContent();
 		myTitle = simDetails.getElementsByTagName("title").item(0).getTextContent();
 		myAuthor = simDetails.getElementsByTagName("author").item(0).getTextContent();
