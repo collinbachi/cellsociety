@@ -40,7 +40,9 @@ public class UIView {
 	private XMLReader myXMLReader;
 	private GridPane gridPane;
 	private Rectangle grid;
-	
+	private Timeline animation = new Timeline();
+
+
 	public Scene init(int width, int height) {
 
 		BorderPane root = new BorderPane();
@@ -58,35 +60,34 @@ public class UIView {
 		selectSim.setText("Select New Simulation");
 		FileChooser simBrowser = new FileChooser();
 		simBrowser.setInitialDirectory(xmlFileFolder);
-		
-		selectSim.setOnAction(event-> selectSimulation(simBrowser));
 
-		
+		selectSim.setOnAction(event -> selectSimulation(simBrowser));
+
 		gridPane.add(selectSim, 5, 1);
 
 		Button startSim = new Button();
 		startSim.setText("Start Simulation");
-		// TODO eventHandler
+		startSim.setOnAction((ActionEvent event) -> animation.play());
 		gridPane.add(startSim, 5, 2);
 
 		Button stopSim = new Button();
 		stopSim.setText("Stop Simulation");
+		stopSim.setOnAction(event -> animation.pause());
+
 		// TODO eventHandler
 		gridPane.add(stopSim, 5, 3);
 
 		Button stepSim = new Button();
 		stepSim.setText("Increment Simulation");
+		stepSim.setOnAction(event -> incrementSimulation());
 		gridPane.add(stepSim, 5, 4);
 
 		Slider speedSlider = new Slider();
 		configureSlider(speedSlider);
 		gridPane.add(speedSlider, 5, 5);
 
-		
-		GridPane description =new GridPane();
+		GridPane description = new GridPane();
 		root.setCenter(gridPane);
-
-		
 
 		return myScene;
 
@@ -96,25 +97,29 @@ public class UIView {
 		File selectedFile = simBrowser.showOpenDialog(myScene.getWindow());
 		try {
 
-			if(selectedFile!=null){
+			if (selectedFile != null) {
 				myGrid = new Grid();
 				myXMLReader = new XMLReader();
 				myXMLReader.parseFile(selectedFile, myGrid);
-				GridView gridView = new GridView(myGrid, grid.getBoundsInLocal());
-				gridPane.add(gridView,0,0,4,6);
-
-				KeyFrame frame = new KeyFrame(Duration.millis(300),
-                                              e -> myGrid.step());
-                Timeline animation = new Timeline();
-                animation.setCycleCount(Timeline.INDEFINITE);
-                animation.getKeyFrames().add(frame);
-                animation.play();
+				GridView gridView = new GridView(myGrid, grid.getBoundsInLocal());	
+				gridPane.add(gridView, 0, 0, 4, 6);
+				myGrid.step();
+				KeyFrame frame = new KeyFrame(Duration.millis(300), e -> myGrid.step());
+				animation.setCycleCount(Timeline.INDEFINITE);
+				animation.getKeyFrames().add(frame);
+				//animation.play();
+			
 			}
 		} catch (ParserConfigurationException | SAXException | IOException e1) {
 			e1.printStackTrace();
 		}
 	}
 
+	public void incrementSimulation()
+	{
+		if(myGrid!=null)
+			myGrid.step();
+	}
 	public void configureSlider(Slider slider) {
 		slider.setMin(0);
 		slider.setMax(100);

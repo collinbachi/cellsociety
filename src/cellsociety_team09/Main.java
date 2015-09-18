@@ -37,10 +37,7 @@ public class Main extends Application {
     /**
      * Start the program.
      */
-    public static void main (String[] args) {
-        ConwayWriter writer = new ConwayWriter();
-        writer.writeFile();
-
+    public static void main(String[] args) {
         launch(args);
     }
 }
