@@ -1,5 +1,6 @@
 package cellsociety_team09;
 
+import java.util.HashMap;
 import javafx.scene.paint.Color;
 
 public class Conway extends Simulation {
@@ -8,14 +9,13 @@ public class Conway extends Simulation {
 	private static final int OFF = 0;
 	private static final int ON = 1;
 
-	public Conway() {
-		super(TOTAL_STATES, COLORS);
+	public Conway(HashMap<String, Double> parameterMap) {
+		super(TOTAL_STATES, COLORS, parameterMap);
 	}
 
 	@Override
 	public void checkRules(Cell cell) {
-		int[] neighborInfo = collectNeighborInfo(cell);
-		System.out.println(neighborInfo.toString());
+		int[] neighborInfo = collectNeighborInfo(cell.getMyNeighbors());
 		if (neighborInfo[ON] < 2) {
 			cell.setMyNextState(OFF);
 		} else if (neighborInfo[ON] == 3 && cell.getMyCurrentState() == OFF) {
@@ -25,8 +25,6 @@ public class Conway extends Simulation {
 		} else if (neighborInfo[ON] <= 3) {
 			cell.setMyNextState(ON);
 		}
-
-		System.out.println(cell.getMyNextState());
 	}
 
 }

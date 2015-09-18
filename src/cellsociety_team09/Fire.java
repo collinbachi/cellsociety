@@ -15,8 +15,8 @@ public class Fire extends Simulation {
 
     private double myProbCatch;
 
-    public Fire () {
-        super(TOTAL_STATES, COLORS);
+    public Fire (HashMap<String, Double> parameterMap) {
+        super(TOTAL_STATES, COLORS, parameterMap);
         myProbCatch = myParameterMap.get(PROB_CATCH);
     }
 
