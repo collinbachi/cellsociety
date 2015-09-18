@@ -6,17 +6,10 @@ import org.w3c.dom.Element;
 public class ConwayWriter extends XMLWriter{
 	//Local Hard-coded values that get passed to super methods
 	
-	private static final String fileName = "XML/Conway.xml";
-	private static final String simName = "Conway's Game of Life";
-	private static final String simTitle = "Celluar Automaton";
-	private static final String simAuthor = "Jasper Hancock";
-	private static final int height = 100;
-	private static final int width= 100;
-	private static final int possibleStates = 2;
 	
 	ConwayWriter()
 	{		
-		super(fileName, simName, simTitle, simAuthor, height, width, possibleStates);
+		super("XML/Conway.xml", "Conway's Game of Life", "Conway's Game of Life", "Brenna Milligan", 100, 100, 2);
 		
 		super.writeFile();
 	}
@@ -28,6 +21,11 @@ public class ConwayWriter extends XMLWriter{
 	
 	}
 
+	public static void Main(String args[])
+	{
+		ConwayWriter writer=new ConwayWriter();
+		writer.writeFile();
+	}
 	
 	
 

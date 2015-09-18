@@ -23,11 +23,17 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.FileChooser;
 import xmlManagement.XMLReader;
 
+/*
+ * Responsible for configuring and placing the GUI elements for the user interface
+ * 
+ * @author Jasper Hancock
+ */
 public class UIView {
 
 	private Scene myScene;
-	XMLReader fileReader=new XMLReader();
-	
+	private File xmlFileFolder = new File("XML");
+	XMLReader fileReader = new XMLReader();
+
 	public Scene init(int width, int height) {
 
 		BorderPane root = new BorderPane();
@@ -43,15 +49,11 @@ public class UIView {
 
 		Button selectSim = new Button();
 		selectSim.setText("Select New Simulation");
-		FileChooser simBrowser=new FileChooser();
-		selectSim.setOnAction(new EventHandler<ActionEvent>() {
-			public void handle(final ActionEvent e) {
-			selectSimulation(simBrowser);
-			
-			}
-
+		FileChooser simBrowser = new FileChooser();
+		simBrowser.setInitialDirectory(xmlFileFolder);
 		
-		});
+		selectSim.setOnAction(event-> selectSimulation(simBrowser));
+		
 		gridPane.add(selectSim, 5, 1);
 
 		Button startSim = new Button();
@@ -72,21 +74,24 @@ public class UIView {
 		configureSlider(speedSlider);
 		gridPane.add(speedSlider, 5, 5);
 
+		
+		GridPane description =new GridPane();
 		root.setCenter(gridPane);
 
 		return myScene;
 
 	}
+
 	public void selectSimulation(FileChooser simBrowser) {
-		File selectedFile=simBrowser.showOpenDialog(myScene.getWindow());
+		File selectedFile = simBrowser.showOpenDialog(myScene.getWindow());
 		try {
-			if(selectedFile!=null)
-			fileReader.parseFile(selectedFile);
+			if (selectedFile != null)
+				fileReader.parseFile(selectedFile);
 		} catch (ParserConfigurationException | SAXException | IOException e1) {
 			e1.printStackTrace();
 		}
 	}
-	
+
 	public void configureSlider(Slider slider) {
 		slider.setMin(0);
 		slider.setMax(100);
@@ -97,7 +102,5 @@ public class UIView {
 		slider.setMinorTickCount(5);
 		slider.setBlockIncrement(10);
 	}
-	
-	
 
 }
