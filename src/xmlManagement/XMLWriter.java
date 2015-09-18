@@ -18,9 +18,14 @@ import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-
 import cellsociety_team09.Simulation;
 
+/*
+ * This abstract superclass easily handles writing the xml for each and every simulation, where the specific parameters for each 
+ * simulation are defined in their respective sub classes
+ * 
+ * @author Jasper Hancock
+ */
 public abstract class XMLWriter {
 
 	protected final String myDestinationFile;
@@ -48,7 +53,7 @@ public abstract class XMLWriter {
 
 	public void writeFile() {
 		DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
-		XMLFields fields = new XMLFields();
+		XMLTags fields = new XMLTags();
 
 		try {
 			DocumentBuilder dB = docFactory.newDocumentBuilder();
@@ -77,17 +82,17 @@ public abstract class XMLWriter {
 		}
 	}
 
-	private void addHeaderData(XMLFields fields, Document newFile, Element sim) {
-		addNodeToElement(newFile, sim, fields.getNameFieldTitle(), myName);
-		addNodeToElement(newFile, sim, fields.getTitleFieldTitle(), myTitle);
-		addNodeToElement(newFile, sim, fields.getAuthorFieldTitle(), myAuthor);
-		addNodeToElement(newFile, sim, fields.getHeightFieldTitle(), Integer.toString(myGridHeight));
-		addNodeToElement(newFile, sim, fields.getWidthFieldTitle(), Integer.toString(myGridWidth));
-		addNodeToElement(newFile, sim, fields.getStateFieldTitle(), Integer.toString(myPossibleStates));
+	private void addHeaderData(XMLTags fields, Document newFile, Element sim) {
+		addNodeToElement(newFile, sim, fields.NAME_TAG_TITLE, myName);
+		addNodeToElement(newFile, sim, fields.TITLE_TAG_TITLE, myTitle);
+		addNodeToElement(newFile, sim, fields.AUTHOR_TAG_TITLE, myAuthor);
+		addNodeToElement(newFile, sim, fields.HEIGHT_TAG_TITLE, Integer.toString(myGridHeight));
+		addNodeToElement(newFile, sim, fields.WIDTH_TAG_TITLE, Integer.toString(myGridWidth));
+		addNodeToElement(newFile, sim, fields.STATE_TAG_TITLE, Integer.toString(myPossibleStates));
 	}
 
 	private void addSpecificParameters(Document newFile, Element sim) {
-		Element parameters=newFile.createElement("parameters");
+		Element parameters = newFile.createElement("parameters");
 		for (String fieldName : parameterMap.keySet()) {
 			Element parameter = newFile.createElement("parameter");
 			addNodeToElement(newFile, parameter, fieldName, Double.toString(parameterMap.get(fieldName)));
@@ -97,7 +102,7 @@ public abstract class XMLWriter {
 		sim.appendChild(parameters);
 	}
 
-	//sets the values of simulation specific parameters 
+	// sets the values of simulation specific parameters
 	public abstract void populateParameterMap();
 
 	public void addNodeToElement(Document newFile, Element element, String fieldName, String content) {
