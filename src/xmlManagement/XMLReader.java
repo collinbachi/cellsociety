@@ -63,7 +63,6 @@ public class XMLReader {
 		for (int pos = 0; pos < parameterList.getLength(); pos++) {
 			Node newParameter = parameterList.item(pos).getChildNodes().item(0);
 			parameterMap.put(newParameter.getNodeName(), Double.parseDouble(newParameter.getTextContent()));
-			System.out.println(newParameter.getTextContent());
 		}
 
 	}
