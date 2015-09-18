@@ -37,12 +37,12 @@ public class XMLReader {
 		getHeaderData(simDetails);
 
 		NodeList parameterList=doc.getElementsByTagName("parameter");
-		getParameterMap(myParameterMap,parameterList);
+		populateParameterMap(myParameterMap,parameterList);
 		
 		NodeList cellList = simDetails.getElementsByTagName("cell");
 		myCellArray = new int[myGridWidth][myGridHeight];
 
-		grid.init(populateInitialStates(myCellArray, cellList), testFile.getName().substring(0, testFile.getName().indexOf(".xml")));
+		grid.init(populateInitialStates(myCellArray, cellList), testFile.getName().substring(0, testFile.getName().indexOf(".xml")), this.myParameterMap);
 		
 		
 
@@ -58,12 +58,14 @@ public class XMLReader {
 		return cellArray;
 	}
 
-	private void getParameterMap(HashMap<String,Double> parameterMap,NodeList parameterList)
+	private void populateParameterMap(HashMap<String,Double> parameterMap,NodeList parameterList)
 	{
 		for(int pos=0; pos< parameterList.getLength();pos++)
 		{
 			Node newParameter=parameterList.item(pos).getChildNodes().item(0);
-			parameterMap.put(newParameter.getNodeName(),Double.parseDouble(newParameter.getTextContent()));
+			parameterMap.put(newParameter.getNodeName(), Double.parseDouble(newParameter.getTextContent()));
+			System.out.println(newParameter.getNodeName());
+			System.out.println(newParameter.getNodeValue());
 		}
 		
 	}

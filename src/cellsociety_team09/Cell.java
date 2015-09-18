@@ -19,12 +19,24 @@ public class Cell {
         myLives = 0;
     }
     
-    public boolean checkMyLives(double mySharkReproductionTime) {
-        return myLives == mySharkReproductionTime;
+    public void updateCurrentState() {
+        myCurrentState = myNextState;
+    }
+    
+    public boolean checkMyLives(int numberToCheck) {
+        return myLives == numberToCheck;
     }
 
     public void incrementLives () {
         myLives++;
+    }
+    
+    public void addToCurrentState(int toAdd) {
+        myCurrentState += toAdd;
+    }
+    
+    public boolean checkMyCurrentState(int numberToCheck) {
+        return myCurrentState == numberToCheck;
     }
     
     public void resetLives() {
@@ -34,6 +46,10 @@ public class Cell {
     public Color getMyColor () {
         return myColor;
     }
+    
+    public int getMyCurrentState() {
+        return myCurrentState;
+    }
 
     public void setMyColor (Color myColor) {
         this.myColor = myColor;
@@ -41,14 +57,6 @@ public class Cell {
 
     public int getMyNextState () {
         return myNextState;
-    }
-
-    public int getMyCurrentState () {
-        return myCurrentState;
-    }
-
-    public void setMyCurrentState (int myCurrentState) {
-        this.myCurrentState = myCurrentState;
     }
 
     public Cell[] getMyNeighbors () {

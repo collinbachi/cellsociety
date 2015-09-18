@@ -1,6 +1,7 @@
 package cellsociety_team09;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Timer;
 import java.util.TimerTask;
 import javafx.scene.paint.Color;
@@ -26,7 +27,7 @@ public class Grid{
 		//do nothing
 	}
 
-	public void init(int[][] rows, String sim){
+	public void init(int[][] rows, String sim, HashMap<String, Double> parameterMap){
 		System.out.println(sim);
 		myRows = new ArrayList<ArrayList<Cell>>();
 		for (int[] row : rows){
@@ -41,15 +42,21 @@ public class Grid{
 
 		try{
 			mySim = (Simulation) Class.forName("cellsociety_team09." + sim).newInstance();
+			mySim.setMyParameterMap(parameterMap);
 		}catch(Exception e){ 
  			System.out.println("There was a problem instantiating the class" +
  							   " by name in Grid.java");
 		}
 
+		
+		
 		// If we want Simulation classes to use a constructor
 		/*Class<?> temp = Class.forName(sim);
 		Constructor<?> constructor = temp.getConstructor(String.class, Integer.class);
 		Object instance = constructor.newInstance("stringparam", 42);*/
+		
+		
+		
 		/*TimerTask task = new TimerTask(){
 			@Override
 			public void run(){ step(); }

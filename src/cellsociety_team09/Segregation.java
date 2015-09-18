@@ -1,7 +1,6 @@
 package cellsociety_team09;
 
 import javafx.scene.paint.Color;
-import xmlManagement.XMLReader;
 
 public class Segregation extends Simulation {
 
@@ -17,8 +16,7 @@ public class Segregation extends Simulation {
     
     public Segregation () {
         super(TOTAL_STATES, COLORS);
-        XMLReader reader = new XMLReader();
-        mySimilarThreshold = reader.getParameterMap().get(SIMILAR_THRESHOLD);
+        mySimilarThreshold = myParameterMap.get(SIMILAR_THRESHOLD);
     }
 
     @Override
