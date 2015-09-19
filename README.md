@@ -1,3 +1,2 @@
 # cellsociety
-Empty repository for CellSociety project
-hi helolo
+Load and run a variety of cellular automaton simulations.
