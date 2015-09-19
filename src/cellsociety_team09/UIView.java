@@ -20,9 +20,12 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.util.Duration;
 
 import xmlManagement.XMLReader;
@@ -41,6 +44,11 @@ public class UIView {
 	private GridPane gridPane;
 	private Rectangle grid;
 	private Timeline animation = new Timeline();
+	Slider speedSlider = new Slider();
+	Text simulationName=new Text();
+	Text authorName=new Text();
+
+
 
 
 	public Scene init(int width, int height) {
@@ -82,12 +90,16 @@ public class UIView {
 		stepSim.setOnAction(event -> incrementSimulation());
 		gridPane.add(stepSim, 5, 4);
 
-		Slider speedSlider = new Slider();
 		configureSlider(speedSlider);
 		gridPane.add(speedSlider, 5, 5);
+		
 
-		GridPane description = new GridPane();
+		GridPane descriptionPane = new GridPane();
+		descriptionPane.add(simulationName,0,0);
+		descriptionPane.add(authorName, 0, 1);
+	
 		root.setCenter(gridPane);
+		root.setBottom(descriptionPane);
 
 		return myScene;
 
@@ -98,17 +110,19 @@ public class UIView {
 		try {
 
 			if (selectedFile != null) {
+				animation.pause();
 				myGrid = new Grid();
 				myXMLReader = new XMLReader();
 				myXMLReader.parseFile(selectedFile, myGrid);
+				simulationName.setText("Simulation Name: "+myXMLReader.getTitle());
+				authorName.setText("Simulation Author: " +myXMLReader.getAuthor());
+
 				GridView gridView = new GridView(myGrid, grid.getBoundsInLocal());	
 				gridPane.add(gridView, 0, 0, 4, 6);
 				myGrid.step();
-				KeyFrame frame = new KeyFrame(Duration.millis(300), e -> myGrid.step());
+				KeyFrame frame = new KeyFrame(Duration.millis(150), e -> myGrid.step());
 				animation.setCycleCount(Timeline.INDEFINITE);
 				animation.getKeyFrames().add(frame);
-				//animation.play();
-			
 			}
 		} catch (ParserConfigurationException | SAXException | IOException e1) {
 			e1.printStackTrace();
@@ -129,6 +143,13 @@ public class UIView {
 		slider.setMajorTickUnit(50);
 		slider.setMinorTickCount(5);
 		slider.setBlockIncrement(10);
-	}
+		slider.valueProperty().addListener(new ChangeListener<Number>() {
+            public void changed(ObservableValue<? extends Number> ov,
+                    Number old_val, Number new_val) {
+                       animation.setRate(new_val.doubleValue()/100);
+                        
+            }
+	});
 
+}
 }

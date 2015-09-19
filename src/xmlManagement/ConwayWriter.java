@@ -4,12 +4,11 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 public class ConwayWriter extends XMLWriter{
-	//Local Hard-coded values that get passed to super methods
 	
 
 	public ConwayWriter()
 	{		
-		super("XML/Conway.xml", "Conway's Game of Life", "Conway's Game of Life", "Brenna Milligan", 100, 100, 2);
+		super("XML/Conway.xml", "Conway's Game of Life", "Conway's Game of Life", "Brenna Milligan", 25, 25, 2);
 		
 		super.writeFile();
 	}

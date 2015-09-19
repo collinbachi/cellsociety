@@ -138,5 +138,12 @@ public abstract class XMLWriter {
 	public HashMap<String, Double> getParameterMap() {
 		return parameterMap;
 	}
+	
+	public static void main(String args[])
+	{
+		ConwayWriter writer=new ConwayWriter();
+		writer.writeFile();
+		
+	}
 
 }

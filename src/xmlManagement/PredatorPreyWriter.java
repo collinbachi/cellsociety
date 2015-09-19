@@ -18,7 +18,7 @@ public class PredatorPreyWriter extends XMLWriter {
 	private final double UNIT_ENERGY=3;
 
 	PredatorPreyWriter() {
-		super("XML/PredatorPrey.xml", "Predator-Prey", "Wator-world", "Collin Bachi", 100, 100, 3);		
+		super("XML/PredatorPrey.xml", "Predator-Prey", "Wator-world", "Brenna Milligan", 25, 25, 3);		
 	}
 
 	@Override
@@ -30,10 +30,16 @@ public class PredatorPreyWriter extends XMLWriter {
 		
 	}
 	
-	public static void main(String args[]) {
-	    PredatorPreyWriter w = new PredatorPreyWriter();
-	    w.writeFile();
+	public static void main(String args[])
+	{
+		PredatorPreyWriter writer=new PredatorPreyWriter();
+		writer.writeFile();
+		SegregationWriter segWriter=new SegregationWriter();
+		segWriter.writeFile();
+		FireWriter fireWriter=new FireWriter();
+		fireWriter.writeFile();
 	}
+
 
 	
 	
