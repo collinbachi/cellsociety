@@ -23,7 +23,7 @@ public class Main extends Application {
         myUIView = new UIView();
         Scene scene = myUIView.init(800, 600);
         s.setScene(scene);
-        s.setTitle("asdf");
+        s.setTitle("Celluar Automaton Simulator");
         s.show();    
     }
 

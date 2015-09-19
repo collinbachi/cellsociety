@@ -13,7 +13,7 @@ public class PredatorPrey extends Simulation {
     private static final int SHARK = 2;
     public static final String FISH_REPRODUCTION_TIME = "FISH_REPRODUCTION_TIME";
     public static final String SHARK_REPRODUCTION_TIME = "SHARK_REPRODUCTION_TIME";
-    public static final String FISH_ENERGY = "SHARK_REPRODUCTION_TIME";
+    public static final String FISH_ENERGY = "FISH_ENERGY";
     public static final String UNIT_ENERGY = "UNIT_ENERGY";
 
     private int myFishReproductionTime;

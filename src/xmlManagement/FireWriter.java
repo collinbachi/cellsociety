@@ -7,7 +7,7 @@ public class FireWriter extends XMLWriter {
 	
 	private final double PROB_CATCH=0.75;
 	public FireWriter() {
-		super("XML/Fire.xml", "Fire", "Simulation of fire", "Brenna Milligan", 100, 100, 3);
+		super("XML/Fire.xml", "Fire", "Simulation of fire", "Brenna Milligan", 25, 25, 3);
 				
 	}
 

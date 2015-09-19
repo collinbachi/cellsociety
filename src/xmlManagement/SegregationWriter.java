@@ -8,7 +8,7 @@ public class SegregationWriter extends XMLWriter {
 
 	SegregationWriter() {
 
-		super("XML/Segregation.xml", "Segregation", "Simulating Segregation", "Brenna Milligan", 100, 100, 3);
+		super("XML/Segregation.xml", "Segregation", "Simulating Segregation", "Brenna Milligan", 25, 25, 3);
 		populateParameterMap();
 	}
 
