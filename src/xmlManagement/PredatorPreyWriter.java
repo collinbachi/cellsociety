@@ -30,15 +30,7 @@ public class PredatorPreyWriter extends XMLWriter {
 		
 	}
 	
-	public static void main(String args[])
-	{
-		PredatorPreyWriter writer=new PredatorPreyWriter();
-		writer.writeFile();
-		SegregationWriter segWriter=new SegregationWriter();
-		segWriter.writeFile();
-		FireWriter fireWriter=new FireWriter();
-		fireWriter.writeFile();
-	}
+	
 
 
 	

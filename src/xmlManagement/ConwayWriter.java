@@ -20,12 +20,6 @@ public class ConwayWriter extends XMLWriter{
 	
 	}
 
-	public static void Main(String args[])
-	{
-		ConwayWriter writer=new ConwayWriter();
-		writer.writeFile();
-	}
-	
-	
+
 
 }
