@@ -23,7 +23,7 @@ public class Conway extends Simulation {
 		} else if (neighborInfo[ON] > 3) {
 			cell.setMyNextState(OFF);
 		} else if (neighborInfo[ON] <= 3) {
-			cell.setMyNextState(ON);
+			//cell remains unchanged
 		}
 	}
 
