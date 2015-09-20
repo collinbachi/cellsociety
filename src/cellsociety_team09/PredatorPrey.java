@@ -31,11 +31,11 @@ public class PredatorPrey extends Simulation {
     }
 
     private boolean isFish (Cell cell) {
-        return cell.getMyNextState() == FISH;
+        return cell.getMyNextState() == FISH && cell.getMyCurrentState() == FISH;
     }
 
     private boolean isShark (Cell cell) {
-        return cell.getMyNextState() == SHARK;
+        return cell.getMyNextState() == SHARK && cell.getMyCurrentState() == SHARK;
     }
 
     @Override
@@ -67,6 +67,7 @@ public class PredatorPrey extends Simulation {
     private void fishReproductionRules (Cell fish) {
         if (fish.getMyLives() >= myFishReproductionTime) {
             fish.setMyNextState(FISH);
+            fish.resetLives();
         }
         else {
             fish.setMyNextState(BLANK);

@@ -45,7 +45,7 @@ public abstract class Simulation {
     protected Cell getRandomNeighbor(Cell[] neighbors, int state) {
         ArrayList<Cell> randomNeighbors = new ArrayList<>();
         for(Cell cell : neighbors) {
-            if (cell != null && cell.getMyNextState() == state) {
+            if (cell != null && cell.getMyNextState() == state && cell.getMyCurrentState() == state) {
                 randomNeighbors.add(cell);
             }
         }
