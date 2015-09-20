@@ -12,7 +12,6 @@ public abstract class Simulation {
     protected HashMap<String, Double> myParameterMap;
 
     public Simulation(int totalStates, Color[] colors, HashMap<String, Double> parameterMap) {
-        System.out.println("DEBUG");
         myTotalStates = totalStates;
         myColors = colors;
         myParameterMap = parameterMap;
@@ -44,15 +43,15 @@ public abstract class Simulation {
     
 
     protected Cell getRandomNeighbor(Cell[] neighbors, int state) {
-        ArrayList<Cell> blankNeighbors = new ArrayList<>();
+        ArrayList<Cell> randomNeighbors = new ArrayList<>();
         for(Cell cell : neighbors) {
-            if (cell != null && cell.getMyCurrentState() == state) {
-                blankNeighbors.add(cell);
+            if (cell != null && cell.getMyNextState() == state) {
+                randomNeighbors.add(cell);
             }
         }
-        if (!blankNeighbors.isEmpty()) {
-            int randomBlankNeighbor = randomNum(blankNeighbors.size());
-            return blankNeighbors.get(randomBlankNeighbor);
+        if (!randomNeighbors.isEmpty()) {
+            int randomNeighbor = randomNum(randomNeighbors.size());
+            return randomNeighbors.get(randomNeighbor);
         }
         else return null;
     }
