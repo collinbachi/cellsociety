@@ -12,10 +12,10 @@ import cellsociety_team09.PredatorPrey;
 
 public class PredatorPreyWriter extends XMLWriter {
 
-	private final double FISH_REPRODUCTION_TIME=3;
-	private final double SHARK_REPRODUCTION_TIME=3;
+	private final double FISH_REPRODUCTION_TIME=7;
+	private final double SHARK_REPRODUCTION_TIME=7;
 	private final double FISH_ENERGY=3;
-	private final double UNIT_ENERGY=3;
+	private final double UNIT_ENERGY=1;
 
 	PredatorPreyWriter() {
 		super("XML/PredatorPrey.xml", "Predator-Prey", "Wator-world", "Brenna Milligan", 25, 25, 3);		
