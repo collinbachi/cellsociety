@@ -5,6 +5,7 @@ import java.util.HashMap;
 import cells.Cell;
 import cells.PredatorPreyCell;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 
 
 /**
@@ -15,8 +16,8 @@ import javafx.scene.paint.Color;
  */
 
 public class PredatorPrey extends Simulation {
-    public static final String PREDATORPREY = "PredatorPrey";
-    private static final Color[] COLORS = { Color.WHITE, Color.LIGHTGREEN, Color.DIMGREY };
+    public static final String ID = "PredatorPrey";
+    private static final Paint[] COLORS = { Color.WHITE, Color.LIGHTGREEN, Color.DIMGREY };
     private static final int[] VALID_NEIGHBORS = { 1, 3, 4, 6 };
     private static final int TOTAL_STATES = 3;
     private static final int BLANK = 0;
@@ -33,20 +34,8 @@ public class PredatorPrey extends Simulation {
     private int myFishEnergy;
     private int myUnitEnergy;
 
-    public PredatorPrey (HashMap<String, Double> parameterMap) {
-        super(TOTAL_STATES, COLORS, parameterMap);
-        myFishReproductionTime = myParameterMap.get(FISH_REPRODUCTION_TIME).intValue();
-        mySharkReproductionTime = (int) myParameterMap.get(SHARK_REPRODUCTION_TIME).intValue();
-        myFishEnergy = (int) myParameterMap.get(FISH_ENERGY).intValue();
-        myUnitEnergy = (int) myParameterMap.get(UNIT_ENERGY).intValue();
-    }
-
-    private PredatorPrey () {
-        super(0, null, null);
-    }
-
-    static {
-        SimulationFactory.registerSimulation(PREDATORPREY, new PredatorPrey());
+    public PredatorPrey () {
+        super(TOTAL_STATES, COLORS);
     }
 
     private boolean isFish (Cell cell) {
@@ -157,14 +146,15 @@ public class PredatorPrey extends Simulation {
     }
 
     @Override
-    public Simulation createSimulation (HashMap<String, Double> parameterMap) {
-        return new PredatorPrey(parameterMap);
+    public void updateParameters () {
     }
 
     @Override
-    public void updateParameters () {
-        // TODO Auto-generated method stub
-
+    public void setParameters (HashMap<String, Double> parameterMap) {
+        myFishReproductionTime = parameterMap.get(FISH_REPRODUCTION_TIME).intValue();
+        mySharkReproductionTime = parameterMap.get(SHARK_REPRODUCTION_TIME).intValue();
+        myFishEnergy = parameterMap.get(FISH_ENERGY).intValue();
+        myUnitEnergy = parameterMap.get(UNIT_ENERGY).intValue();
     }
 
 }

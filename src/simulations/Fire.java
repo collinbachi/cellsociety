@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Random;
 import cells.Cell;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 
 
 /**
@@ -14,9 +15,9 @@ import javafx.scene.paint.Color;
  */
 
 public class Fire extends Simulation {
-    public static final String FIRE = "Fire";
+    public static final String ID = "Fire";
     private static final int TOTAL_STATES = 3;
-    private static final Color[] COLORS = { Color.YELLOW, Color.DARKOLIVEGREEN, Color.DARKRED };
+    private static final Paint[] COLORS = { Color.YELLOW, Color.DARKOLIVEGREEN, Color.DARKRED };
     private static final int EMPTY = 0;
     private static final int TREE = 1;
     private static final int BURNING = 2;
@@ -25,19 +26,10 @@ public class Fire extends Simulation {
 
     private double myProbCatch;
 
-    public Fire (HashMap<String, Double> parameterMap) {
-        super(TOTAL_STATES, COLORS, parameterMap);
-        myProbCatch = myParameterMap.get(PROB_CATCH);
+    public Fire () {
+        super(TOTAL_STATES, COLORS);
     }
-
-    private Fire () {
-        super(0, null, null);
-    }
-
-    static {
-        SimulationFactory.registerSimulation(FIRE, new Fire());
-    }
-
+    
     @Override
     public void checkRules (Cell cell) {
         if (isBurning(cell)) {
@@ -78,14 +70,14 @@ public class Fire extends Simulation {
     }
 
     @Override
-    public Simulation createSimulation (HashMap<String, Double> parameterMap) {
-        return new Fire(parameterMap);
-    }
-
-    @Override
     public void updateParameters () {
         // TODO Auto-generated method stub
 
+    }
+
+    @Override
+    public void setParameters (HashMap<String, Double> parameterMap) {
+        myProbCatch = parameterMap.get(PROB_CATCH);
     }
 
 }

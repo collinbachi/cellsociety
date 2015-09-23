@@ -1,6 +1,6 @@
 package cells;
 
-import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 
 
 /**
@@ -12,17 +12,11 @@ import javafx.scene.paint.Color;
 
 public abstract class Cell {
     protected int myCurrentState;
-    private int myNextState;
-    private Color myColor;
+    protected int myNextState;
+    private Paint myPaint;
     private Cell[] myNeighbors;
-
-    public Cell (int state, Color color) {
-        myCurrentState = state;
-        myNextState = myCurrentState;
-        myColor = color;
-    }
-
-    public abstract Cell createCell (int state, Color color);
+    
+    public abstract void initializeWithState(int state);
 
     public void updateCurrentState () {
         myCurrentState = myNextState;
@@ -32,16 +26,16 @@ public abstract class Cell {
         return myCurrentState == numberToCheck;
     }
 
-    public Color getMyColor () {
-        return myColor;
+    public Paint getMyPaint () {
+        return myPaint;
     }
 
     public int getMyCurrentState () {
         return myCurrentState;
     }
 
-    public void setMyColor (Color myColor) {
-        this.myColor = myColor;
+    public void setmyPaint (Paint myPaint) {
+        this.myPaint = myPaint;
     }
 
     public int getMyNextState () {

@@ -27,34 +27,17 @@ public class Grid {
     // remove this later
     private GridView myGridView;
 
-    public void Grid () {
-        // do nothing
-    }
-
-    static {
-        try {
-            String[] simNames =
-                    { Conway.CONWAY, Fire.FIRE, Segregation.SEGREGATION,
-                      PredatorPrey.PREDATORPREY };
-            for (String simName : simNames) {
-                Class.forName(String.format("simulations.%s", simName));
-                Class.forName(String.format("cells.%sCell", simName));
-            }
-        }
-        catch (ClassNotFoundException any) {
-            any.printStackTrace();
-        }
-    }
-
     public void init (int[][] rows, String sim, HashMap<String, Double> parameterMap) {
         SimulationFactory simulationFactory = new SimulationFactory();
-        mySim = simulationFactory.createSimulation(sim, parameterMap);
+        mySim = simulationFactory.createSimulation(sim);
+        mySim.setParameters(parameterMap);
         myRows = new ArrayList<ArrayList<Cell>>();
         CellFactory cellFactory = new CellFactory();
         for (int[] row : rows) {
             ArrayList<Cell> cellRow = new ArrayList<Cell>();
             for (int state : row) {
-                Cell cellToAdd = cellFactory.createCell(sim, state, Color.BLACK);
+                Cell cellToAdd = cellFactory.createCell(sim);
+                mySim.initializeCellWithState(cellToAdd, state);
                 cellRow.add(cellToAdd);
             }
             myRows.add(cellRow);
@@ -81,9 +64,8 @@ public class Grid {
             for (int j = 0; j < row.size(); j++) {
                 Cell[] neighbors = new Cell[8];
                 for (int k = 0; k < xCoords.length; k++) {
-                    neighbors[k] =
-                            safeIndex(i + xCoords[k], j + yCoords[k]) ? myRows.get(i + xCoords[k])
-                                    .get(j + yCoords[k]) : null;
+                    neighbors[k] = safeIndex(i + xCoords[k], j + yCoords[k]) ? myRows.get(i + xCoords[k]).get(j + yCoords[k]) : null;
+                            
                 }
                 myRows.get(i).get(j).setMyNeighbors(neighbors);
             }

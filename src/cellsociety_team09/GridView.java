@@ -41,7 +41,7 @@ public class GridView extends Group {
                 Rectangle c = new Rectangle(myBounds.getMinX() + j * cellWidth,
                                             myBounds.getMinY() + i * cellHeight,
                                             cellWidth, cellHeight);
-                c.setFill(myGrid.getCell(j, i).getMyColor());
+                c.setFill(myGrid.getCell(j, i).getMyPaint());
                 row.add(c);
                 this.getChildren().add(c);
             }
@@ -57,7 +57,7 @@ public class GridView extends Group {
                 Rectangle c = new Rectangle(myBounds.getMinX() + j * cellWidth,
                                             myBounds.getMinY() + i * cellHeight,
                                             cellWidth, cellHeight);
-                c.setFill(myGrid.getCell(j, i).getMyColor());
+                c.setFill(myGrid.getCell(j, i).getMyPaint());
                 row.add(c);
                 this.getChildren().add(c);
             }

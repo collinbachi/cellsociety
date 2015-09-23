@@ -1,8 +1,5 @@
 package cells;
 
-import javafx.scene.paint.Color;
-import simulations.PredatorPrey;
-
 
 /**
  * Cells that contain the specific functionality used
@@ -15,23 +12,9 @@ public class PredatorPreyCell extends Cell {
     private int myLives;
     private int myEnergy;
 
-    public PredatorPreyCell (int state, Color color) {
-        super(state, color);
+    public PredatorPreyCell () {
         myLives = 0;
         myEnergy = 0;
-    }
-
-    private PredatorPreyCell () {
-        super(0, null);
-    }
-
-    static {
-        CellFactory.registerCell(PredatorPrey.PREDATORPREY, new PredatorPreyCell());
-    }
-
-    @Override
-    public Cell createCell (int state, Color color) {
-        return new PredatorPreyCell(state, color);
     }
 
     public int getMyEnergy () {
@@ -64,6 +47,13 @@ public class PredatorPreyCell extends Cell {
     
     public void addToCurrentState (int toAdd) {
         this.myCurrentState += toAdd;
+    }
+
+    @Override
+    public void initializeWithState (int state) {
+        setMyNextState(state);
+        myLives = 0;
+        myEnergy = 0;        
     }
 
 }

@@ -3,6 +3,7 @@ package simulations;
 import java.util.HashMap;
 import cells.Cell;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 
 
 /**
@@ -13,22 +14,14 @@ import javafx.scene.paint.Color;
  */
 
 public class Conway extends Simulation {
-    public static final String CONWAY = "Conway";
-    private static final Color[] COLORS = { Color.WHITE, Color.BLACK };
+    public static final String ID = "Conway";
+    private static final Paint[] COLORS = { Color.WHITE, Color.BLACK };
     private static final int TOTAL_STATES = 2;
     private static final int OFF = 0;
     private static final int ON = 1;
 
-    public Conway (HashMap<String, Double> parameterMap) {
-        super(TOTAL_STATES, COLORS, parameterMap);
-    }
-
-    private Conway () {
-        super(0, null, null);
-    }
-
-    static {
-        SimulationFactory.registerSimulation(CONWAY, new Conway());
+    public Conway () {
+        super(TOTAL_STATES, COLORS);
     }
 
     @Override
@@ -49,14 +42,14 @@ public class Conway extends Simulation {
     }
 
     @Override
-    public Simulation createSimulation (HashMap<String, Double> parameterMap) {
-        return new Conway(parameterMap);
-    }
-
-    @Override
     public void updateParameters () {
         // TODO Auto-generated method stub
 
+    }
+
+    @Override
+    public void setParameters (HashMap<String, Double> parameterMap) {
+        // No parameters to update
     }
 
 }

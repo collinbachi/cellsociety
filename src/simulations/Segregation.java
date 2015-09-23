@@ -5,6 +5,7 @@ import java.util.HashMap;
 import cells.Cell;
 import cells.SegregationCell;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 
 
 /**
@@ -16,8 +17,8 @@ import javafx.scene.paint.Color;
 
 public class Segregation extends Simulation {
 
-    public static final String SEGREGATION = "Segregation";
-    private static final Color[] COLORS = { Color.WHITE, Color.BLUE, Color.RED };
+    public static final String ID = "Segregation";
+    private static final Paint[] COLORS = { Color.WHITE, Color.BLUE, Color.RED };
     private static final int BLANK = 0;
     private static final int AGENTX = 1;
     private static final int AGENTY = 2;
@@ -26,19 +27,10 @@ public class Segregation extends Simulation {
 
     private double mySimilarThreshold;
 
-    public Segregation (HashMap<String, Double> parameterMap) {
-        super(TOTAL_STATES, COLORS, parameterMap);
-        mySimilarThreshold = myParameterMap.get(SIMILAR_THRESHOLD);
+    public Segregation () {
+        super(TOTAL_STATES, COLORS);
     }
-
-    private Segregation () {
-        super(0, null, null);
-    }
-
-    static {
-        SimulationFactory.registerSimulation(SEGREGATION, new Segregation());
-    }
-
+    
     @Override
     public void checkRules (Cell cell) {
         int[] neighborInfo = collectNeighborInfo(cell.getMyNeighbors());
@@ -90,14 +82,14 @@ public class Segregation extends Simulation {
     }
 
     @Override
-    public Simulation createSimulation (HashMap<String, Double> parameterMap) {
-        return new Segregation(parameterMap);
-    }
-
-    @Override
     public void updateParameters () {
         // TODO Auto-generated method stub
 
+    }
+
+    @Override
+    public void setParameters (HashMap<String, Double> parameterMap) {
+        mySimilarThreshold = parameterMap.get(SIMILAR_THRESHOLD);
     }
 
 }

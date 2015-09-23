@@ -3,7 +3,7 @@ package simulations;
 import java.util.HashMap;
 import java.util.Random;
 import cells.Cell;
-import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 
 
 /**
@@ -16,26 +16,25 @@ import javafx.scene.paint.Color;
 public abstract class Simulation {
 
     private int myTotalStates;
-    private Color[] myColors;
-    protected HashMap<String, Double> myParameterMap;
+    private Paint[] myPaints;
 
-    public Simulation (int totalStates, Color[] colors, HashMap<String, Double> parameterMap) {
+    public Simulation (int totalStates, Paint[] paints) {
         myTotalStates = totalStates;
-        myColors = colors;
-        myParameterMap = parameterMap;
+        myPaints = paints;
     }
 
-    public abstract Simulation createSimulation (HashMap<String, Double> parameterMap);
-
     public abstract void checkRules (Cell cell);
-
-    public void setMyParameterMap (HashMap<String, Double> parameterMap) {
-        myParameterMap = parameterMap;
+    
+    public abstract void setParameters(HashMap<String, Double> parameterMap);
+    
+    public void initializeCellWithState(Cell cell, int state) {
+        cell.initializeWithState(state);
+        updateCell(cell);
     }
 
     public void updateCell (Cell cell) {
         cell.updateCurrentState();
-        cell.setMyColor(myColors[cell.getMyCurrentState()]);
+        cell.setmyPaint(myPaints[cell.getMyCurrentState()]);
     }
 
     protected int[] collectNeighborInfo (Cell[] neighbors) {
