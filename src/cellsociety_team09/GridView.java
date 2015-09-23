@@ -1,8 +1,6 @@
 package cellsociety_team09;
 
 import java.util.ArrayList;
-import java.util.Timer;
-import java.util.TimerTask;
 import javafx.geometry.Bounds;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.Group;
@@ -20,13 +18,10 @@ public class GridView extends Group {
     private Bounds myBounds;
     private double cellWidth;
     private double cellHeight;
-    private ArrayList<ArrayList<Rectangle>> myRows = new ArrayList<ArrayList<Rectangle>>();
-
+    
     public GridView (Grid g, Bounds bounds) {
         myGrid = g;
         myBounds = bounds;
-        System.out.println(bounds.getWidth());
-        System.out.println(myGrid.getWidth());
         cellWidth = bounds.getWidth() * 1.0 / myGrid.getWidth();
         cellHeight = bounds.getHeight() * 1.0 / myGrid.getHeight();
         g.setGridView(this);

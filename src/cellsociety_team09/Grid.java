@@ -2,10 +2,7 @@ package cellsociety_team09;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Timer;
-import java.util.TimerTask;
 import cells.*;
-import javafx.scene.paint.Color;
 import simulations.*;
 
 
@@ -17,7 +14,6 @@ import simulations.*;
  */
 
 public class Grid {
-    private static final int NUMBER_OF_NEIGHBORS = 8;
     private ArrayList<ArrayList<Cell>> myRows;
     private Simulation mySim;
 
@@ -74,7 +70,7 @@ public class Grid {
 
     private boolean safeIndex (int i, int j) {
         try {
-            Cell c = myRows.get(i).get(j);
+            myRows.get(i).get(j);
             return true;
         }
         catch (Exception e) {

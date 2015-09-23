@@ -7,7 +7,6 @@ import javax.xml.parsers.*;
 import org.w3c.dom.*;
 import org.xml.sax.SAXException;
 import cellsociety_team09.Grid;
-import simulations.Fire;
 
 
 /*

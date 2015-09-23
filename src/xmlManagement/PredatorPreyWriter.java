@@ -1,10 +1,5 @@
 package xmlManagement;
 
-import java.io.IOException;
-import javax.xml.parsers.ParserConfigurationException;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.xml.sax.SAXException;
 import simulations.PredatorPrey;
 
 

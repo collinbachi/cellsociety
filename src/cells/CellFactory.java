@@ -9,10 +9,11 @@ package cells;
 
 public class CellFactory {
 
+    @SuppressWarnings("unchecked")
     public Cell createCell (String cellID) {
-        Class clazz;
+        Class<Cell> clazz;
         try {
-            clazz = Class.forName(String.format("cells.%sCell", cellID));
+            clazz = (Class<Cell>) Class.forName(String.format("cells.%sCell", cellID));
             return (Cell) clazz.newInstance();
         }
         catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {

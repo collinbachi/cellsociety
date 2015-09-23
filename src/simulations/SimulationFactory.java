@@ -8,10 +8,11 @@ package simulations;
 
 public class SimulationFactory {
 
+    @SuppressWarnings("unchecked")
     public Simulation createSimulation (String simulationID) {
-        Class clazz;
+        Class<Simulation> clazz;
         try {
-            clazz = Class.forName("simulations."+simulationID);
+            clazz = (Class<Simulation>) Class.forName("simulations."+simulationID);
             return (Simulation) clazz.newInstance();
         }
         catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {
