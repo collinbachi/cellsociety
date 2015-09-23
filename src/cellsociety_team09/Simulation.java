@@ -21,6 +21,10 @@ public abstract class Simulation {
         myParameterMap = parameterMap;
     }
 
+    public int getMyTotalStates(){
+        return myTotalStates;
+    }
+
     public abstract void checkRules(Cell cell);
 
     public void updateCell(Cell cell) {

@@ -117,7 +117,7 @@ public class UIView {
 				simulationName.setText("Simulation Name: "+myXMLReader.getTitle());
 				authorName.setText("Simulation Author: " +myXMLReader.getAuthor());
 
-				GridView gridView = new GridView(myGrid, grid.getBoundsInLocal());	
+				TriangleView gridView = new TriangleView(myGrid, grid.getBoundsInLocal());	
 				gridPane.add(gridView, 0, 0, 4, 6);
 				myGrid.step();
 				KeyFrame frame = new KeyFrame(Duration.millis(150), e -> myGrid.step());

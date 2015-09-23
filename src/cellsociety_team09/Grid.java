@@ -103,6 +103,15 @@ public class Grid{
 		return temp.get(col);
 	}
 
+	public void incrementState(int row, int col){
+		Cell c = myRows.get(row).get(col);
+		c.setMyNextState(mySim.getMyTotalStates() > c.getMyCurrentState()+1 ? c.getMyCurrentState()+1 : 0);
+		System.out.println(c.getMyCurrentState());
+		mySim.updateCell(c);
+		System.out.println(c.getMyCurrentState());
+		myGridView.updateCells();
+	}
+
 	public void step(){
 		for (ArrayList<Cell> row : myRows){
 			for (Cell c : row){
