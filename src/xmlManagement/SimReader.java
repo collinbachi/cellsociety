@@ -3,17 +3,17 @@ package xmlManagement;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
-
 import javax.xml.parsers.*;
-
 import org.w3c.dom.*;
 import org.xml.sax.SAXException;
-import cellsociety_team09.Fire;
 import cellsociety_team09.Grid;
 
+
 /*
- * This class is responsible for parsing the xml files produced by XMLWriter and storing the data from the
- * XML file in its private fields. It has get methods for each field, as this data is important for other 
+ * This class is responsible for parsing the xml files produced by XMLWriter and storing the data
+ * from the
+ * XML file in its private fields. It has get methods for each field, as this data is important for
+ * other
  * classes
  * 
  * @author Jasper Hancock
