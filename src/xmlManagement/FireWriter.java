@@ -3,7 +3,7 @@ package xmlManagement;
 import simulations.Fire;
 
 
-public class FireWriter extends XMLWriter {
+public class FireWriter extends SimWriter {
 
     private final double PROB_CATCH = 0.75;
 

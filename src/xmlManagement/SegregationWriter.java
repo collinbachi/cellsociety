@@ -3,7 +3,7 @@ package xmlManagement;
 import simulations.Segregation;
 
 
-public class SegregationWriter extends XMLWriter {
+public class SegregationWriter extends SimWriter {
 
     private static final double SIMILAR_THRESHOLD = 0.3;
 

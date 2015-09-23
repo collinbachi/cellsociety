@@ -11,6 +11,8 @@ import javafx.geometry.Insets;
 import javafx.geometry.VPos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.BorderPane;
@@ -24,7 +26,7 @@ import javafx.animation.Timeline;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.util.Duration;
-import xmlManagement.XMLReader;
+import xmlManagement.SimReader;
 
 
 /*
@@ -37,7 +39,7 @@ public class UIView {
     private Scene myScene;
     private File xmlFileFolder = new File("XML");
     private Grid myGrid;
-    private XMLReader myXMLReader;
+    private SimReader myXMLReader;
     private GridPane gridPane;
     private Rectangle grid;
     private Timeline animation = new Timeline();
@@ -105,17 +107,22 @@ public class UIView {
             if (selectedFile != null) {
                 animation.pause();
                 myGrid = new Grid();
-                myXMLReader = new XMLReader();
+                myXMLReader = new SimReader();
                 myXMLReader.parseFile(selectedFile, myGrid);
                 simulationName.setText("Simulation Name: " + myXMLReader.getTitle());
                 authorName.setText("Simulation Author: " + myXMLReader.getAuthor());
 
                 GridView gridView = new GridView(myGrid, grid.getBoundsInLocal());
                 gridPane.add(gridView, 0, 0, 4, 6);
-                myGrid.step();
-                KeyFrame frame = new KeyFrame(Duration.millis(150), e -> myGrid.step());
-                animation.setCycleCount(Timeline.INDEFINITE);
-                animation.getKeyFrames().add(frame);
+                try {
+                    myGrid.step();
+                    KeyFrame frame = new KeyFrame(Duration.millis(150), e -> myGrid.step());
+                    animation.setCycleCount(Timeline.INDEFINITE);
+                    animation.getKeyFrames().add(frame);
+                }
+                catch (NullPointerException e) {
+                    displayInvalidSim();
+                }
             }
         }
         catch (ParserConfigurationException | SAXException | IOException e1) {
@@ -123,28 +130,40 @@ public class UIView {
         }
     }
 
+    public void displayInvalidSim () {
+        Alert invalidSim = new Alert(AlertType.INFORMATION);
+        invalidSim.setTitle("Corrupted/Invalid XML File selected");
+        invalidSim.setHeaderText(
+                                 "Unfortunately the file you selected does not appear to be " +
+                                 "supported by this application");
+        invalidSim.setContentText("Please choose a different simulation XML file");
+        invalidSim.show();
+    }
+
     public void incrementSimulation () {
-        if (myGrid != null)
+        try {
             myGrid.step();
+        }
+        catch (NullPointerException e) {
+            displayInvalidSim();
+        }
     }
 
-    public void configureSlider (Slider slider) {
-        slider.setMin(0);
-        slider.setMax(100);
-        slider.setValue(40);
-        slider.setShowTickLabels(true);
-        slider.setShowTickMarks(true);
-        slider.setMajorTickUnit(50);
-        slider.setMinorTickCount(5);
-        slider.setBlockIncrement(10);
-        slider.valueProperty().addListener(new ChangeListener<Number>() {
-            public void changed (ObservableValue<? extends Number> ov,
-                                 Number old_val,
-                                 Number new_val) {
-                animation.setRate(new_val.doubleValue() / 100);
+    public void configureSlider(Slider slider) {
+		slider.setMin(0);
+		slider.setMax(100);
+		slider.setValue(40);
+		slider.setShowTickLabels(true);
+		slider.setShowTickMarks(true);
+		slider.setMajorTickUnit(50);
+		slider.setMinorTickCount(5);
+		slider.setBlockIncrement(10);
+		slider.valueProperty().addListener(new ChangeListener<Number>() {
+			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
+				animation.setRate(new_val.doubleValue() / 100);
 
-            }
-        });
+			}
+		});
 
-    }
+	}
 }
