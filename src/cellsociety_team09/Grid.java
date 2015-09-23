@@ -44,6 +44,7 @@ public class Grid{
 		}catch(Exception e){ 
  			System.out.println("There was a problem instantiating the class" +
  							   " by name in Grid.java");
+ 			
 		}
 
 		
@@ -104,14 +105,20 @@ public class Grid{
 	}
 
 	public void step(){
+		
 		for (ArrayList<Cell> row : myRows){
 			for (Cell c : row){
+				
 				mySim.checkRules(c);
+				
+				
 			}
 		}
 		for (ArrayList<Cell> row : myRows){
 			for (Cell c : row){
+				
 				mySim.updateCell(c);
+				
 			}
 		}
 
