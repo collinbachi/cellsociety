@@ -9,6 +9,7 @@ import javafx.scene.paint.Color;
 import xmlManagement.ConwayWriter;
 import xmlManagement.FireWriter;
 
+
 /**
  * This is the main program, it is basically boilerplate to create
  * an animated scene.
@@ -24,7 +25,7 @@ public class Main extends Application {
         Scene scene = myUIView.init(800, 600);
         s.setScene(scene);
         s.setTitle("Celluar Automaton Simulator");
-        s.show();    
+        s.show();
     }
 
     // testing - REMOVE
@@ -34,10 +35,11 @@ public class Main extends Application {
         Scene myScene = new Scene(root, width, height, Color.WHITE);
         return myScene;
     }
+
     /**
      * Start the program.
      */
-    public static void main(String[] args) {
+    public static void main (String[] args) {
         launch(args);
     }
 }

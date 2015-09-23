@@ -1,22 +1,21 @@
 package xmlManagement;
 
-import cellsociety_team09.Fire;
+import simulations.Fire;
+
 
 public class FireWriter extends XMLWriter {
 
-	
-	private final double PROB_CATCH=0.75;
-	public FireWriter() {
-		super("XML/Fire.xml", "Fire", "Simulation of fire", "Brenna Milligan", 25, 25, 3);
-				
-	}
+    private final double PROB_CATCH = 0.75;
 
-	@Override
-	public void populateParameterMap() {
-		
-		super.getParameterMap().put(Fire.PROB_CATCH, PROB_CATCH);
-	}
-	
-	
-	
+    public FireWriter () {
+        super("XML/Fire.xml", "Fire", "Simulation of fire", "Brenna Milligan", 25, 25, 3);
+
+    }
+
+    @Override
+    public void populateParameterMap () {
+
+        super.getParameterMap().put(Fire.PROB_CATCH, PROB_CATCH);
+    }
+
 }

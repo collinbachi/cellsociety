@@ -1,22 +1,23 @@
 package xmlManagement;
 
-import cellsociety_team09.Segregation;
+import simulations.Segregation;
+
 
 public class SegregationWriter extends XMLWriter {
 
-	private static final double SIMILAR_THRESHOLD = 0.3;
+    private static final double SIMILAR_THRESHOLD = 0.3;
 
-	SegregationWriter() {
+    SegregationWriter () {
 
-		super("XML/Segregation.xml", "Segregation", "Simulating Segregation", "Brenna Milligan", 25, 25, 3);
-		populateParameterMap();
-	}
+        super("XML/Segregation.xml", "Segregation", "Simulating Segregation", "Brenna Milligan", 25,
+              25, 3);
+        populateParameterMap();
+    }
 
-	@Override
-	public void populateParameterMap() {
-		super.getParameterMap().put(Segregation.SIMILAR_THRESHOLD, SIMILAR_THRESHOLD);
+    @Override
+    public void populateParameterMap () {
+        super.getParameterMap().put(Segregation.SIMILAR_THRESHOLD, SIMILAR_THRESHOLD);
 
-	}
-
+    }
 
 }
