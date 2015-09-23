@@ -10,7 +10,7 @@ import org.xml.sax.SAXException;
 
 import cellsociety_team09.PredatorPrey;
 
-public class PredatorPreyWriter extends XMLWriter {
+public class PredatorPreyWriter extends SimWriter {
 
 	private final double FISH_REPRODUCTION_TIME=7;
 	private final double SHARK_REPRODUCTION_TIME=7;

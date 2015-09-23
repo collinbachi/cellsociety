@@ -26,7 +26,7 @@ import cellsociety_team09.Simulation;
  * 
  * @author Jasper Hancock
  */
-public abstract class XMLWriter {
+public abstract class SimWriter {
 
 	protected final String myDestinationFile;
 	protected final String myName;
@@ -39,7 +39,7 @@ public abstract class XMLWriter {
 	protected Simulation specificParameterNames;
 
 	// TODO Abstract createParameterMap
-	XMLWriter(String fileName, String simName, String simTitle, String simAuthor, int height, int width,
+	SimWriter(String fileName, String simName, String simTitle, String simAuthor, int height, int width,
 			int possibleStates) {
 		myDestinationFile = fileName;
 		myName = simName;
@@ -139,11 +139,6 @@ public abstract class XMLWriter {
 		return parameterMap;
 	}
 	
-	public static void main(String args[])
-	{
-		ConwayWriter writer=new ConwayWriter();
-		writer.writeFile();
-		
-	}
+	
 
 }
