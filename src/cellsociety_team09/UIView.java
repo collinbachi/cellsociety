@@ -149,6 +149,7 @@ public class UIView {
 				KeyFrame frame = new KeyFrame(Duration.millis(150), e -> myGrid.step());
 				animation.setCycleCount(Timeline.INDEFINITE);
 				animation.getKeyFrames().add(frame);
+				displayParameterSliders(specificParameters);
 			
 			}
 			catch(NullPointerException | ParserConfigurationException | SAXException | IOException e)
@@ -160,7 +161,7 @@ public class UIView {
 			
 		}
 	}
-	public void displayParameterSliders()
+	public void displayParameterSliders(GridPane specificParameters)
 	{
 		int rowIndex=0;
 		for(String s: myXMLReader.populateParameterMap().keySet())
