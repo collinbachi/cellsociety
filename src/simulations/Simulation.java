@@ -1,9 +1,9 @@
 package simulations;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
-import cells.*;
+import cells.Cell;
 import javafx.scene.paint.Paint;
 
 
@@ -26,7 +26,7 @@ public abstract class Simulation {
 
     public abstract void checkRules (Cell cell);
     
-    public abstract void setParameters(HashMap<String, Double> parameterMap);
+    public abstract void setParameters(Map<String, Double> parameterMap);
 
     public int getMyTotalStates(){
         return myTotalStates;

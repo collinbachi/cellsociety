@@ -1,7 +1,7 @@
 package simulations;
 
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import cells.Cell;
 import cells.ForagingAntsCell;
 import javafx.scene.paint.Color;
@@ -93,7 +93,7 @@ public class ForagingAnts extends Simulation {
     }
 
     @Override
-    public void setParameters (HashMap<String, Double> parameterMap) {
+    public void setParameters (Map<String, Double> parameterMap) {
         myAntLife = parameterMap.get(ANT_LIFE).intValue();
         myMaxAnts = parameterMap.get(MAX_ANTS).intValue();
         myAntsBornPerTime = parameterMap.get(ANTS_BORN_PER_TIME).intValue();

@@ -1,9 +1,11 @@
 package cellsociety_team09;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import cells.*;
-import simulations.*;
+import java.util.Map;
+import cells.Cell;
+import cells.CellFactory;
+import simulations.Simulation;
+import simulations.SimulationFactory;
 
 
 /** 
@@ -23,7 +25,7 @@ public class Grid{
 	//remove this later
 	private GridView myGridView;
 
-	public void init(int[][] rows, String sim, HashMap<String, Double> parameterMap){
+	public void init(int[][] rows, String sim, Map<String, Double> parameterMap){
         SimulationFactory simulationFactory = new SimulationFactory();
         mySim = simulationFactory.createSimulation(sim);
         mySim.setParameters(parameterMap);
