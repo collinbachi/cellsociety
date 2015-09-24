@@ -21,6 +21,8 @@ import cellsociety_team09.Grid;
 
 public class SimReader {
 
+
+
 	private String myFileName;
 	private String myTitle;
 	private String myName;
@@ -36,7 +38,7 @@ public class SimReader {
 	public void parseFile(File testFile, Grid grid) throws ParserConfigurationException, SAXException, IOException {
 		DocumentBuilderFactory fac = DocumentBuilderFactory.newInstance();
 		DocumentBuilder build = fac.newDocumentBuilder();
-
+		myFileName=testFile.getName().substring(0,testFile.getName().indexOf(".xml"));
 		Document doc = build.parse(testFile);
 		doc.getDocumentElement().normalize();
 
@@ -47,32 +49,13 @@ public class SimReader {
 		NodeList parameterList = doc.getElementsByTagName(xmlTags.PARAMETER_TAG_TITLE);
 		populateParameterMap(myParameterMap, parameterList);
 
-		NodeList cellList = simDetails.getElementsByTagName(xmlTags.CELL_TAG_TITLE);
 		myCellArray = new int[myGridWidth][myGridHeight];
 
-		grid.init(populateInitialStates(myCellArray, cellList),
-				testFile.getName().substring(0, testFile.getName().indexOf(".xml")), myParameterMap);
+		ConfigurationFactory gridConfig=new ConfigurationFactory();
+		Configuration config=gridConfig.createConfiguration("Random");
+		grid.init(config.populateGrid(myCellArray, simDetails, myNumberOfStates),
+				myFileName, myParameterMap);
 
-	}
-
-	private int[][] populateInitialStates(int[][] cellArray, NodeList cellList) {
-		for (int pos = 0; pos < cellList.getLength(); pos++) {
-			int xPos = Integer.parseInt(cellList.item(pos).getChildNodes().item(0).getTextContent());
-			int yPos = Integer.parseInt(cellList.item(pos).getChildNodes().item(1).getTextContent());
-			int state = Integer.parseInt(cellList.item(pos).getChildNodes().item(2).getTextContent());
-
-			try {
-
-				if (state < this.myNumberOfStates)
-					cellArray[xPos][yPos] = state;
-				else
-					cellArray[xPos][yPos] = 0;
-			} catch (ArrayIndexOutOfBoundsException e) {
-
-			}
-
-		}
-		return cellArray;
 	}
 
 	private void populateParameterMap(HashMap<String, Double> parameterMap, NodeList parameterList) {
@@ -134,4 +117,7 @@ public class SimReader {
 		return myParameterMap;
 	}
 
+	public String getMyFileName() {
+		return myFileName;
+	}
 }
