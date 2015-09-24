@@ -115,6 +115,9 @@ public class ForagingAntsCell extends Cell {
         this.myFoodItem = myFoodItem;
     }
 
+    public int getTotalPheromones() {
+        return myFoodPheromones + myNestPheromones;
+    }
     @Override
     public void initializeWithState (int state) {
         // TODO Auto-generated method stub
