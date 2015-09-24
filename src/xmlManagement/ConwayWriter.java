@@ -1,25 +1,19 @@
 package xmlManagement;
 
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 
-public class ConwayWriter extends XMLWriter{
-	
+public class ConwayWriter extends SimWriter {
 
-	public ConwayWriter()
-	{		
-		super("XML/Conway.xml", "Conway's Game of Life", "Conway's Game of Life", "Brenna Milligan", 25, 25, 2);
-		
-		super.writeFile();
-	}
+    public ConwayWriter () {
+        super("XML/Conway.xml", "", "Conway's Game of Life", "Brenna Milligan", 25, 25, 2);
 
-	@Override
-	public void populateParameterMap() {
+        super.writeFile();
+    }
 
-		//The Conway simulation is the only one that does not require specific parameters
-	
-	}
+    @Override
+    public void populateParameterMap () {
 
+        // The Conway simulation is the only one that does not require specific parameters
 
+    }
 
 }

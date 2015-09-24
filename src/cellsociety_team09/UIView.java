@@ -14,10 +14,13 @@ import javafx.geometry.Insets;
 import javafx.geometry.VPos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
@@ -27,8 +30,8 @@ import javafx.animation.Timeline;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.util.Duration;
-
-import xmlManagement.XMLReader;
+import xmlManagement.RandomConfiguration;
+import xmlManagement.SimReader;
 
 /*
  * Responsible for configuring and placing the GUI elements for the user interface
@@ -40,16 +43,14 @@ public class UIView {
 	private Scene myScene;
 	private File xmlFileFolder = new File("XML");
 	private Grid myGrid;
-	private XMLReader myXMLReader;
+	private SimReader myXMLReader;
 	private GridPane gridPane;
 	private Rectangle grid;
 	private Timeline animation = new Timeline();
-	Slider speedSlider = new Slider();
-	Text simulationName=new Text();
-	Text authorName=new Text();
-
-
-
+	private Slider speedSlider = new Slider();
+	private Text simulationName = new Text();
+	private Text authorName = new Text();
+	private GridPane specificParameters=new GridPane();
 
 	public Scene init(int width, int height) {
 
@@ -90,9 +91,13 @@ public class UIView {
 		stepSim.setOnAction(event -> incrementSimulation());
 		gridPane.add(stepSim, 5, 4);
 
-		configureSlider(speedSlider);
-		gridPane.add(speedSlider, 5, 5);
+		Button randomizeConfig=new Button();
+		randomizeConfig.setText("Generate Random Configuration");
+		randomizeConfig.setOnAction(event -> randomizeGrid());
+		gridPane.add(randomizeConfig, 5, 5);
 		
+		configureSpeedSlider(speedSlider);
+		gridPane.add(speedSlider, 5, 6);
 
 		GridPane descriptionPane = new GridPane();
 		descriptionPane.add(simulationName,0,0);
@@ -100,43 +105,91 @@ public class UIView {
 	
 		root.setCenter(gridPane);
 		root.setBottom(descriptionPane);
+		root.setRight(specificParameters);
 
 		return myScene;
 
 	}
 
+	public void randomizeGrid()
+	{
+		try {
+		RandomConfiguration randomizer=new RandomConfiguration();
+		myGrid.init(randomizer.populateGrid(myXMLReader.getCellArray(), null, myXMLReader.getNumberOfStates()), myXMLReader.getMyFileName()
+				, myXMLReader.populateParameterMap());
+		myGrid.step();
+		}
+		catch(NullPointerException e)
+		{
+			Alert noSim=new Alert(AlertType.ERROR);
+			noSim.setContentText("Please select a simulation first");
+			noSim.setHeaderText("No simulation has been loaded yet");
+			noSim.show();
+		}
+		
+	}
+
 	public void selectSimulation(FileChooser simBrowser) {
 		File selectedFile = simBrowser.showOpenDialog(myScene.getWindow());
-		try {
-
 			if (selectedFile != null) {
+			specificParameters.getChildren().clear();
 				animation.pause();
 				myGrid = new Grid();
-				myXMLReader = new XMLReader();
+		
+			myXMLReader = new SimReader();
+			try{
 				myXMLReader.parseFile(selectedFile, myGrid);
 				simulationName.setText("Simulation Name: "+myXMLReader.getTitle());
 				authorName.setText("Simulation Author: " +myXMLReader.getAuthor());
 
 				TriangleView gridView = new TriangleView(myGrid, grid.getBoundsInLocal());	
 				gridPane.add(gridView, 0, 0, 4, 6);
+			
 				myGrid.step();
 				KeyFrame frame = new KeyFrame(Duration.millis(150), e -> myGrid.step());
 				animation.setCycleCount(Timeline.INDEFINITE);
 				animation.getKeyFrames().add(frame);
+			
 			}
-		} catch (ParserConfigurationException | SAXException | IOException e1) {
-			e1.printStackTrace();
-		}
+			catch(NullPointerException | ParserConfigurationException | SAXException | IOException e)
+			{
+				displayInvalidSim();
 	}
 
-	public void incrementSimulation()
-	{
-		if(myGrid!=null)
-			myGrid.step();
+			
+			
+		}
 	}
-	public void configureSlider(Slider slider) {
+	public void displayParameterSliders()
+	{
+		int rowIndex=0;
+		for(String s: myXMLReader.populateParameterMap().keySet())
+	{
+			Text parameterName=new Text(s);
+			specificParameters.add(parameterName, 0, rowIndex);
+			 
+		}
+	}
+	public void displayInvalidSim() {
+		Alert invalidSim = new Alert(AlertType.INFORMATION);
+		invalidSim.setTitle("Corrupted/Invalid XML File selected");
+		invalidSim.setHeaderText(
+				"Unfortunately the file you selected does not appear to be " + "supported by this application");
+		invalidSim.setContentText("Please choose a different simulation XML file");
+		invalidSim.show();
+	}
+
+	public void incrementSimulation() {
+		try {
+			myGrid.step();
+		} catch (NullPointerException e) {
+			displayInvalidSim();
+	}
+	}
+
+	public void configureSpeedSlider(Slider slider) {
 		slider.setMin(0);
-		slider.setMax(100);
+		slider.setMax(1);
 		slider.setValue(40);
 		slider.setShowTickLabels(true);
 		slider.setShowTickMarks(true);
@@ -144,9 +197,8 @@ public class UIView {
 		slider.setMinorTickCount(5);
 		slider.setBlockIncrement(10);
 		slider.valueProperty().addListener(new ChangeListener<Number>() {
-            public void changed(ObservableValue<? extends Number> ov,
-                    Number old_val, Number new_val) {
-                       animation.setRate(new_val.doubleValue()/100);
+			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
+				animation.setRate(new_val.doubleValue());
                         
             }
 	});
