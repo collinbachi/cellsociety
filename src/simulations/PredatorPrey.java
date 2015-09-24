@@ -83,13 +83,14 @@ public class PredatorPrey extends Simulation {
     }
 
     private void sharkRules (PredatorPreyCell shark) {
+        shark.setMyEnergy(shark.getMyEnergy() - myUnitEnergy);
         if (!sharkIsDead(shark)) {
             shark.incrementLives();
-            shark.setMyEnergy(shark.getMyEnergy() - myUnitEnergy);
             moveShark(shark, shark.getMyNeighbors());
         }
         else {
             shark.resetLives();
+            shark.setMyEnergy(0);
             shark.setMyNextState(BLANK);
         }
     }
@@ -103,6 +104,7 @@ public class PredatorPrey extends Simulation {
             sharkReproductionRules(shark);
             fishToEat.setMyLives(shark.getMyLives());
             shark.resetLives();
+            shark.setMyEnergy(0);
         }
         else if (spaceToMove != null) {
             spaceToMove.setMyNextState(SHARK);
@@ -110,6 +112,7 @@ public class PredatorPrey extends Simulation {
             sharkReproductionRules(shark);
             spaceToMove.setMyLives(shark.getMyLives());
             shark.resetLives();
+            shark.setMyEnergy(0);
         }
         else {
             shark.setMyNextState(SHARK);
