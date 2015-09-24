@@ -62,7 +62,7 @@ public class PredatorPrey extends Simulation {
         for (int i = 0; i < neighbors.length; i++) {
             neighbors[i] = totalNeighbors[VALID_NEIGHBORS[i]];
         }
-        PredatorPreyCell randomBlankNeighbor = getRandomNeighbor(neighbors, BLANK);
+        PredatorPreyCell randomBlankNeighbor = (PredatorPreyCell) getRandomNeighbor(neighbors, BLANK);
         if (randomBlankNeighbor != null) {
             randomBlankNeighbor.setMyNextState(FISH);
             fishReproductionRules(fish);
@@ -95,8 +95,8 @@ public class PredatorPrey extends Simulation {
     }
 
     private void moveShark (PredatorPreyCell shark, Cell[] neighbors) {
-        PredatorPreyCell fishToEat = getRandomNeighbor(neighbors, FISH);
-        PredatorPreyCell spaceToMove = getRandomNeighbor(neighbors, BLANK);
+        PredatorPreyCell fishToEat = (PredatorPreyCell) getRandomNeighbor(neighbors, FISH);
+        PredatorPreyCell spaceToMove = (PredatorPreyCell) getRandomNeighbor(neighbors, BLANK);
         if (fishToEat != null) {
             fishToEat.setMyNextState(SHARK);
             fishToEat.setMyEnergy(shark.getMyEnergy() + myFishEnergy);
@@ -127,22 +127,6 @@ public class PredatorPrey extends Simulation {
         else {
             shark.setMyNextState(BLANK);
         }
-    }
-
-    private PredatorPreyCell getRandomNeighbor (Cell[] neighbors, int state) {
-        ArrayList<Cell> randomNeighbors = new ArrayList<>();
-        for (Cell cell : neighbors) {
-            if (cell != null && cell.getMyNextState() == state &&
-                cell.getMyCurrentState() == state) {
-                randomNeighbors.add(cell);
-            }
-        }
-        if (!randomNeighbors.isEmpty()) {
-            int randomNeighbor = randomNum(randomNeighbors.size());
-            return (PredatorPreyCell) randomNeighbors.get(randomNeighbor);
-        }
-        else
-            return null;
     }
 
     @Override
