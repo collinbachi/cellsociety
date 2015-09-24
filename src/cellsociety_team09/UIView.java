@@ -30,7 +30,7 @@ import javafx.animation.Timeline;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.util.Duration;
-
+import xmlManagement.RandomConfiguration;
 import xmlManagement.SimReader;
 
 /*
@@ -90,9 +90,14 @@ public class UIView {
 		stepSim.setText("Increment Simulation");
 		stepSim.setOnAction(event -> incrementSimulation());
 		gridPane.add(stepSim, 5, 4);
+		
+		Button randomizeConfig=new Button();
+		randomizeConfig.setText("Generate Random Configuration");
+		randomizeConfig.setOnAction(event -> randomizeGrid());
+		gridPane.add(randomizeConfig, 5, 5);
 
 		configureSpeedSlider(speedSlider);
-		gridPane.add(speedSlider, 5, 5);
+		gridPane.add(speedSlider, 5, 6);
 
 		GridPane descriptionPane = new GridPane();
 		descriptionPane.add(simulationName, 0, 0);
@@ -105,34 +110,54 @@ public class UIView {
 		return myScene;
 
 	}
+	
+	public void randomizeGrid()
+	{
+		try{
+		RandomConfiguration randomizer=new RandomConfiguration();
+		myGrid.init(randomizer.populateGrid(myXMLReader.getCellArray(), null, myXMLReader.getNumberOfStates()), myXMLReader.getMyFileName()
+				, myXMLReader.populateParameterMap());
+		myGrid.step();
+		}
+		catch(NullPointerException e)
+		{
+			Alert noSim=new Alert(AlertType.ERROR);
+			noSim.setContentText("Please select a simulation first");
+			noSim.setHeaderText("No simulation has been loaded yet");
+			noSim.show();
+		}
+		
+	}
 
 	public void selectSimulation(FileChooser simBrowser) {
 		File selectedFile = simBrowser.showOpenDialog(myScene.getWindow());
-		try {
-
-			if (selectedFile != null) {
-				specificParameters.getChildren().clear();
-				animation.pause();
-				myGrid = new Grid();
-				myXMLReader = new SimReader();
-				myXMLReader.parseFile(selectedFile, myGrid);
-				
-				simulationName.setText("Simulation Name: " + myXMLReader.getTitle());
-				authorName.setText("Simulation Author: " + myXMLReader.getAuthor());
-				
-				GridView gridView = new GridView(myGrid, grid.getBoundsInLocal());
-				gridPane.add(gridView, 0, 0, 4, 6);
-				try {
-					myGrid.step();
-					KeyFrame frame = new KeyFrame(Duration.millis(150), e -> myGrid.step());
-					animation.setCycleCount(Timeline.INDEFINITE);
-					animation.getKeyFrames().add(frame);
-				} catch (NullPointerException e) {
-					displayInvalidSim();
-				}
+		if (selectedFile != null) {
+			specificParameters.getChildren().clear();
+			animation.pause();
+			myGrid = new Grid();
+		
+			myXMLReader = new SimReader();
+			try{
+			myXMLReader.parseFile(selectedFile, myGrid);
+			simulationName.setText("Simulation Name: " + myXMLReader.getTitle());
+			authorName.setText("Simulation Author: " + myXMLReader.getAuthor());
+			
+			GridView gridView = new GridView(myGrid, grid.getBoundsInLocal());
+			gridPane.add(gridView, 0, 0, 4, 6);
+			
+				myGrid.step();
+				KeyFrame frame = new KeyFrame(Duration.millis(150), e -> myGrid.step());
+				animation.setCycleCount(Timeline.INDEFINITE);
+				animation.getKeyFrames().add(frame);
+			
 			}
-		} catch (ParserConfigurationException | SAXException | IOException e1) {
-			e1.printStackTrace();
+			catch(NullPointerException | ParserConfigurationException | SAXException | IOException e)
+			{
+				displayInvalidSim();
+			}
+			
+			
+			
 		}
 	}
 	public void displayParameterSliders()
