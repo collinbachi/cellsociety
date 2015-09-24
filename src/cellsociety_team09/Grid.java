@@ -17,9 +17,6 @@ public class Grid{
 	private ArrayList<ArrayList<Cell>> myRows;
 	private Simulation mySim;
 
-	public static final long delay = 10000;
-	public static long interval = 50000;
-
 	//remove this later
 	private GridView myGridView;
 
@@ -38,18 +35,7 @@ public class Grid{
 			}
 			myRows.add(cellRow);
 		}
-
 		initNeighbors();
-
-        /*
-         * TimerTask task = new TimerTask(){
-         * 
-         * @Override
-         * public void run(){ step(); }
-         * };
-         * Timer timer = new Timer();
-         * timer.scheduleAtFixedRate(task, delay, interval);
-         */
 	}
 
 	private void initNeighbors(){
