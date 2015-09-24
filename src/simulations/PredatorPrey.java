@@ -1,7 +1,6 @@
 package simulations;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Map;
 import cells.Cell;
 import cells.PredatorPreyCell;
 import javafx.scene.paint.Color;
@@ -137,7 +136,7 @@ public class PredatorPrey extends Simulation {
     }
 
     @Override
-    public void setParameters (HashMap<String, Double> parameterMap) {
+    public void setParameters (Map<String, Double> parameterMap) {
         myFishReproductionTime = parameterMap.get(FISH_REPRODUCTION_TIME).intValue();
         mySharkReproductionTime = parameterMap.get(SHARK_REPRODUCTION_TIME).intValue();
         myFishEnergy = parameterMap.get(FISH_ENERGY).intValue();
