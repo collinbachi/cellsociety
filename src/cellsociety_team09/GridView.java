@@ -43,7 +43,7 @@ public abstract class GridView extends Group{
 			ArrayList<Shape> row = new ArrayList<Shape>();
 			for(int j = 0; j < myGrid.getWidth(); j++){
 				Shape c = generateShape(i,j);
-				c.setFill(myGrid.getCell(i,j).getMyColor());
+				c.setFill(myGrid.getCell(i,j).getMyPaint());
 				final int ii = i; // Because the nested class
 				final int jj = j; // wants a final int...
 				c.setOnMousePressed(new EventHandler<MouseEvent>() {
