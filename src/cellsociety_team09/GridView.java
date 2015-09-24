@@ -1,14 +1,14 @@
 package cellsociety_team09;
 
 import java.util.ArrayList;
-import java.util.Timer;
-import java.util.TimerTask;
 import javafx.geometry.Bounds;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.*;
 import javafx.scene.Group;
 import javafx.scene.input.MouseEvent;
 import javafx.event.EventHandler;
+
+
 /** 
  * Class for holding the 2d array of Cells that compose the Grid, along with
  * the current Simulation.
@@ -44,6 +44,7 @@ public abstract class GridView extends Group{
    					public void handle(MouseEvent me) {
         				System.out.println("Mouse pressed");
     			}});
+
 				row.add(c);
 				this.getChildren().add(c);
 			}
