@@ -20,6 +20,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
@@ -46,9 +47,10 @@ public class UIView {
 	private GridPane gridPane;
 	private Rectangle grid;
 	private Timeline animation = new Timeline();
-	Slider speedSlider = new Slider();
-	Text simulationName = new Text();
-	Text authorName = new Text();
+	private Slider speedSlider = new Slider();
+	private Text simulationName = new Text();
+	private Text authorName = new Text();
+	private GridPane specificParameters=new GridPane();
 
 	public Scene init(int width, int height) {
 
@@ -89,7 +91,7 @@ public class UIView {
 		stepSim.setOnAction(event -> incrementSimulation());
 		gridPane.add(stepSim, 5, 4);
 
-		configureSlider(speedSlider);
+		configureSpeedSlider(speedSlider);
 		gridPane.add(speedSlider, 5, 5);
 
 		GridPane descriptionPane = new GridPane();
@@ -98,6 +100,7 @@ public class UIView {
 
 		root.setCenter(gridPane);
 		root.setBottom(descriptionPane);
+		root.setRight(specificParameters);
 
 		return myScene;
 
@@ -108,13 +111,15 @@ public class UIView {
 		try {
 
 			if (selectedFile != null) {
+				specificParameters.getChildren().clear();
 				animation.pause();
 				myGrid = new Grid();
 				myXMLReader = new SimReader();
 				myXMLReader.parseFile(selectedFile, myGrid);
+				
 				simulationName.setText("Simulation Name: " + myXMLReader.getTitle());
 				authorName.setText("Simulation Author: " + myXMLReader.getAuthor());
-
+				
 				GridView gridView = new GridView(myGrid, grid.getBoundsInLocal());
 				gridPane.add(gridView, 0, 0, 4, 6);
 				try {
@@ -130,7 +135,10 @@ public class UIView {
 			e1.printStackTrace();
 		}
 	}
-
+	public void displayParameterSliders()
+	{
+		
+	}
 	public void displayInvalidSim() {
 		Alert invalidSim = new Alert(AlertType.INFORMATION);
 		invalidSim.setTitle("Corrupted/Invalid XML File selected");
@@ -148,7 +156,7 @@ public class UIView {
 		}
 	}
 
-	public void configureSlider(Slider slider) {
+	public void configureSpeedSlider(Slider slider) {
 		slider.setMin(0);
 		slider.setMax(100);
 		slider.setValue(40);
