@@ -29,22 +29,10 @@ public class GridView extends Group {
     }
 
     private void init () {
-        this.getChildren().clear();
-        for (int i = 0; i < myGrid.getHeight(); i++) {
-            ArrayList<Rectangle> row = new ArrayList<Rectangle>();
-            for (int j = 0; j < myGrid.getWidth(); j++) {
-                Rectangle c = new Rectangle(myBounds.getMinX() + j * cellWidth,
-                                            myBounds.getMinY() + i * cellHeight,
-                                            cellWidth, cellHeight);
-                c.setFill(myGrid.getCell(j, i).getMyPaint());
-                row.add(c);
-                this.getChildren().add(c);
-            }
-        }
+      updateCells();
     }
 
     public void updateCells () {
-        // if (true) return;
         this.getChildren().clear();
         for (int i = 0; i < myGrid.getHeight(); i++) {
             ArrayList<Rectangle> row = new ArrayList<Rectangle>();
