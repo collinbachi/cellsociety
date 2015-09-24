@@ -1,5 +1,7 @@
 package simulations;
 
+import cellsociety_team09.UIView;
+
 /**
  * Factory class to generate the concrete simulation class needed
  *
@@ -16,7 +18,8 @@ public class SimulationFactory {
             return (Simulation) clazz.newInstance();
         }
         catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {
-            e.printStackTrace();
+        	UIView popup=new UIView();
+        	popup.displayInvalidSim();
         }
         return null;
     }
