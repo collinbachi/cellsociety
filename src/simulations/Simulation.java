@@ -26,6 +26,10 @@ public abstract class Simulation {
     public abstract void checkRules (Cell cell);
     
     public abstract void setParameters(HashMap<String, Double> parameterMap);
+
+    public int getMyTotalStates(){
+        return myTotalStates;
+    }
     
     public void initializeCellWithState(Cell cell, int state) {
         cell.initializeWithState(state);

@@ -90,19 +90,19 @@ public class UIView {
 		stepSim.setText("Increment Simulation");
 		stepSim.setOnAction(event -> incrementSimulation());
 		gridPane.add(stepSim, 5, 4);
-		
+
 		Button randomizeConfig=new Button();
 		randomizeConfig.setText("Generate Random Configuration");
 		randomizeConfig.setOnAction(event -> randomizeGrid());
 		gridPane.add(randomizeConfig, 5, 5);
-
+		
 		configureSpeedSlider(speedSlider);
 		gridPane.add(speedSlider, 5, 6);
 
 		GridPane descriptionPane = new GridPane();
-		descriptionPane.add(simulationName, 0, 0);
+		descriptionPane.add(simulationName,0,0);
 		descriptionPane.add(authorName, 0, 1);
-
+	
 		root.setCenter(gridPane);
 		root.setBottom(descriptionPane);
 		root.setRight(specificParameters);
@@ -110,10 +110,10 @@ public class UIView {
 		return myScene;
 
 	}
-	
+
 	public void randomizeGrid()
 	{
-		try{
+		try {
 		RandomConfiguration randomizer=new RandomConfiguration();
 		myGrid.init(randomizer.populateGrid(myXMLReader.getCellArray(), null, myXMLReader.getNumberOfStates()), myXMLReader.getMyFileName()
 				, myXMLReader.populateParameterMap());
@@ -131,19 +131,19 @@ public class UIView {
 
 	public void selectSimulation(FileChooser simBrowser) {
 		File selectedFile = simBrowser.showOpenDialog(myScene.getWindow());
-		if (selectedFile != null) {
+			if (selectedFile != null) {
 			specificParameters.getChildren().clear();
-			animation.pause();
-			myGrid = new Grid();
+				animation.pause();
+				myGrid = new Grid();
 		
 			myXMLReader = new SimReader();
 			try{
-			myXMLReader.parseFile(selectedFile, myGrid);
-			simulationName.setText("Simulation Name: " + myXMLReader.getTitle());
-			authorName.setText("Simulation Author: " + myXMLReader.getAuthor());
-			
-			GridView gridView = new GridView(myGrid, grid.getBoundsInLocal());
-			gridPane.add(gridView, 0, 0, 4, 6);
+				myXMLReader.parseFile(selectedFile, myGrid);
+				simulationName.setText("Simulation Name: "+myXMLReader.getTitle());
+				authorName.setText("Simulation Author: " +myXMLReader.getAuthor());
+
+				TriangleView gridView = new TriangleView(myGrid, grid.getBoundsInLocal());	
+				gridPane.add(gridView, 0, 0, 4, 6);
 			
 				myGrid.step();
 				KeyFrame frame = new KeyFrame(Duration.millis(150), e -> myGrid.step());
@@ -154,8 +154,8 @@ public class UIView {
 			catch(NullPointerException | ParserConfigurationException | SAXException | IOException e)
 			{
 				displayInvalidSim();
-			}
-			
+	}
+
 			
 			
 		}
@@ -164,7 +164,7 @@ public class UIView {
 	{
 		int rowIndex=0;
 		for(String s: myXMLReader.populateParameterMap().keySet())
-		{
+	{
 			Text parameterName=new Text(s);
 			specificParameters.add(parameterName, 0, rowIndex);
 			 
@@ -184,7 +184,7 @@ public class UIView {
 			myGrid.step();
 		} catch (NullPointerException e) {
 			displayInvalidSim();
-		}
+	}
 	}
 
 	public void configureSpeedSlider(Slider slider) {
@@ -199,9 +199,9 @@ public class UIView {
 		slider.valueProperty().addListener(new ChangeListener<Number>() {
 			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
 				animation.setRate(new_val.doubleValue());
+                        
+            }
+	});
 
-			}
-		});
-
-	}
+}
 }
