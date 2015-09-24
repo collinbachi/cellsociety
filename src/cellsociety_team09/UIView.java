@@ -137,7 +137,13 @@ public class UIView {
 	}
 	public void displayParameterSliders()
 	{
-		
+		int rowIndex=0;
+		for(String s: myXMLReader.populateParameterMap().keySet())
+		{
+			Text parameterName=new Text(s);
+			specificParameters.add(parameterName, 0, rowIndex);
+			 
+		}
 	}
 	public void displayInvalidSim() {
 		Alert invalidSim = new Alert(AlertType.INFORMATION);
@@ -158,7 +164,7 @@ public class UIView {
 
 	public void configureSpeedSlider(Slider slider) {
 		slider.setMin(0);
-		slider.setMax(100);
+		slider.setMax(1);
 		slider.setValue(40);
 		slider.setShowTickLabels(true);
 		slider.setShowTickMarks(true);
@@ -167,7 +173,7 @@ public class UIView {
 		slider.setBlockIncrement(10);
 		slider.valueProperty().addListener(new ChangeListener<Number>() {
 			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
-				animation.setRate(new_val.doubleValue() / 100);
+				animation.setRate(new_val.doubleValue());
 
 			}
 		});
