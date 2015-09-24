@@ -93,9 +93,8 @@ public class Grid{
 
 	public void incrementState(int row, int col){
 		Cell c = myRows.get(row).get(col);
-		c.setMyNextState(mySim.getMyTotalStates() > c.getMyCurrentState()+1 ? c.getMyCurrentState()+1 : 0);
 		System.out.println(c.getMyCurrentState());
-		mySim.updateCell(c);
+		mySim.initializeCellWithState(c, mySim.getMyTotalStates() > c.getMyCurrentState()+1 ? c.getMyCurrentState()+1 : 0);
 		System.out.println(c.getMyCurrentState());
 		myGridView.updateCells();
 	}
