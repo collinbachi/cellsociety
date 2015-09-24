@@ -1,8 +1,9 @@
 package simulations;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
-import cells.Cell;
+import cells.*;
 import javafx.scene.paint.Paint;
 
 
@@ -52,6 +53,22 @@ public abstract class Simulation {
             }
         }
         return countNeighbors;
+    }
+
+    protected Cell getRandomNeighbor (Cell[] neighbors, int state) {
+        ArrayList<Cell> randomNeighbors = new ArrayList<>();
+        for (Cell cell : neighbors) {
+            if (cell != null && cell.getMyNextState() == state &&
+                cell.getMyCurrentState() == state) {
+                randomNeighbors.add(cell);
+            }
+        }
+        if (!randomNeighbors.isEmpty()) {
+            int randomNeighbor = randomNum(randomNeighbors.size());
+            return (Cell) randomNeighbors.get(randomNeighbor);
+        }
+        else
+            return null;
     }
 
     protected int randomNum (int bound) {

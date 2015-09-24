@@ -57,28 +57,12 @@ public class Segregation extends Simulation {
     }
 
     private void moveSegregationCell (Cell cell) {
-        SegregationCell randomBlankNeighbor = getRandomNeighbor(cell.getMyNeighbors(), BLANK);
+        Cell randomBlankNeighbor = getRandomNeighbor(cell.getMyNeighbors(), BLANK);
         if (randomBlankNeighbor != null) {
             randomBlankNeighbor.setMyNextState(cell.getMyCurrentState());
             cell.setMyNextState(BLANK);
         }
 
-    }
-
-    private SegregationCell getRandomNeighbor (Cell[] neighbors, int state) {
-        ArrayList<Cell> randomNeighbors = new ArrayList<>();
-        for (Cell cell : neighbors) {
-            if (cell != null && cell.getMyNextState() == state &&
-                cell.getMyCurrentState() == state) {
-                randomNeighbors.add(cell);
-            }
-        }
-        if (!randomNeighbors.isEmpty()) {
-            int randomNeighbor = randomNum(randomNeighbors.size());
-            return (SegregationCell) randomNeighbors.get(randomNeighbor);
-        }
-        else
-            return null;
     }
 
     @Override

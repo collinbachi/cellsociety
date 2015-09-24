@@ -34,31 +34,16 @@ public abstract class GridView extends Group{
 	}
 
 	private void init(){
-		this.getChildren().clear();
-		for(int i = 0; i < myGrid.getHeight(); i++){
-			ArrayList<Shape> row = new ArrayList<Shape>();
-			for(int j = 0; j < myGrid.getWidth(); j++){
-				Shape c = generateShape(i,j);
-				c.setFill(myGrid.getCell(i,j).getMyColor());
-				c.setOnMousePressed(new EventHandler<MouseEvent>() {
-   					public void handle(MouseEvent me) {
-        				System.out.println("Mouse pressed");
-    			}});
-
-				row.add(c);
-				this.getChildren().add(c);
-			}
-		}
+		updateCells();
 	}
 
 	public void updateCells(){
-		//if (true) return;
 		this.getChildren().clear();
 		for(int i = 0; i < myGrid.getHeight(); i++){
 			ArrayList<Shape> row = new ArrayList<Shape>();
 			for(int j = 0; j < myGrid.getWidth(); j++){
 				Shape c = generateShape(i,j);
-				c.setFill(myGrid.getCell(i,j).getMyColor());
+				c.setFill(myGrid.getCell(i,j).getMyPaint());
 				final int ii = i; // Because the nested class
 				final int jj = j; // wants a final int...
 				c.setOnMousePressed(new EventHandler<MouseEvent>() {
