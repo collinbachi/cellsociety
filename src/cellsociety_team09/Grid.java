@@ -13,12 +13,12 @@ import simulations.*;
  * @author D. Collin Bachi 
  */
 
-public class Grid{
-	private ArrayList<ArrayList<Cell>> myRows;
-	private Simulation mySim;
+public abstract class Grid{
+	protected ArrayList<ArrayList<Cell>> myRows;
+	protected Simulation mySim;
 
 	//remove this later
-	private GridView myGridView;
+	protected GridView myGridView;
 
 	public void init(int[][] rows, String sim, HashMap<String, Double> parameterMap){
         SimulationFactory simulationFactory = new SimulationFactory();
@@ -38,23 +38,9 @@ public class Grid{
 		initNeighbors();
 	}
 
-	private void initNeighbors(){
-        int[] xCoords = { -1, -1, -1, 0, 0, 1, 1, 1 };
-        int[] yCoords = { -1, 0, 1, -1, 1, -1, 0, 1 };
-		for (int i=0; i<myRows.size(); i++){
-			ArrayList<Cell> row = myRows.get(i);
-			for (int j=0; j<row.size(); j++){
-				Cell[] neighbors = new Cell[8];
-                for (int k = 0; k < xCoords.length; k++) {
-                    neighbors[k] = safeIndex(i + xCoords[k], j + yCoords[k]) ? myRows.get(i + xCoords[k]).get(j + yCoords[k]) : null;
-                            
-                }
-				myRows.get(i).get(j).setMyNeighbors(neighbors);
-			}
-		}
-	}
+	protected abstract void initNeighbors();
 
-	private boolean safeIndex(int i, int j){
+	protected boolean safeIndex(int i, int j){
 		try{
             myRows.get(i).get(j);
 			return true;
