@@ -162,26 +162,7 @@ public class UIView {
                 displayInvalidSim();}}
             }
 
-
 	
-	private void displayParameterSliders()
-	{
-		int rowIndex=0;
-		for(String s: myXMLReader.populateParameterMap().keySet())
-	{
-			Text parameterName=new Text(s);
-			specificParameters.add(parameterName, 0, rowIndex);
-			 
-		}
-	}
-	
-	
-
-            
-
-        
-    
-
     public void displayInvalidSim () {
         Alert invalidSim = new Alert(AlertType.INFORMATION);
         invalidSim.setTitle("Corrupted/Invalid XML File selected");
