@@ -21,7 +21,7 @@ public abstract class Grid{
 
 	//remove this later
 	protected GridView myGridView;
-	protected boolean isHex = true;
+	protected boolean isHex = false;
 
 	public void init(int[][] rows, String sim, Map<String, Double> parameterMap){
         SimulationFactory simulationFactory = new SimulationFactory();
