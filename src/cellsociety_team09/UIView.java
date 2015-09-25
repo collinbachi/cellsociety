@@ -142,7 +142,7 @@ public class UIView {
 				simulationName.setText("Simulation Name: "+myXMLReader.getTitle());
 				authorName.setText("Simulation Author: " +myXMLReader.getAuthor());
 
-				SquareView gridView = new SquareView(myGrid, grid.getBoundsInLocal());	
+				HexagonView gridView = new HexagonView(myGrid, grid.getBoundsInLocal());	
 				gridPane.add(gridView, 0, 0, 4, 6);
 			
 				myGrid.step();
