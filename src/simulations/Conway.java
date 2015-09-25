@@ -40,13 +40,7 @@ public class Conway extends Simulation {
             // cell remains unchanged
         }
     }
-
-    @Override
-    public void updateParameters () {
-        // TODO Auto-generated method stub
-
-    }
-
+    
     @Override
     public void setParameters (Map<String, Double> parameterMap) {
         // No parameters to update

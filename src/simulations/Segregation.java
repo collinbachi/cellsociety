@@ -64,12 +64,6 @@ public class Segregation extends Simulation {
     }
 
     @Override
-    public void updateParameters () {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
     public void setParameters (Map<String, Double> parameterMap) {
         mySimilarThreshold = parameterMap.get(SIMILAR_THRESHOLD);
     }

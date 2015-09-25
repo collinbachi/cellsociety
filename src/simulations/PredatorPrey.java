@@ -17,9 +17,8 @@ import javafx.scene.paint.Paint;
 public class PredatorPrey extends Simulation {
     public static final String ID = "PredatorPrey";
     private static final Paint[] COLORS = { Color.WHITE, Color.LIGHTGREEN, Color.DIMGREY };
-    private static final int[] VALID_NEIGHBORS = { 1, 3, 4, 6 };
     private static final int TOTAL_STATES = 3;
-    private static final int BLANK = 0;
+    private static final int EMPTY = 0;
     private static final int FISH = 1;
     private static final int SHARK = 2;
     private static final int SHARK_ENERGY = 3;
@@ -32,6 +31,7 @@ public class PredatorPrey extends Simulation {
     private int mySharkReproductionTime;
     private int myFishEnergy;
     private int myUnitEnergy;
+    private int[] myCardinalNeighbors = new int[4];
 
     public PredatorPrey () {
         super(TOTAL_STATES, COLORS);
@@ -47,6 +47,7 @@ public class PredatorPrey extends Simulation {
 
     @Override
     public void checkRules (Cell cell) {
+        myCardinalNeighbors = initializeCardinalNeighbors(cell.getMyNeighbors().length);
         if (isFish(cell)) {
             moveFish((PredatorPreyCell) cell);
         }
@@ -57,11 +58,11 @@ public class PredatorPrey extends Simulation {
 
     private void moveFish (PredatorPreyCell fish) {
         Cell[] totalNeighbors = fish.getMyNeighbors();
-        Cell[] neighbors = new PredatorPreyCell[VALID_NEIGHBORS.length];
+        Cell[] neighbors = new PredatorPreyCell[myCardinalNeighbors.length];
         for (int i = 0; i < neighbors.length; i++) {
-            neighbors[i] = totalNeighbors[VALID_NEIGHBORS[i]];
+            neighbors[i] = totalNeighbors[myCardinalNeighbors[i]];
         }
-        PredatorPreyCell randomBlankNeighbor = (PredatorPreyCell) getRandomNeighbor(neighbors, BLANK);
+        PredatorPreyCell randomBlankNeighbor = (PredatorPreyCell) getRandomNeighbor(neighbors, EMPTY);
         if (randomBlankNeighbor != null) {
             randomBlankNeighbor.setMyNextState(FISH);
             fishReproductionRules(fish);
@@ -77,31 +78,33 @@ public class PredatorPrey extends Simulation {
             fish.resetLives();
         }
         else {
-            fish.setMyNextState(BLANK);
+            fish.setMyNextState(EMPTY);
         }
     }
 
     private void sharkRules (PredatorPreyCell shark) {
+        shark.setMyEnergy(shark.getMyEnergy() - myUnitEnergy);
         if (!sharkIsDead(shark)) {
             shark.incrementLives();
-            shark.setMyEnergy(shark.getMyEnergy() - myUnitEnergy);
             moveShark(shark, shark.getMyNeighbors());
         }
         else {
             shark.resetLives();
-            shark.setMyNextState(BLANK);
+            shark.setMyEnergy(0);
+            shark.setMyNextState(EMPTY);
         }
     }
 
     private void moveShark (PredatorPreyCell shark, Cell[] neighbors) {
         PredatorPreyCell fishToEat = (PredatorPreyCell) getRandomNeighbor(neighbors, FISH);
-        PredatorPreyCell spaceToMove = (PredatorPreyCell) getRandomNeighbor(neighbors, BLANK);
+        PredatorPreyCell spaceToMove = (PredatorPreyCell) getRandomNeighbor(neighbors, EMPTY);
         if (fishToEat != null) {
             fishToEat.setMyNextState(SHARK);
             fishToEat.setMyEnergy(shark.getMyEnergy() + myFishEnergy);
             sharkReproductionRules(shark);
             fishToEat.setMyLives(shark.getMyLives());
             shark.resetLives();
+            shark.setMyEnergy(0);
         }
         else if (spaceToMove != null) {
             spaceToMove.setMyNextState(SHARK);
@@ -109,6 +112,7 @@ public class PredatorPrey extends Simulation {
             sharkReproductionRules(shark);
             spaceToMove.setMyLives(shark.getMyLives());
             shark.resetLives();
+            shark.setMyEnergy(0);
         }
         else {
             shark.setMyNextState(SHARK);
@@ -124,12 +128,8 @@ public class PredatorPrey extends Simulation {
             shark.setMyNextState(SHARK);
         }
         else {
-            shark.setMyNextState(BLANK);
+            shark.setMyNextState(EMPTY);
         }
-    }
-
-    @Override
-    public void updateParameters () {
     }
 
     @Override

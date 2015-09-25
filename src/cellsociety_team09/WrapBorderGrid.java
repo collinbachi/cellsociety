@@ -5,7 +5,7 @@ import java.util.HashMap;
 import cells.*;
 import simulations.*;
 
-public class NormalBorderGrid extends Grid{
+public class WrapBorderGrid extends Grid{
 
 	@Override
 	protected void initNeighbors(){
@@ -22,12 +22,20 @@ public class NormalBorderGrid extends Grid{
 			for (int j=0; j<row.size(); j++){
 				Cell[] neighbors = new Cell[xCoords.length];
                 for (int k = 0; k < xCoords.length; k++) {
-                    neighbors[k] = safeIndex(i + xCoords[k], j + yCoords[k]) ? myRows.get(i + xCoords[k]).get(j + yCoords[k]) : null;
+                    neighbors[k] = wrapIndex(i + xCoords[k], j + yCoords[k]);
                             
                 }
 				myRows.get(i).get(j).setMyNeighbors(neighbors);
 			}
 		}
+	}
+	
+	protected Cell wrapIndex(int i, int j){
+		if (i >= myRows.size()) i = 0;
+		if (i < 0) i = myRows.size()-1;
+		if (j >= myRows.get(i).size()) j = 0;
+		if (j < 0) j = myRows.get(i).size()-1;
+		return myRows.get(i).get(j);
 	}
 
 }
