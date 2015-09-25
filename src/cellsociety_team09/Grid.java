@@ -121,4 +121,9 @@ public class Grid{
 	public void setGridView(GridView g){
 		myGridView = g;
 	}
+	
+	public void setParameterMap(Map<String,Double> newParameterMap)
+	{
+	    mySim.setParameters(newParameterMap);
+	}
 }
