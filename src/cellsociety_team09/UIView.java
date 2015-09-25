@@ -1,34 +1,29 @@
 package cellsociety_team09;
 
+import java.awt.List;
 import java.io.File;
 import java.io.IOException;
-
 import javax.xml.parsers.ParserConfigurationException;
-
 import org.xml.sax.SAXException;
-
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.geometry.HPos;
-import javafx.geometry.Insets;
-import javafx.geometry.VPos;
-import javafx.scene.Group;
-import javafx.scene.Scene;
-import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.Slider;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Text;
-import javafx.stage.FileChooser;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
+import javafx.geometry.Insets;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.Slider;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Text;
+import javafx.stage.FileChooser;
+import javafx.scene.control.TextField;
 import javafx.util.Duration;
 import xmlManagement.RandomConfiguration;
 import xmlManagement.SimReader;
@@ -44,6 +39,7 @@ public class UIView {
 	private File xmlFileFolder = new File("XML");
 	private Grid myGrid;
 	private SimReader myXMLReader;
+	private SpecificParameters mySpecificParameters;
 	private GridPane gridPane;
 	private Rectangle grid;
 	private Timeline animation = new Timeline();
@@ -51,6 +47,7 @@ public class UIView {
 	private Text simulationName = new Text();
 	private Text authorName = new Text();
 	private GridPane specificParameters=new GridPane();
+	
 
 	public Scene init(int width, int height) {
 
@@ -133,10 +130,12 @@ public class UIView {
 		File selectedFile = simBrowser.showOpenDialog(myScene.getWindow());
 			if (selectedFile != null) {
 			specificParameters.getChildren().clear();
+			
 				animation.pause();
 				myGrid = new Grid();
 		
 			myXMLReader = new SimReader();
+			mySpecificParameters=new SpecificParameters();
 			try{
 				myXMLReader.parseFile(selectedFile, myGrid);
 				simulationName.setText("Simulation Name: "+myXMLReader.getTitle());
@@ -149,7 +148,7 @@ public class UIView {
 				KeyFrame frame = new KeyFrame(Duration.millis(150), e -> myGrid.step());
 				animation.setCycleCount(Timeline.INDEFINITE);
 				animation.getKeyFrames().add(frame);
-				displayParameterSliders(specificParameters);
+				mySpecificParameters.displayParameterFields(specificParameters, myXMLReader);
 			
 			}
 			catch(NullPointerException | ParserConfigurationException | SAXException | IOException e)
@@ -161,16 +160,7 @@ public class UIView {
 			
 		}
 	}
-	public void displayParameterSliders(GridPane specificParameters)
-	{
-		int rowIndex=0;
-		for(String s: myXMLReader.populateParameterMap().keySet())
-	{
-			Text parameterName=new Text(s);
-			specificParameters.add(parameterName, 0, rowIndex);
-			 
-		}
-	}
+	
 	public void displayInvalidSim() {
 		Alert invalidSim = new Alert(AlertType.INFORMATION);
 		invalidSim.setTitle("Corrupted/Invalid XML File selected");
