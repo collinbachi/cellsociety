@@ -16,6 +16,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
@@ -139,7 +140,7 @@ public class UIView {
             specificParameters.getChildren().clear();
 
             animation.pause();
-            myGrid = new NormalBorderGrid();
+            myGrid = new WrapBorderGrid();
 
             myXMLReader = new SimReader();
             mySpecificParameters = new SpecificParameters();
@@ -148,8 +149,12 @@ public class UIView {
                 simulationName.setText("Simulation Name: " + myXMLReader.getTitle());
                 authorName.setText("Simulation Author: " + myXMLReader.getAuthor());
 
-                HexagonView gridView = new HexagonView(myGrid, grid.getBoundsInLocal());
-                gridPane.add(gridView, 0, 0, 4, 8);
+                // IF YOU CHANGE THIS: also change the isHex boolean in grid!
+                SquareView gridView = new SquareView(myGrid, grid.getBoundsInLocal());
+                
+                ScrollPane sp = new ScrollPane();
+                sp.setContent(gridView);
+                gridPane.add(sp, 0, 0, 4, 8);
 
                 KeyFrame frame = new KeyFrame(Duration.millis(150), e -> myGrid.step());
                 animation.setCycleCount(Timeline.INDEFINITE);
