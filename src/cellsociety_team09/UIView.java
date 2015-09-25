@@ -139,7 +139,7 @@ public class UIView {
             specificParameters.getChildren().clear();
 
             animation.pause();
-            myGrid = new NormalBorderGrid();
+            myGrid = new WrapBorderGrid();
 
             myXMLReader = new SimReader();
             mySpecificParameters = new SpecificParameters();
@@ -148,6 +148,7 @@ public class UIView {
                 simulationName.setText("Simulation Name: " + myXMLReader.getTitle());
                 authorName.setText("Simulation Author: " + myXMLReader.getAuthor());
 
+                // IF YOU CHANGE THIS: also change the isHex boolean in grid!
                 SquareView gridView = new SquareView(myGrid, grid.getBoundsInLocal());
                 gridPane.add(gridView, 0, 0, 4, 8);
 
@@ -161,33 +162,6 @@ public class UIView {
                     | IOException e) {
                 displayInvalidSim();}}
             }
-
-	public void selectSimulation(FileChooser simBrowser) {
-		File selectedFile = simBrowser.showOpenDialog(myScene.getWindow());
-			if (selectedFile != null) {
-			specificParameters.getChildren().clear();
-				animation.pause();
-				myGrid = new NormalBorderGrid();
-		
-			myXMLReader = new SimReader();
-			try{
-				myXMLReader.parseFile(selectedFile, myGrid);
-				simulationName.setText("Simulation Name: "+myXMLReader.getTitle());
-				authorName.setText("Simulation Author: " +myXMLReader.getAuthor());
-
-				HexagonView gridView = new HexagonView(myGrid, grid.getBoundsInLocal());	
-				gridPane.add(gridView, 0, 0, 4, 6);
-			
-				myGrid.step();
-				KeyFrame frame = new KeyFrame(Duration.millis(150), e -> myGrid.step());
-				animation.setCycleCount(Timeline.INDEFINITE);
-				animation.getKeyFrames().add(frame);
-			
-			}
-			catch(NullPointerException | ParserConfigurationException | SAXException | IOException e)
-			{
-				displayInvalidSim();
-	}
 	
 	private void displayParameterSliders()
 	{
