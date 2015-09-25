@@ -16,8 +16,8 @@ public class ForagingAnts extends Simulation {
     public static final int HIGH_PHEROMONES = 3;
     public static final int ANT = 4;
     private static final Paint[] COLORS =
-            { Color.WHITE, Color.color(255, 168, 168), Color.color(255, 20, 20),
-              Color.color(141, 0, 0), Color.BLACK };
+            { Color.WHITE, Color.color(255/255, 168/255, 168/255), Color.color(255/255, 20/255, 20/255),
+              Color.color(141/255, 0/255, 0/255), Color.BLACK };
     public static final String ANT_LIFE = "ANT_LIFE";
     public static final String MAX_ANTS = "MAX_ANTS";
     public static final String ANTS_BORN_PER_TIME = "ANTS_BORN_PER_TIME";
@@ -30,15 +30,15 @@ public class ForagingAnts extends Simulation {
     public static final int CONSTANT = 2;
 
     // For Jasper to add to XML
-    private int myAntLife = 500;
-    private int myMaxAnts = 10;
-    private int myAntsBornPerTime = 2;
-    private int myMinPheromones = 0;
-    private int myMaxPheromones = 1000;
-    private double myEvaporationRatio = .1;
-    private double myDiffusionRatio = .1;
-    private double myK = .001;
-    private double myN = 10;
+    private int myAntLife;
+    private int myMaxAnts;
+    private int myAntsBornPerTime;
+    private int myMinPheromones;
+    private int myMaxPheromones;
+    private double myEvaporationRatio;
+    private double myDiffusionRatio;
+    private double myK;
+    private double myN;
 
     public ForagingAnts () {
         super(TOTAL_STATES, COLORS);
