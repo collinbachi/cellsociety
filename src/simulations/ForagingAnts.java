@@ -9,7 +9,7 @@ import javafx.scene.paint.Paint;
 
 
 public class ForagingAnts extends Simulation {
-    public static final int TOTAL_STATES = 2;
+    public static final int TOTAL_STATES = 5;
     public static final int BLANK = 0;
     public static final int LOW_PHEROMONES = 1;
     public static final int MEDIUM_PHEROMONES = 2;
@@ -85,13 +85,7 @@ public class ForagingAnts extends Simulation {
         cell.setMyFoodItem(false);
         cell.decrementMyNumberOfAnts();
     }
-
-    @Override
-    public void updateParameters () {
-        // TODO Auto-generated method stub
-
-    }
-
+    
     @Override
     public void setParameters (Map<String, Double> parameterMap) {
         myAntLife = parameterMap.get(ANT_LIFE).intValue();
