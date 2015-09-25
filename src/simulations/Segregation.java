@@ -1,9 +1,7 @@
 package simulations;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Map;
 import cells.Cell;
-import cells.SegregationCell;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 
@@ -66,13 +64,7 @@ public class Segregation extends Simulation {
     }
 
     @Override
-    public void updateParameters () {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public void setParameters (HashMap<String, Double> parameterMap) {
+    public void setParameters (Map<String, Double> parameterMap) {
         mySimilarThreshold = parameterMap.get(SIMILAR_THRESHOLD);
     }
 

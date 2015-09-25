@@ -1,9 +1,9 @@
 package simulations;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
-import cells.*;
+import cells.Cell;
 import javafx.scene.paint.Paint;
 
 
@@ -26,7 +26,7 @@ public abstract class Simulation {
 
     public abstract void checkRules (Cell cell);
     
-    public abstract void setParameters(HashMap<String, Double> parameterMap);
+    public abstract void setParameters(Map<String, Double> parameterMap);
 
     public int getMyTotalStates(){
         return myTotalStates;
@@ -70,11 +70,21 @@ public abstract class Simulation {
         else
             return null;
     }
+    
+    protected int[] initializeCardinalNeighbors(int length) {
+        if (length == 8) {
+            int[] cardinalNeighbors = { 1, 3, 4, 6 };
+            return cardinalNeighbors;
+        }
+        else if (length == 6) {
+            int[] cardinalNeighbors = { 1, 2, 4, 5 };
+            return cardinalNeighbors;
+        }
+        return null;
+    }
 
     protected int randomNum (int bound) {
         Random rand = new Random();
         return rand.nextInt(bound);
     }
-
-    public abstract void updateParameters ();
 }

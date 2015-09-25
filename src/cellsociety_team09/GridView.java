@@ -17,6 +17,7 @@ import javafx.event.EventHandler;
  */
 
 
+
 public abstract class GridView extends Group{
 	protected Grid myGrid;
 	protected Bounds myBounds;

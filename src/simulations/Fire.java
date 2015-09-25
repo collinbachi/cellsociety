@@ -1,6 +1,6 @@
 package simulations;
 
-import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 import cells.Cell;
 import javafx.scene.paint.Color;
@@ -21,17 +21,20 @@ public class Fire extends Simulation {
     private static final int EMPTY = 0;
     private static final int TREE = 1;
     private static final int BURNING = 2;
-    private static final int[] VALID_NEIGHBORS = { 1, 3, 4, 6 };
     public static final String PROB_CATCH = "PROB_CATCH";
 
     private double myProbCatch;
+    private int[] myCardinalNeighbors = new int[4];
 
     public Fire () {
         super(TOTAL_STATES, COLORS);
     }
     
+    
+    
     @Override
     public void checkRules (Cell cell) {
+        myCardinalNeighbors = initializeCardinalNeighbors(cell.getMyNeighbors().length);
         if (isBurning(cell)) {
             burnDown(cell);
         }
@@ -54,7 +57,7 @@ public class Fire extends Simulation {
     }
 
     private void mayCatchFire (Cell cell) {
-        for (int i : VALID_NEIGHBORS) {
+        for (int i : myCardinalNeighbors) {
             if (cell.getMyNeighbors()[i] != null) {
                 int neighborState = cell.getMyNeighbors()[i].getMyCurrentState();
                 if (neighborState == BURNING && randomDouble() < myProbCatch) {
@@ -70,13 +73,7 @@ public class Fire extends Simulation {
     }
 
     @Override
-    public void updateParameters () {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public void setParameters (HashMap<String, Double> parameterMap) {
+    public void setParameters (Map<String, Double> parameterMap) {
         myProbCatch = parameterMap.get(PROB_CATCH);
     }
 

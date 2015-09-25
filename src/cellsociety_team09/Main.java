@@ -19,7 +19,7 @@ public class Main extends Application {
     @Override
     public void start (Stage s) {
         myUIView = new UIView();
-        Scene scene = myUIView.init(800, 600);
+        Scene scene = myUIView.init(1000, 600);
         s.setScene(scene);
         s.setTitle("Celluar Automaton Simulator");
         s.show();

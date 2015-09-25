@@ -1,6 +1,6 @@
 package simulations;
 
-import java.util.HashMap;
+import java.util.Map;
 import cells.Cell;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
@@ -40,15 +40,9 @@ public class Conway extends Simulation {
             // cell remains unchanged
         }
     }
-
+    
     @Override
-    public void updateParameters () {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public void setParameters (HashMap<String, Double> parameterMap) {
+    public void setParameters (Map<String, Double> parameterMap) {
         // No parameters to update
     }
 
