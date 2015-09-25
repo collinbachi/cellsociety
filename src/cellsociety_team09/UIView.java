@@ -139,7 +139,7 @@ public class UIView {
             specificParameters.getChildren().clear();
 
             animation.pause();
-            myGrid = new Grid();
+            myGrid = new NormalBorderGrid();
 
             myXMLReader = new SimReader();
             mySpecificParameters = new SpecificParameters();
@@ -159,11 +159,28 @@ public class UIView {
             }
             catch (NullPointerException | ParserConfigurationException | SAXException
                     | IOException e) {
-                displayInvalidSim();
+                displayInvalidSim();}}
             }
 
-        }
-    }
+
+	
+	private void displayParameterSliders()
+	{
+		int rowIndex=0;
+		for(String s: myXMLReader.populateParameterMap().keySet())
+	{
+			Text parameterName=new Text(s);
+			specificParameters.add(parameterName, 0, rowIndex);
+			 
+		}
+	}
+	
+	
+
+            
+
+        
+    
 
     public void displayInvalidSim () {
         Alert invalidSim = new Alert(AlertType.INFORMATION);
