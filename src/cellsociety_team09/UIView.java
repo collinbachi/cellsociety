@@ -134,7 +134,7 @@ public class UIView {
 			if (selectedFile != null) {
 			specificParameters.getChildren().clear();
 				animation.pause();
-				myGrid = new Grid();
+				myGrid = new NormalBorderGrid();
 		
 			myXMLReader = new SimReader();
 			try{
