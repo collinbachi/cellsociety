@@ -132,13 +132,6 @@ public class PredatorPrey extends Simulation {
     }
 
     @Override
-<<<<<<< HEAD
-=======
-    public void updateParameters () {
-    }
-
-    @Override
->>>>>>> 87571b78f1cfe2485bc06d0c5692ca6fe7e45b8a
     public void setParameters (Map<String, Double> parameterMap) {
         myFishReproductionTime = parameterMap.get(FISH_REPRODUCTION_TIME).intValue();
         mySharkReproductionTime = parameterMap.get(SHARK_REPRODUCTION_TIME).intValue();
