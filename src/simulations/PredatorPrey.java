@@ -17,7 +17,6 @@ import javafx.scene.paint.Paint;
 public class PredatorPrey extends Simulation {
     public static final String ID = "PredatorPrey";
     private static final Paint[] COLORS = { Color.WHITE, Color.LIGHTGREEN, Color.DIMGREY };
-    private static final int[] VALID_NEIGHBORS = { 1, 3, 4, 6 };
     private static final int TOTAL_STATES = 3;
     private static final int EMPTY = 0;
     private static final int FISH = 1;
@@ -32,6 +31,7 @@ public class PredatorPrey extends Simulation {
     private int mySharkReproductionTime;
     private int myFishEnergy;
     private int myUnitEnergy;
+    private int[] myCardinalNeighbors = new int[4];
 
     public PredatorPrey () {
         super(TOTAL_STATES, COLORS);
@@ -47,6 +47,7 @@ public class PredatorPrey extends Simulation {
 
     @Override
     public void checkRules (Cell cell) {
+        myCardinalNeighbors = initializeCardinalNeighbors(cell.getMyNeighbors().length);
         if (isFish(cell)) {
             moveFish((PredatorPreyCell) cell);
         }
@@ -57,9 +58,9 @@ public class PredatorPrey extends Simulation {
 
     private void moveFish (PredatorPreyCell fish) {
         Cell[] totalNeighbors = fish.getMyNeighbors();
-        Cell[] neighbors = new PredatorPreyCell[VALID_NEIGHBORS.length];
+        Cell[] neighbors = new PredatorPreyCell[myCardinalNeighbors.length];
         for (int i = 0; i < neighbors.length; i++) {
-            neighbors[i] = totalNeighbors[VALID_NEIGHBORS[i]];
+            neighbors[i] = totalNeighbors[myCardinalNeighbors[i]];
         }
         PredatorPreyCell randomBlankNeighbor = (PredatorPreyCell) getRandomNeighbor(neighbors, EMPTY);
         if (randomBlankNeighbor != null) {

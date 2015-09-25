@@ -70,6 +70,18 @@ public abstract class Simulation {
         else
             return null;
     }
+    
+    protected int[] initializeCardinalNeighbors(int length) {
+        if (length == 8) {
+            int[] cardinalNeighbors = { 1, 3, 4, 6 };
+            return cardinalNeighbors;
+        }
+        else if (length == 6) {
+            int[] cardinalNeighbors = { 1, 2, 4, 5 };
+            return cardinalNeighbors;
+        }
+        return null;
+    }
 
     protected int randomNum (int bound) {
         Random rand = new Random();
