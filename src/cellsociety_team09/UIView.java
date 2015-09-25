@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.IOException;
 import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
+import configurations.RandomConfiguration;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.beans.value.ChangeListener;
@@ -25,7 +26,6 @@ import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.scene.control.TextField;
 import javafx.util.Duration;
-import xmlManagement.RandomConfiguration;
 import xmlManagement.SimReader;
 
 

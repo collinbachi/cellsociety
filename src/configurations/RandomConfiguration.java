@@ -1,4 +1,4 @@
-package xmlManagement;
+package configurations;
 
 import java.util.concurrent.ThreadLocalRandom;
 
