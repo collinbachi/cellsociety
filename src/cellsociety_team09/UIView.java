@@ -16,6 +16,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
@@ -150,7 +151,10 @@ public class UIView {
 
                 // IF YOU CHANGE THIS: also change the isHex boolean in grid!
                 SquareView gridView = new SquareView(myGrid, grid.getBoundsInLocal());
-                gridPane.add(gridView, 0, 0, 4, 8);
+                
+                ScrollPane sp = new ScrollPane();
+                sp.setContent(gridView);
+                gridPane.add(sp, 0, 0, 4, 8);
 
                 KeyFrame frame = new KeyFrame(Duration.millis(150), e -> myGrid.step());
                 animation.setCycleCount(Timeline.INDEFINITE);
