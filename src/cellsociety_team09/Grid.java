@@ -19,6 +19,7 @@ public abstract class Grid{
 
 	//remove this later
 	protected GridView myGridView;
+	protected boolean isHex = true;
 
 	public void init(int[][] rows, String sim, HashMap<String, Double> parameterMap){
         SimulationFactory simulationFactory = new SimulationFactory();
