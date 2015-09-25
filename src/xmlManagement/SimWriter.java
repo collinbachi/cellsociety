@@ -1,6 +1,9 @@
 package xmlManagement;
 
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.ThreadLocalRandom;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -9,8 +12,6 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-import java.util.HashMap;
-import java.util.concurrent.ThreadLocalRandom;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import simulations.Simulation;
@@ -31,7 +32,7 @@ public abstract class SimWriter {
     protected final int myGridHeight;
     protected final int myGridWidth;
     protected final int myPossibleStates;
-    protected final HashMap<String, Double> parameterMap = new HashMap<String, Double>();
+    protected final Map<String, Double> parameterMap = new HashMap<String, Double>();
     protected Simulation specificParameterNames;
 
     // TODO Abstract createParameterMap
@@ -145,7 +146,7 @@ public abstract class SimWriter {
         sim.appendChild(cells);
     }
 
-    public HashMap<String, Double> getParameterMap() {
+    public Map<String, Double> getParameterMap() {
 		return parameterMap;
 	}
 

@@ -108,7 +108,7 @@ public class UIView {
 
 	}
 
-	public void randomizeGrid()
+	private void randomizeGrid()
 	{
 		try {
 		RandomConfiguration randomizer=new RandomConfiguration();
@@ -126,7 +126,7 @@ public class UIView {
 		
 	}
 
-	public void selectSimulation(FileChooser simBrowser) {
+	private void selectSimulation(FileChooser simBrowser) {
 		File selectedFile = simBrowser.showOpenDialog(myScene.getWindow());
 			if (selectedFile != null) {
 			specificParameters.getChildren().clear();
@@ -160,7 +160,7 @@ public class UIView {
 			
 		}
 	}
-	
+
 	public void displayInvalidSim() {
 		Alert invalidSim = new Alert(AlertType.INFORMATION);
 		invalidSim.setTitle("Corrupted/Invalid XML File selected");
@@ -170,7 +170,7 @@ public class UIView {
 		invalidSim.show();
 	}
 
-	public void incrementSimulation() {
+	private void incrementSimulation() {
 		try {
 			myGrid.step();
 		} catch (NullPointerException e) {
@@ -178,7 +178,7 @@ public class UIView {
 	}
 	}
 
-	public void configureSpeedSlider(Slider slider) {
+	private void configureSpeedSlider(Slider slider) {
 		slider.setMin(0);
 		slider.setMax(1);
 		slider.setValue(40);

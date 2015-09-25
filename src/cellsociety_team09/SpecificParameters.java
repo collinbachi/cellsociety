@@ -2,15 +2,18 @@ package cellsociety_team09;
 
 import java.awt.List;
 import java.util.ArrayList;
+import java.util.HashMap;
 import javax.swing.GroupLayout.Alignment;
 import javafx.geometry.HPos;
 import javafx.geometry.Pos;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import xmlManagement.SimReader;
 
 public class SpecificParameters {
     ArrayList<TextField> fieldList=new ArrayList<TextField>();
+    Button setParameters=new Button("Change Simluation Parameters");
     public void displayParameterFields(GridPane specificParameters,SimReader myXMLReader)
     {
             int rowIndex=2;
@@ -25,7 +28,13 @@ public class SpecificParameters {
                    fieldList.add(inputField);
                     rowIndex++;                      
             }
+            
             specificParameters.setAlignment(Pos.CENTER_LEFT);
+    }
+    
+    public void changeParameters(HashMap<String,Double> parameterMap)
+    {
+        
     }
     
 }
