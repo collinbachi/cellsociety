@@ -70,12 +70,6 @@ public class Fire extends Simulation {
     }
 
     @Override
-    public void updateParameters () {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
     public void setParameters (Map<String, Double> parameterMap) {
         myProbCatch = parameterMap.get(PROB_CATCH);
     }

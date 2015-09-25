@@ -19,7 +19,7 @@ public class PredatorPrey extends Simulation {
     private static final Paint[] COLORS = { Color.WHITE, Color.LIGHTGREEN, Color.DIMGREY };
     private static final int[] VALID_NEIGHBORS = { 1, 3, 4, 6 };
     private static final int TOTAL_STATES = 3;
-    private static final int BLANK = 0;
+    private static final int EMPTY = 0;
     private static final int FISH = 1;
     private static final int SHARK = 2;
     private static final int SHARK_ENERGY = 3;
@@ -61,7 +61,7 @@ public class PredatorPrey extends Simulation {
         for (int i = 0; i < neighbors.length; i++) {
             neighbors[i] = totalNeighbors[VALID_NEIGHBORS[i]];
         }
-        PredatorPreyCell randomBlankNeighbor = (PredatorPreyCell) getRandomNeighbor(neighbors, BLANK);
+        PredatorPreyCell randomBlankNeighbor = (PredatorPreyCell) getRandomNeighbor(neighbors, EMPTY);
         if (randomBlankNeighbor != null) {
             randomBlankNeighbor.setMyNextState(FISH);
             fishReproductionRules(fish);
@@ -77,7 +77,7 @@ public class PredatorPrey extends Simulation {
             fish.resetLives();
         }
         else {
-            fish.setMyNextState(BLANK);
+            fish.setMyNextState(EMPTY);
         }
     }
 
@@ -90,13 +90,13 @@ public class PredatorPrey extends Simulation {
         else {
             shark.resetLives();
             shark.setMyEnergy(0);
-            shark.setMyNextState(BLANK);
+            shark.setMyNextState(EMPTY);
         }
     }
 
     private void moveShark (PredatorPreyCell shark, Cell[] neighbors) {
         PredatorPreyCell fishToEat = (PredatorPreyCell) getRandomNeighbor(neighbors, FISH);
-        PredatorPreyCell spaceToMove = (PredatorPreyCell) getRandomNeighbor(neighbors, BLANK);
+        PredatorPreyCell spaceToMove = (PredatorPreyCell) getRandomNeighbor(neighbors, EMPTY);
         if (fishToEat != null) {
             fishToEat.setMyNextState(SHARK);
             fishToEat.setMyEnergy(shark.getMyEnergy() + myFishEnergy);
@@ -127,12 +127,8 @@ public class PredatorPrey extends Simulation {
             shark.setMyNextState(SHARK);
         }
         else {
-            shark.setMyNextState(BLANK);
+            shark.setMyNextState(EMPTY);
         }
-    }
-
-    @Override
-    public void updateParameters () {
     }
 
     @Override

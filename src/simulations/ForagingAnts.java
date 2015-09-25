@@ -87,12 +87,6 @@ public class ForagingAnts extends Simulation {
     }
 
     @Override
-    public void updateParameters () {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
     public void setParameters (Map<String, Double> parameterMap) {
         myAntLife = parameterMap.get(ANT_LIFE).intValue();
         myMaxAnts = parameterMap.get(MAX_ANTS).intValue();

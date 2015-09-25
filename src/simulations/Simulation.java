@@ -75,6 +75,4 @@ public abstract class Simulation {
         Random rand = new Random();
         return rand.nextInt(bound);
     }
-
-    public abstract void updateParameters ();
 }
