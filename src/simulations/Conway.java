@@ -42,6 +42,15 @@ public class Conway extends Simulation {
     }
 
     @Override
+<<<<<<< HEAD
+=======
+    public void updateParameters () {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+>>>>>>> 87571b78f1cfe2485bc06d0c5692ca6fe7e45b8a
     public void setParameters (Map<String, Double> parameterMap) {
         // No parameters to update
     }
