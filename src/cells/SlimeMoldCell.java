@@ -1,9 +1,15 @@
 package cells;
 
-public class SlimeMoldCell extends Cell {
+import java.util.List;
+
+public class SlimeMoldCell extends CellWithPatch {
     
     private double myCampAmount;
     
+    public List<Integer> getMyForwardLocations () {
+        return myForwardLocations;
+    }
+
     public double getMyCampAmount () {
         return myCampAmount;
     }
@@ -14,6 +20,7 @@ public class SlimeMoldCell extends Cell {
 
     public SlimeMoldCell() {
         myCampAmount = 0;
+        updateForwardLocations(myOrientation);
     }
     
     public void addToCamp (double amountToAdd) {

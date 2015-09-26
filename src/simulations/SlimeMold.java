@@ -1,5 +1,6 @@
 package simulations;
 
+import java.util.List;
 import java.util.Map;
 import cells.Cell;
 import cells.SlimeMoldCell;
@@ -40,30 +41,101 @@ public class SlimeMold extends Simulation {
     @Override
     public void checkRules (Cell cell) {
         if (cell.checkMyCurrentState(AMOEBE)) {
-            findNextCell((SlimeMoldCell) cell);
-            moveToCell();
+            int locationToMove = orientToMostCamp((SlimeMoldCell) cell);
+            wiggleCell((SlimeMoldCell) cell, locationToMove);
             dropCamp((SlimeMoldCell) cell);
         }
-        else if (cell.getMyCurrentState() > AMOEBE) {
+        if (((SlimeMoldCell) cell).getMyCampAmount() > 0) {
             diffuseCamp((SlimeMoldCell) cell);
             evaporateCamp((SlimeMoldCell) cell);
         }
+        if (cell.getMyNextState() != AMOEBE) {
+            setNextCampState((SlimeMoldCell) cell);
+        }
     }
     
-    private void findNextCell (SlimeMoldCell slime) {
-        // Use sniff
+    private void setForwardNeighbors(SlimeMoldCell slime) {
+        int orientation = slime.getMyOrientation();
+        int posOrNeg = 1;
+        if (mySniffAngle < 0) posOrNeg = -1;
+        if (mySniffAngle % 180 < 45) {
+            slime.updateForwardLocations(orientation + posOrNeg * 1);
+        }
+        else if (mySniffAngle % 180 < 90) {
+            slime.updateForwardLocations(orientation + posOrNeg * 2);
+        }
+        else if (mySniffAngle % 180 < 135) {
+            slime.updateForwardLocations(orientation + posOrNeg * 3);
+        }
     }
     
-    private void moveToCell () {
-        // With wiggle
+    private void wiggleCell (SlimeMoldCell slime, int locationToMove) {
+        if (locationToMove > 0) {
+            int posOrNeg = 1;
+            if (myWiggleAngle < 0) posOrNeg = -1;
+            if (myWiggleAngle % 180 < 45) {
+                locationToMove += posOrNeg * 1 * myWiggleBias;
+            }
+            else if (myWiggleAngle % 180 < 90) {
+                locationToMove += posOrNeg * 2 * myWiggleBias;
+            }
+            else if (myWiggleAngle % 180 < 135) {
+                locationToMove += posOrNeg * 3 * myWiggleBias;
+            }
+            locationToMove = slime.wrapAroundNeighbors(locationToMove);
+        }
+        move(slime, locationToMove);
+    }
+    
+    private int orientToMostCamp (SlimeMoldCell slime) {
+        setForwardNeighbors(slime);
+        SlimeMoldCell[] neighbors = (SlimeMoldCell[]) slime.getMyNeighbors();
+        List<Integer> forwardView = slime.getMyForwardLocations();
+        int location = -1;
+        for (int i : forwardView) {
+            if (neighbors[i] == null) {
+                forwardView.remove(i);
+            }
+        }
+        if (!forwardView.isEmpty()) {
+            int max = 0;
+            for (int i : forwardView) {
+                if (neighbors[i].getMyCampAmount() > max && neighbors[i].getMyCampAmount() > mySniffThreshold) {
+                    location = i;
+                }
+            }
+        }
+        return location;
+    }
+    
+    private void move(SlimeMoldCell slime, int locationToMove) {
+        if (locationToMove > 0) {
+            SlimeMoldCell newSlime = (SlimeMoldCell) slime.getMyNeighbors()[locationToMove];
+            newSlime.setMyNextState(AMOEBE);
+            setNextCampState(slime);
+        }
+    }
+    
+    private void setNextCampState (SlimeMoldCell cell) {
+        int state = EMPTY;
+        if (cell.getMyCampAmount() < 50) {
+            state = LOW_CAMP;
+        }
+        else if (cell.getMyCampAmount() < 150) {
+            state = MEDIUM_CAMP;
+        }
+        else if (cell.getMyCampAmount() < 300) {
+            state = HIGH_CAMP;
+        }
+        cell.setMyNextState(state);
     }
     
     private void dropCamp (SlimeMoldCell patch) {
-        patch.ad
+        patch.addToCamp (myCampDrop);
     }
     
     private void evaporateCamp(SlimeMoldCell patch) {
-        patch.setMyCampAmount(-patch.getMyCampAmount()*myDiffusionRate);
+        patch.setMyCampAmount(-patch.getMyCampAmount()*myEvaporationRate);
     }
     
     private void diffuseCamp(SlimeMoldCell patch) {

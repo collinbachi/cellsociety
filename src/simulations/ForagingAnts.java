@@ -10,7 +10,7 @@ import javafx.scene.paint.Paint;
 
 public class ForagingAnts extends Simulation {
     public static final int TOTAL_STATES = 5;
-    public static final int BLANK = 0;
+    public static final int EMPTY = 0;
     public static final int LOW_PHEROMONES = 1;
     public static final int MEDIUM_PHEROMONES = 2;
     public static final int HIGH_PHEROMONES = 3;
@@ -61,13 +61,13 @@ public class ForagingAnts extends Simulation {
         setNextState((ForagingAntsCell) cell);
     }
 
-    public void setNextState (ForagingAntsCell cell) {
-        int state = BLANK;
+    private void setNextState (ForagingAntsCell cell) {
+        int state = EMPTY;
         if (cell.getMyNumberOfAnts() > 0) {
             state = ANT;
         }
         else if (cell.getTotalPheromones() == 0) {
-            state = BLANK;
+            state = EMPTY;
         }
         else if (cell.getTotalPheromones() <= myMaxPheromones/3) {
             state = LOW_PHEROMONES;
@@ -118,7 +118,7 @@ public class ForagingAnts extends Simulation {
 
     private void returnToNest (ForagingAntsCell ant) {
         if (atFoodSource(ant)) {
-            ant.setMyOrientation(setOrientationNest(ant));
+            ant.updateForwardLocations(setOrientationNest(ant));
         }
         int locationToMove =
                 selectLocationNest((ForagingAntsCell[]) ant.getMyNeighbors(),
@@ -130,7 +130,7 @@ public class ForagingAnts extends Simulation {
         }
         if (locationToMove != -1) {
             dropFoodPheromones(ant);
-            ant.setMyOrientation(locationToMove);
+            ant.updateForwardLocations(locationToMove);
             ForagingAntsCell neighborToMoveTo =
                     (ForagingAntsCell) ant.getMyNeighbors()[locationToMove];
             neighborToMoveTo.incrementMyNumberOfAnts();
@@ -143,7 +143,7 @@ public class ForagingAnts extends Simulation {
 
     private void findFoodSource (ForagingAntsCell ant) {
         if (atNest(ant)) {
-            ant.setMyOrientation(setOrientationFood(ant));
+            ant.updateForwardLocations(setOrientationFood(ant));
         }
         int locationToMove =
                 selectLocationFood((ForagingAntsCell[]) ant.getMyNeighbors(),
@@ -155,7 +155,7 @@ public class ForagingAnts extends Simulation {
         }
         if (locationToMove != -1) {
             dropHomePheromones(ant);
-            ant.setMyOrientation(locationToMove);
+            ant.updateForwardLocations(locationToMove);
             ForagingAntsCell neighborToMoveTo =
                     (ForagingAntsCell) ant.getMyNeighbors()[locationToMove];
             neighborToMoveTo.incrementMyNumberOfAnts();
@@ -197,7 +197,7 @@ public class ForagingAnts extends Simulation {
     private int selectLocationNest (ForagingAntsCell[] neighbors, List<Integer> locationSet) {
         int location = -1;
         for (int i : locationSet) {
-            if (neighbors[i] != null)
+            if (neighbors[i] == null)
                 locationSet.remove(i);
             if (neighbors[i].isAnObstacle() || neighbors[i].getMyNumberOfAnts() >= myMaxAnts) {
                 locationSet.remove(i);

@@ -1,6 +1,7 @@
 package cellsociety_team09;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import cells.Cell;
 import cells.CellFactory;
@@ -16,7 +17,7 @@ import simulations.SimulationFactory;
  */
 
 public abstract class Grid{
-	protected ArrayList<ArrayList<Cell>> myRows;
+	protected List<ArrayList<Cell>> myRows;
 	protected Simulation mySim;
 
 	//remove this later
@@ -75,16 +76,7 @@ public abstract class Grid{
 	}
 
 	public void step(){
-		for (ArrayList<Cell> row : myRows){
-			for (Cell c : row){
-				mySim.checkRules(c);
-			}
-		}
-		for (ArrayList<Cell> row : myRows){
-			for (Cell c : row){
-				mySim.updateCell(c);
-			}
-		}
+		mySim.update(myRows);
 
 		if (myGridView!=null){
 			myGridView.updateCells();
