@@ -14,7 +14,7 @@ public abstract class Cell {
     protected int myCurrentState;
     protected int myNextState;
     private Paint myPaint;
-    private Cell[] myNeighbors;
+    protected Cell[] myNeighbors;
     
     public abstract void initializeWithState(int state);
 
