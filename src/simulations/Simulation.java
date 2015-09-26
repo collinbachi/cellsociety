@@ -1,6 +1,7 @@
 package simulations;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import cells.Cell;
@@ -24,20 +25,33 @@ public abstract class Simulation {
         myPaints = paints;
     }
 
-    public abstract void checkRules (Cell cell);
-    
-    public abstract void setParameters(Map<String, Double> parameterMap);
+    public void update (List<ArrayList<Cell>> rows) {
+        for (List<Cell> row : rows) {
+            for (Cell c : row) {
+                checkRules(c);
+            }
+        }
+        for (List<Cell> row : rows) {
+            for (Cell c : row) {
+                updateCell(c);
+            }
+        }
+    }
 
-    public int getMyTotalStates(){
+    protected abstract void checkRules (Cell cell);
+
+    public abstract void setParameters (Map<String, Double> parameterMap);
+
+    public int getMyTotalStates () {
         return myTotalStates;
     }
-    
-    public void initializeCellWithState(Cell cell, int state) {
+
+    public void initializeCellWithState (Cell cell, int state) {
         cell.initializeWithState(state);
         updateCell(cell);
     }
 
-    public void updateCell (Cell cell) {
+    protected void updateCell (Cell cell) {
         cell.updateCurrentState();
         cell.setmyPaint(myPaints[cell.getMyCurrentState()]);
     }
@@ -70,8 +84,8 @@ public abstract class Simulation {
         else
             return null;
     }
-    
-    protected int[] initializeCardinalNeighbors(int length) {
+
+    protected int[] initializeCardinalNeighbors (int length) {
         if (length == 8) {
             int[] cardinalNeighbors = { 1, 3, 4, 6 };
             return cardinalNeighbors;
