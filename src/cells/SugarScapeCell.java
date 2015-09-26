@@ -2,7 +2,6 @@ package cells;
 
 public abstract class SugarScapeCell extends CellWithPatch {
     
-    private int mySugar;
     private int myMaxSugar;
     private int myAgentsSugar;
     private int mySugarMetabolism = 0;
@@ -10,15 +9,15 @@ public abstract class SugarScapeCell extends CellWithPatch {
 
     @Override
     public void initializeWithState (int state) {
-        mySugar = myMaxSugar;
+        myPatchAmount = myMaxSugar;
     }
     
     public void setMySugar(int mySugar) {
-        this.mySugar = mySugar;
+        this.myPatchAmount = mySugar;
     }
     
     public int getMySugar() {
-        return mySugar;
+        return myPatchAmount;
     }
     
     public void setMyMaxSugar(int myMaxSugar) {

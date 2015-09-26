@@ -4,27 +4,25 @@ import java.util.List;
 
 public class SlimeMoldCell extends CellWithPatch {
     
-    private double myCampAmount;
-    
     public List<Integer> getMyForwardLocations () {
         return myForwardLocations;
     }
 
     public double getMyCampAmount () {
-        return myCampAmount;
+        return myPatchAmount;
     }
 
-    public void setMyCampAmount (double myCampAmount) {
-        this.myCampAmount = myCampAmount;
+    public void setMyCampAmount (int myCampAmount) {
+        this.myPatchAmount = myCampAmount;
     }
 
     public SlimeMoldCell() {
-        myCampAmount = 0;
+        myPatchAmount = 0;
         updateForwardLocations(myOrientation);
     }
     
     public void addToCamp (double amountToAdd) {
-        myCampAmount += amountToAdd;
+        myPatchAmount += amountToAdd;
     }
 
     @Override

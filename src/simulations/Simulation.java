@@ -25,13 +25,13 @@ public abstract class Simulation {
         myPaints = paints;
     }
 
-    public void update (List<ArrayList<Cell>> myRows) {
-        for (List<Cell> row : myRows) {
+    public void update (List<ArrayList<Cell>> rows) {
+        for (List<Cell> row : rows) {
             for (Cell c : row) {
                 checkRules(c);
             }
         }
-        for (List<Cell> row : myRows) {
+        for (List<Cell> row : rows) {
             for (Cell c : row) {
                 updateCell(c);
             }

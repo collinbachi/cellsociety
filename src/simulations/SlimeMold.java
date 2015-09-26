@@ -8,7 +8,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 
 
-public class SlimeMold extends Simulation {
+public class SlimeMold extends SimulationWithPatch {
     public static final String ID = "SlimeMold";
     private static final int TOTAL_STATES = 5;
     private static final Paint[] COLORS =
@@ -26,13 +26,14 @@ public class SlimeMold extends Simulation {
     public static final String EVAPORATION_RATE = "EVAPORATION_RATE";
     public static final String DIFFUSION_RATE = "DIFFUSION_RATE";
     
-    private double myWiggleBias;
-    private double myWiggleAngle;
-    private double mySniffThreshold;
-    private double mySniffAngle;
+    // For Jasper
+    private double myWiggleBias = 0;
+    private double myWiggleAngle = 0;
+    private double mySniffThreshold = 0;
+    private double mySniffAngle = 0;
     private double myCampDrop = 1;
-    private double myEvaporationRate = .4;
-    private double myDiffusionRate = .1;
+//    private double myEvaporationRate = .4;
+//    private double myDiffusionRate = .1;
     
     public SlimeMold () {
         super(TOTAL_STATES, COLORS);
@@ -40,14 +41,15 @@ public class SlimeMold extends Simulation {
 
     @Override
     public void checkRules (Cell cell) {
+        SlimeMoldCell slime = (SlimeMoldCell) cell;
         if (cell.checkMyCurrentState(AMOEBE)) {
-            int locationToMove = orientToMostCamp((SlimeMoldCell) cell);
-            wiggleCell((SlimeMoldCell) cell, locationToMove);
-            dropCamp((SlimeMoldCell) cell);
+            int locationToMove = orientToMostCamp(slime);
+            wiggleCell(slime, locationToMove);
+            dropCamp(slime);
         }
-        if (((SlimeMoldCell) cell).getMyCampAmount() > 0) {
-            diffuseCamp((SlimeMoldCell) cell);
-            evaporateCamp((SlimeMoldCell) cell);
+        if (slime.getMyCampAmount() > 0) {
+            slime.diffuse(myDiffusionRate);
+            slime.evaporate(myEvaporationRate);
         }
         if (cell.getMyNextState() != AMOEBE) {
             setNextCampState((SlimeMoldCell) cell);
@@ -133,21 +135,6 @@ public class SlimeMold extends Simulation {
     private void dropCamp (SlimeMoldCell patch) {
         patch.addToCamp (myCampDrop);
     }
-    
-    private void evaporateCamp(SlimeMoldCell patch) {
-        patch.setMyCampAmount(-patch.getMyCampAmount()*myEvaporationRate);
-    }
-    
-    private void diffuseCamp(SlimeMoldCell patch) {
-        SlimeMoldCell[] neighbors = (SlimeMoldCell[]) patch.getMyNeighbors();
-        for (SlimeMoldCell neighbor : neighbors) {
-            if (neighbor != null) {
-                double currentNeighborCamp = neighbor.getMyCampAmount();
-                double campToAdd = patch.getMyCampAmount()*myDiffusionRate;
-                neighbor.setMyCampAmount(currentNeighborCamp + campToAdd);
-            }
-        }
-    }
 
     @Override
     public void setParameters (Map<String, Double> parameterMap) {
@@ -155,6 +142,9 @@ public class SlimeMold extends Simulation {
         myWiggleAngle = parameterMap.get(WIGGLE_ANGLE);
         mySniffThreshold = parameterMap.get(SNIFF_THRESHOLD);
         mySniffAngle = parameterMap.get(SNIFF_ANGLE);
+        myCampDrop = parameterMap.get(CAMP_DROP);
+        myEvaporationRate = parameterMap.get(EVAPORATION_RATE);
+        myDiffusionRate = parameterMap.get(DIFFUSION_RATE);
     }
 
 }

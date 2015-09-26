@@ -5,6 +5,9 @@ import cells.Cell;
 import javafx.scene.paint.Paint;
 
 public abstract class SimulationWithPatch extends Simulation {
+    
+    protected double myEvaporationRate;
+    protected double myDiffusionRate;
 
     public SimulationWithPatch (int totalStates, Paint[] paints) {
         super(totalStates, paints);

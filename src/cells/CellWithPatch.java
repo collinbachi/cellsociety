@@ -7,7 +7,16 @@ public abstract class CellWithPatch extends Cell {
     
     protected List<Integer> myForwardLocations;
     protected int myOrientation;
+    protected int myPatchAmount;
     
+    public int getMyPatchAmount () {
+        return myPatchAmount;
+    }
+
+    public void setMyPatchAmount (int d) {
+        this.myPatchAmount = d;
+    }
+
     public CellWithPatch() {
         myOrientation = 1;
         myForwardLocations = new ArrayList<Integer>();
@@ -41,5 +50,19 @@ public abstract class CellWithPatch extends Cell {
             number += myNeighbors.length;
         }
         return number;
+    }
+    
+    public void evaporate(double evaporationRate) {
+        myPatchAmount = (int) (-myPatchAmount * evaporationRate);
+    }
+    
+    public void diffuse(double diffusionRate) {
+        for (CellWithPatch neighbor : (CellWithPatch[]) myNeighbors) {
+            if (neighbor != null) {
+                int currentNeighborPatch = neighbor.getMyPatchAmount();
+                int patchToAdd = (int) (myPatchAmount*diffusionRate);
+                neighbor.setMyPatchAmount(currentNeighborPatch + patchToAdd);
+            }
+        }
     }
 }

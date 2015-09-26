@@ -2,17 +2,17 @@ package cells;
 
 import java.util.List;
 
+
 public class ForagingAntsCell extends CellWithPatch {
-    
+
     private boolean myFoodItem;
     private int myNestPheromones;
     private int myFoodPheromones;
     private int myLives;
     private List<Integer> myNeighborLocations;
-    private boolean myObstacle;
     private int myNumberOfAnts;
-    
-    public ForagingAntsCell() {
+
+    public ForagingAntsCell () {
         myFoodItem = false;
         myNestPheromones = 0;
         myFoodPheromones = 0;
@@ -21,7 +21,7 @@ public class ForagingAntsCell extends CellWithPatch {
         setMyNeighborLocations();
         myLives = 0;
     }
-    
+
     public int getMyLives () {
         return myLives;
     }
@@ -29,30 +29,30 @@ public class ForagingAntsCell extends CellWithPatch {
     public void incrementLives () {
         myLives++;
     }
-    
-    public void resetLives() {
+
+    public void resetLives () {
         myLives = 0;
+    }
+
+    public void addToNumberOfAnts (int toAdd) {
+        myNumberOfAnts += toAdd;
     }
 
     public void incrementMyNumberOfAnts () {
         myNumberOfAnts++;
     }
-    
+
     public void decrementMyNumberOfAnts () {
         myNumberOfAnts--;
     }
 
-    private void setMyNeighborLocations() {
+    private void setMyNeighborLocations () {
         for (int i = 0; i < getMyNeighbors().length; i++) {
             myNeighborLocations.add(i);
         }
     }
-    
-    public boolean isAnObstacle() {
-        return myObstacle;
-    }
-    
-    public boolean hasFoodItem() {
+
+    public boolean hasFoodItem () {
         return myFoodItem;
     }
 
@@ -63,15 +63,15 @@ public class ForagingAntsCell extends CellWithPatch {
     public int getMyFoodPheromones () {
         return myFoodPheromones;
     }
-    
+
     public List<Integer> getMyForwardLocations () {
         return myForwardLocations;
     }
-    
+
     public List<Integer> getMyNeighborLocations () {
         return myNeighborLocations;
     }
-    
+
     public int getMyNumberOfAnts () {
         return myNumberOfAnts;
     }
@@ -83,19 +83,40 @@ public class ForagingAntsCell extends CellWithPatch {
     public void setMyFoodPheromones (int myFoodPheromones) {
         this.myFoodPheromones = myFoodPheromones;
     }
-    
+
     public void setMyFoodItem (boolean myFoodItem) {
         this.myFoodItem = myFoodItem;
     }
 
-    public int getTotalPheromones() {
+    public int getTotalPheromones () {
         return myFoodPheromones + myNestPheromones;
     }
-    
+
     @Override
     public void initializeWithState (int state) {
         // TODO Auto-generated method stub
-        
+
+    }
+
+    @Override
+    public void evaporate (double evaporationRate) {
+        myNestPheromones = (int) (-myNestPheromones * evaporationRate);
+        myFoodPheromones = (int) (-myFoodPheromones * evaporationRate);
+    }
+    
+    @Override
+    public void diffuse(double diffusionRate) {
+        for (ForagingAntsCell neighbor : (ForagingAntsCell[]) myNeighbors) {
+            if (neighbor != null) {
+                int currentNeighborPatch = neighbor.getMyNestPheromones();
+                int patchToAdd = (int) (myNestPheromones*diffusionRate);
+                neighbor.setMyNestPheromones(currentNeighborPatch + patchToAdd);
+                
+                currentNeighborPatch = neighbor.getMyFoodPheromones();
+                patchToAdd = (int) (myFoodPheromones*diffusionRate);
+                neighbor.setMyFoodPheromones(currentNeighborPatch + patchToAdd);
+            }
+        }
     }
 
 }
