@@ -9,13 +9,15 @@ public class ForagingAntsWriter extends SimWriter {
     private final double myAntsBornPerTime = 2;
     private final double myMinPheromones = 0;
     private final double myMaxPheromones = 1000;
-    private final double myEvaporationRatio = .1;
+    private final double myEvaporationRate = .1;
     private final double myDiffusionRatio = .1;
     private final double myK = .001;
     private final double myN = 10;
+    private final double myInitAnts=10;
+    private boolean initialized=false;
 
     public ForagingAntsWriter () {
-        super("XML/ForagingAnts.xml", "Watch the little people run", "Walk on the wild side", "Brenna Milligan", 25, 25, 2);
+        super("ForagingAnts.xml", "Watch the little people run", "Walk on the wild side", "Brenna Milligan", 25, 25, 5);
 
     }
 
@@ -28,10 +30,11 @@ public class ForagingAntsWriter extends SimWriter {
         super.getParameterMap().put(ForagingAnts.MAX_ANTS, myMaxAnts);
         super.getParameterMap().put(ForagingAnts.MIN_PHEROMONE, myMinPheromones);
         super.getParameterMap().put(ForagingAnts.MAX_PHEROMONE,myMaxPheromones);
-        super.getParameterMap().put(ForagingAnts.EVAPORATION_RATIO, myEvaporationRatio);
-        super.getParameterMap().put(ForagingAnts.DIFFUSION_RATIO, myDiffusionRatio);
+        super.getParameterMap().put(ForagingAnts.EVAPORATION_RATE, myEvaporationRate);
+        super.getParameterMap().put(ForagingAnts.DIFFUSION_RATE, myDiffusionRatio);
         super.getParameterMap().put(ForagingAnts.K, myK);
         super.getParameterMap().put(ForagingAnts.N, myN);
+        super.getParameterMap().put(ForagingAnts.INIT_ANTS, myInitAnts);
         
         
     }

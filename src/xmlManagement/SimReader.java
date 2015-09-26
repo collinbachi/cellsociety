@@ -60,7 +60,8 @@ public class SimReader {
 		myCellArray = new int[myGridWidth][myGridHeight];
 
 		ConfigurationFactory gridConfig=new ConfigurationFactory();
-		Configuration config=gridConfig.createConfiguration("Random");
+		Configuration config=gridConfig.createConfiguration("List");
+		
 		grid.init(config.populateGrid(myCellArray, simDetails, myNumberOfStates),
 				myFileName, myParameterMap);
 
