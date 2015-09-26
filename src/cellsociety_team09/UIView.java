@@ -141,10 +141,8 @@ public class UIView {
         if(selectedStyle!=null)
         {
             try {
-                
                 myStyleReader=new StyleReader();
                 myStyleReader.parseStyle(selectedStyle);
-                System.out.println(myStyleReader.getMyGridShape());
             }
             catch (ParserConfigurationException | SAXException | IOException e) {
                 e.printStackTrace();

@@ -41,8 +41,8 @@ public class Main extends Application {
      * Start the program.
      */
     public static void main (String[] args) {
-        TypicalStyleWriter writer=new TypicalStyleWriter();
-        writer.writeStyleSheet();
+        SlimeMoldWriter writer=new SlimeMoldWriter();
+        writer.writeFile();
         launch(args);
     }
 }
