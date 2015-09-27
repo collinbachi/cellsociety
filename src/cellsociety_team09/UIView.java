@@ -52,6 +52,8 @@ public class UIView {
     private Text simulationName = new Text();
     private Text authorName = new Text();
     private GridPane specificParameters = new GridPane();
+	private GridView gridView;
+	private ScrollPane sp;
 
     public Scene init (int width, int height) {
 
@@ -143,8 +145,15 @@ public class UIView {
             try {
                 myStyleReader=new StyleReader();
                 myStyleReader.parseStyle(selectedStyle);
+    			myGrid = (Grid) Class.forName("cellsociety_team09." + myStyleReader.getMyGridEdge()).newInstance();
+    			gridView = (GridView) Class.forName("cellsociety_team09." + myStyleReader.getMyGridShape()).newInstance();
+
+                if (sp!=null) gridPane.getChildren().remove(sp);
+                sp = new ScrollPane();
+                sp.setContent(gridView);
+                gridPane.add(sp, 0, 0, 4, 8);
             }
-            catch (ParserConfigurationException | SAXException | IOException e) {
+            catch (ParserConfigurationException | SAXException | IOException | InstantiationException | IllegalAccessException | ClassNotFoundException e) {
                 e.printStackTrace();
             }
         }
@@ -162,7 +171,7 @@ public class UIView {
             specificParameters.getChildren().clear();
 
             animation.pause();
-            myGrid = new WrapBorderGrid();
+            myGrid = new NormalBorderGrid();
 
             myXMLReader = new SimReader();
             mySpecificParameters = new SpecificParameters();
@@ -172,13 +181,13 @@ public class UIView {
                 authorName.setText("Simulation Author: " + myXMLReader.getAuthor());
 
                 // IF YOU CHANGE THIS: also change the isHex boolean in grid!
-                SquareView gridView = new SquareView(myGrid, grid.getBoundsInLocal());
+                gridView = new SquareView(myGrid, grid.getBoundsInLocal());
                 
-                ScrollPane sp = new ScrollPane();
+                sp = new ScrollPane();
                 sp.setContent(gridView);
                 gridPane.add(sp, 0, 0, 4, 8);
 
-                KeyFrame frame = new KeyFrame(Duration.millis(150), e -> myGrid.step());
+                KeyFrame frame = new KeyFrame(Duration.millis(150), e -> step());
                 animation.setCycleCount(Timeline.INDEFINITE);
                 animation.getKeyFrames().add(frame);
                 mySpecificParameters.displayParameterFields(specificParameters, myXMLReader);
@@ -189,6 +198,10 @@ public class UIView {
                 e.printStackTrace();
                 displayInvalidFile();}}
             }
+    
+    private void step(){
+    	myGrid.step();
+    }
 
     public void displayInvalidFile () {
         Alert invalidSim = new Alert(AlertType.INFORMATION);
