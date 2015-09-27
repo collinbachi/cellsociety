@@ -19,7 +19,7 @@ public class SimulationFactory {
         }
         catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {
         	UIView popup=new UIView();
-        	popup.displayInvalidSim();
+        	popup.displayInvalidFile();
         }
         return null;
     }

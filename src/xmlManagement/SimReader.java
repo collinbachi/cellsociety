@@ -13,6 +13,8 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 import cellsociety_team09.Grid;
+import configurations.Configuration;
+import configurations.ConfigurationFactory;
 
 
 /*
@@ -58,7 +60,8 @@ public class SimReader {
 		myCellArray = new int[myGridWidth][myGridHeight];
 
 		ConfigurationFactory gridConfig=new ConfigurationFactory();
-		Configuration config=gridConfig.createConfiguration("Random");
+		Configuration config=gridConfig.createConfiguration("List");
+		
 		grid.init(config.populateGrid(myCellArray, simDetails, myNumberOfStates),
 				myFileName, myParameterMap);
 
