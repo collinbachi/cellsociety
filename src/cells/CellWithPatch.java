@@ -35,7 +35,7 @@ public abstract class CellWithPatch extends Cell {
             myForwardLocations[0] = getMyNeighbors().length - 1;
         }
         else if (orientation == myNeighbors.length - 1) {
-            myForwardLocations[myForwardLocations.length-1] = 0;
+            myForwardLocations[2] = 0;
         }
     }
     
@@ -58,7 +58,8 @@ public abstract class CellWithPatch extends Cell {
     }
     
     public void diffuse(double diffusionRate) {
-        for (CellWithPatch neighbor : (CellWithPatch[]) myNeighbors) {
+        for (Cell cell : myNeighbors) {
+            CellWithPatch neighbor = (CellWithPatch) cell;
             if (neighbor != null) {
                 int currentNeighborPatch = neighbor.getMyPatchAmount();
                 int patchToAdd = (int) (myPatchAmount*diffusionRate);

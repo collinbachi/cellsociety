@@ -13,7 +13,8 @@ public class SlimeMold extends SimulationWithPatch {
     public static final String ID = "SlimeMold";
     private static final int TOTAL_STATES = 5;
     private static final Paint[] COLORS =
-            { Color.WHITE, Color.BLUE, Color.PEACHPUFF, Color.LIGHTCORAL, Color.DARKORANGE };
+            { Color.WHITE, Color.BLUE, Color.rgb(178, 0, 0),
+              Color.rgb(237, 10, 10), Color.rgb(255, 160, 160) };
     private static final int EMPTY = 0;
     private static final int AMOEBE = 1;
     private static final int LOW_CAMP = 2;
@@ -45,7 +46,7 @@ public class SlimeMold extends SimulationWithPatch {
             wiggleCell(slime, locationToMove);
             dropCamp(slime);
         }
-        if (slime.getMyCampAmount() > 0) {
+        if (slime.getMyPatchAmount() > 0) {
             slime.diffuse(myDiffusionRate);
             slime.evaporate(myEvaporationRate);
         }
@@ -56,17 +57,14 @@ public class SlimeMold extends SimulationWithPatch {
 
     private void setForwardNeighbors (SlimeMoldCell slime) {
         int orientation = slime.getMyOrientation();
-        int posOrNeg = 1;
-        if (mySniffAngle < 0)
-            posOrNeg = -1;
         if (mySniffAngle % 180 < 45) {
-            slime.updateForwardLocations(orientation + posOrNeg * 1);
+            slime.updateForwardLocations(orientation + 1);
         }
         else if (mySniffAngle % 180 < 90) {
-            slime.updateForwardLocations(orientation + posOrNeg * 2);
+            slime.updateForwardLocations(orientation + 2);
         }
         else if (mySniffAngle % 180 < 135) {
-            slime.updateForwardLocations(orientation + posOrNeg * 3);
+            slime.updateForwardLocations(orientation + 3);
         }
     }
 
@@ -91,19 +89,21 @@ public class SlimeMold extends SimulationWithPatch {
 
     private int orientToMostCamp (SlimeMoldCell slime) {
         setForwardNeighbors(slime);
-        SlimeMoldCell[] neighbors = (SlimeMoldCell[]) slime.getMyNeighbors();
+        Cell[] cells = slime.getMyNeighbors();
         int[] forwardView = slime.getMyForwardLocations();
         int location = -1;
-        for (int i : forwardView) {
-            if (neighbors[i] == null) {
+        for (int i = 0; i < forwardView.length; i++) {
+            SlimeMoldCell neighbor = (SlimeMoldCell) cells[forwardView[i]];
+            if (neighbor == null) {
                 forwardView[i] = -1;
             }
         }
         int max = 0;
         for (int i : forwardView) {
             if (i >= 0) {
-                if (neighbors[i].getMyCampAmount() > max &&
-                    neighbors[i].getMyCampAmount() > mySniffThreshold) {
+                SlimeMoldCell neighbor = (SlimeMoldCell) cells[i];
+                if (neighbor.getMyPatchAmount() > max &&
+                    neighbor.getMyPatchAmount() > mySniffThreshold) {
                     location = i;
                 }
             }
@@ -121,16 +121,16 @@ public class SlimeMold extends SimulationWithPatch {
 
     private void setNextCampState (SlimeMoldCell cell) {
         int state = EMPTY;
-        if (cell.getMyCampAmount() == 0) {
+        if (cell.getMyPatchAmount() == 0) {
             state = EMPTY;
         }
-        else if (cell.getMyCampAmount() < 50) {
+        else if (cell.getMyPatchAmount() < 50) {
             state = LOW_CAMP;
         }
-        else if (cell.getMyCampAmount() < 150) {
+        else if (cell.getMyPatchAmount() < 150) {
             state = MEDIUM_CAMP;
         }
-        else if (cell.getMyCampAmount() < 300) {
+        else if (cell.getMyPatchAmount() < 300) {
             state = HIGH_CAMP;
         }
         cell.setMyNextState(state);
@@ -153,8 +153,14 @@ public class SlimeMold extends SimulationWithPatch {
 
     @Override
     public void initializeCells (List<ArrayList<Cell>> rows) {
-        // Do nothing
-
+        for (List<Cell> row : rows) {
+            for (Cell cell : row) {
+                if (!cell.checkMyCurrentState(AMOEBE)) {
+                    cell.setMyNextState(EMPTY);
+                    updateCell(cell);
+                }
+            }
+        }
     }
 
 }

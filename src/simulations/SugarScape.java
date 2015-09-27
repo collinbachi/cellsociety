@@ -13,7 +13,8 @@ public abstract class SugarScape extends SimulationWithPatch {
 
     public static final int TOTAL_STATES = 5;
     public static final Paint[] COLORS =
-            { Color.WHITE, Color.DARKBLUE, Color.PEACHPUFF, Color.LIGHTCORAL, Color.DARKORANGE };
+            { Color.WHITE, Color.DARKBLUE, Color.color(178 / 255, 0, 0),
+              Color.color(237 / 255, 0, 0), Color.color(255 / 255, 159 / 255, 159 / 255) };
     public static final String MAX_METABOLISM = "MAX_METABOLISM";
     public static final String MIN_METABOLISM = "MIN_METABOLISM";
     public static final String MAX_VISION = "MAX_VISION";
@@ -68,19 +69,19 @@ public abstract class SugarScape extends SimulationWithPatch {
         }
 
     }
-    
+
     @Override
-    public void initializeCells(List<ArrayList<Cell>> rows) {
+    public void initializeCells (List<ArrayList<Cell>> rows) {
         for (List<Cell> row : rows) {
             for (Cell cell : row) {
                 SugarScapeCell sugarCell = (SugarScapeCell) cell;
                 sugarCell.setMyMaxSugar(randomNum(myMaxInitSugar) + myMinInitSugar);
-                sugarCell.setMySugar(sugarCell.getMyMaxSugar());
+                sugarCell.setMyPatchAmount(sugarCell.getMyMaxSugar());
                 if (sugarCell.checkMyCurrentState(AGENT)) {
                     sugarCell.setMySugarMetabolism(randomNum(myMaxMetabolism) + myMinMetabolism);
                     sugarCell.setMyVision(randomNum(myMaxVision) + myMinVision);
                 }
-                
+
             }
         }
     }
@@ -110,9 +111,9 @@ public abstract class SugarScape extends SimulationWithPatch {
 
     private void growBackSugar (SugarScapeCell cell) {
         if (myTicks >= mySugarGrowBackInterval) {
-            cell.setMySugar(cell.getMySugar() + mySugarGrowBackRate);
-            if (cell.getMySugar() > cell.getMyMaxSugar()) {
-                cell.setMySugar(cell.getMyMaxSugar());
+            cell.setMyPatchAmount(cell.getMyPatchAmount() + mySugarGrowBackRate);
+            if (cell.getMyPatchAmount() > cell.getMyMaxSugar()) {
+                cell.setMyPatchAmount(cell.getMyMaxSugar());
             }
             myTicks = 0;
         }
@@ -144,7 +145,7 @@ public abstract class SugarScape extends SimulationWithPatch {
         SugarScapeCell cellToChoose = cellsToChoose.get(0);
         for (int i = cellsToChoose.size(); i > 0; i--) {
             SugarScapeCell cell = cellsToChoose.get(i);
-            if (cell.getMySugar() > cellToChoose.getMySugar()) {
+            if (cell.getMyPatchAmount() > cellToChoose.getMyPatchAmount()) {
                 cellToChoose = cell;
             }
         }
@@ -153,31 +154,32 @@ public abstract class SugarScape extends SimulationWithPatch {
 
     private void moveToPatch (SugarScapeCell agent, SugarScapeCell cellToMoveTo) {
         if (cellToMoveTo != null) {
-            cellToMoveTo.setMyAgentsSugar(agent.getMyAgentsSugar() + cellToMoveTo.getMySugar());
-            cellToMoveTo.setMySugar(0);
+            cellToMoveTo
+                    .setMyAgentsSugar(agent.getMyAgentsSugar() + cellToMoveTo.getMyPatchAmount());
+            cellToMoveTo.setMyPatchAmount(0);
             cellToMoveTo.setMyNextState(AGENT);
             setSugarStates(agent);
         }
     }
 
     private void subtractMetabolism (SugarScapeCell agent) {
-        agent.setMyAgentsSugar(agent.getMySugar() - agent.getMySugarMetabolism());
+        agent.setMyAgentsSugar(agent.getMyPatchAmount() - agent.getMySugarMetabolism());
         if (agent.getMyAgentsSugar() <= 0) {
             setSugarStates(agent);
         }
     }
 
     private void setSugarStates (SugarScapeCell cell) {
-        if (cell.getMySugar() <= 0) {
+        if (cell.getMyPatchAmount() <= 0) {
             cell.setMyNextState(EMPTY);
         }
-        else if (cell.getMySugar() < cell.getMyMaxSugar() / 2) {
+        else if (cell.getMyPatchAmount() < cell.getMyMaxSugar() / 2) {
             cell.setMyNextState(LOW_SUGAR);
         }
-        else if (cell.getMySugar() < cell.getMyMaxSugar()) {
+        else if (cell.getMyPatchAmount() < cell.getMyMaxSugar()) {
             cell.setMyNextState(MEDIUM_SUGAR);
         }
-        else if (cell.getMySugar() == cell.getMyMaxSugar()) {
+        else if (cell.getMyPatchAmount() == cell.getMyMaxSugar()) {
             cell.setMyNextState(HIGH_SUGAR);
         }
         cell.setMyAgentsSugar(0);

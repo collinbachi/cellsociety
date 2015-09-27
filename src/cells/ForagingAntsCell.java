@@ -106,8 +106,11 @@ public class ForagingAntsCell extends CellWithPatch {
 
     @Override
     public void initializeWithState (int state) {
-        // TODO Auto-generated method stub
-
+        myNextState = state;
+        myFoodItem = false;
+        myNestPheromones = 0;
+        myFoodPheromones = 0;
+        myLives = 0;
     }
 
     @Override
