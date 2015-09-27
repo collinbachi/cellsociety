@@ -16,9 +16,7 @@ public class ForagingAntsCell extends CellWithPatch {
         myFoodItem = false;
         myNestPheromones = 0;
         myFoodPheromones = 0;
-        updateForwardLocations(1);
         myNumberOfAnts = 0;
-        setMyNeighborLocations();
         myLives = 0;
     }
 
@@ -46,7 +44,7 @@ public class ForagingAntsCell extends CellWithPatch {
         myNumberOfAnts--;
     }
 
-    private void setMyNeighborLocations () {
+    public void setMyNeighborLocations () {
         for (int i = 0; i < getMyNeighbors().length; i++) {
             myNeighborLocations.add(i);
         }

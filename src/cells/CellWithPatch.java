@@ -30,11 +30,12 @@ public abstract class CellWithPatch extends Cell {
         myForwardLocations.add(orientation - 1);
         myForwardLocations.add(orientation);
         myForwardLocations.add(orientation + 1);
+        
         if (orientation == 0) {
             myForwardLocations.set(0, getMyNeighbors().length - 1);
         }
-        else if (orientation == getMyNeighbors().length - 1) {
-            myForwardLocations.set(2, 0);
+        else if (orientation == myNeighbors.length - 1) {
+            myForwardLocations.set(myForwardLocations.size()-1, 0);
         }
     }
     

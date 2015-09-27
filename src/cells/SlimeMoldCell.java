@@ -18,7 +18,6 @@ public class SlimeMoldCell extends CellWithPatch {
 
     public SlimeMoldCell() {
         myPatchAmount = 0;
-        updateForwardLocations(myOrientation);
     }
     
     public void addToCamp (double amountToAdd) {
