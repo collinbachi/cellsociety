@@ -169,7 +169,10 @@ public class UIView {
                     gridPane.getChildren().remove(sp);
                 sp = new ScrollPane();
                 sp.setContent(gridView);
+                sp.setPrefSize(grid.getWidth(), grid.getHeight());
+                myGrid.setSP(sp);
                 gridPane.add(sp, 0, 0, GRID_COL_SPAN, GRID_ROW_SPAN);
+                
             }
             catch (ParserConfigurationException | SAXException | IOException
                     | InstantiationException | IllegalAccessException | ClassNotFoundException
