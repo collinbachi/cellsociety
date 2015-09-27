@@ -13,6 +13,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 import cellsociety_team09.Grid;
+import cellsociety_team09.UIView;
 import configurations.ListConfiguration;
 
 public class ExportingStates extends Writer {
@@ -45,17 +46,11 @@ public class ExportingStates extends Writer {
         
         super.createFile(doc, filePath);
         }
-        catch (ParserConfigurationException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+        catch (ParserConfigurationException |SAXException | IOException |TransformerException e) {
+            UIView popup=new UIView();
+            popup.createErrorMessage("Invalid input", "Please enter valid inputs");
+        
         }
-        catch (SAXException | IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        catch (TransformerException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+       
     }
 }
