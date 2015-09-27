@@ -56,18 +56,19 @@ public abstract class SugarScape extends SimulationWithPatch {
             }
         }
         while (!agents.isEmpty()) {
-            SugarScapeCell cell = agents.get(randomNum(agents.size()));
-            checkRules(cell);
-            this.updateCell(cell);
-            agents.remove(cell);
+            updateRules(agents);
         }
         while (!otherCells.isEmpty()) {
-            SugarScapeCell cell = otherCells.get(randomNum(otherCells.size()));
-            checkRules(cell);
-            this.updateCell(cell);
-            otherCells.remove(cell);
+            updateRules(otherCells);
         }
 
+    }
+    
+    private void updateRules(List<SugarScapeCell> cells) {
+        SugarScapeCell cell = cells.get(randomNum(cells.size()));
+        checkRules(cell);
+        this.updateCell(cell);
+        cells.remove(cell);
     }
 
     @Override
