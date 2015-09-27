@@ -4,30 +4,33 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import xmlManagement.XMLTags;
 
+
 public class ListConfiguration extends Configuration {
 
-	@Override
-	public int[][] populateGrid(int[][] cellArray, Element fileContents,int myNumberOfStates) {
-		NodeList cellList=fileContents.getElementsByTagName(XMLTags.CELL_TAG_TITLE);
-		for (int pos = 0; pos < cellList.getLength(); pos++) {
-			int xPos = getCellX(cellList, pos);
-			int yPos = getCellY(cellList, pos);
-			int state = Integer.parseInt(cellList.item(pos).getChildNodes().item(2).getTextContent());
+    @Override
+    public int[][] populateGrid (int[][] cellArray, Element fileContents, int myNumberOfStates) {
+        NodeList cellList = fileContents.getElementsByTagName(XMLTags.CELL_TAG_TITLE);
+        for (int pos = 0; pos < cellList.getLength(); pos++) {
+            int xPos = getCellX(cellList, pos);
+            int yPos = getCellY(cellList, pos);
+            int state =
+                    Integer.parseInt(cellList.item(pos).getChildNodes().item(2).getTextContent());
 
-			try {
+            try {
 
-				if (state < myNumberOfStates)
-					cellArray[xPos][yPos] = state;
-				else
-					cellArray[xPos][yPos] = 0;
-			} catch (ArrayIndexOutOfBoundsException e) {
+                if (state < myNumberOfStates)
+                    cellArray[xPos][yPos] = state;
+                else
+                    cellArray[xPos][yPos] = 0;
+            }
+            catch (ArrayIndexOutOfBoundsException e) {
 
-			}
+            }
 
-		}
-		return cellArray;
-		
-	}
+        }
+        return cellArray;
+
+    }
 
     public int getCellY (NodeList cellList, int pos) {
         int yPos = Integer.parseInt(cellList.item(pos).getChildNodes().item(1).getTextContent());

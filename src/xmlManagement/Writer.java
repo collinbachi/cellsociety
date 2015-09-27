@@ -15,9 +15,9 @@ import org.w3c.dom.Element;
 public class Writer {
 
     protected void addNodeToElement (Document newFile,
-                                  Element element,
-                                  String fieldName,
-                                  String content) {
+                                     Element element,
+                                     String fieldName,
+                                     String content) {
         Element newNode = newFile.createElement(fieldName);
         newNode.appendChild(newFile.createTextNode(content));
         element.appendChild(newNode);

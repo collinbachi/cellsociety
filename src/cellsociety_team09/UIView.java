@@ -1,12 +1,10 @@
 package cellsociety_team09;
 
-import java.awt.List;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.TransformerException;
 import org.xml.sax.SAXException;
 import configurations.RandomConfiguration;
 import javafx.animation.KeyFrame;
@@ -29,7 +27,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
-import javafx.scene.control.TextField;
 import javafx.util.Duration;
 import xmlManagement.ExportingStates;
 import xmlManagement.SimReader;
@@ -41,6 +38,8 @@ import xmlManagement.StyleReader;
  * 
  * @author Jasper Hancock
  */
+
+
 public class UIView {
 
     private Scene myScene;
@@ -178,7 +177,8 @@ public class UIView {
                     | InstantiationException | IllegalAccessException | ClassNotFoundException
                     | NoSuchMethodException | SecurityException | IllegalArgumentException
                     | InvocationTargetException e) {
-                e.printStackTrace();
+
+                createErrorMessage("Invalid file selected", "Please select another style file");
             }
         }
     }
