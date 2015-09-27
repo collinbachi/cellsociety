@@ -3,6 +3,9 @@ package cellsociety_team09;
 import java.awt.List;
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+
 import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
 import configurations.RandomConfiguration;
@@ -11,6 +14,7 @@ import javafx.animation.Timeline;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
+import javafx.geometry.Bounds;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -40,7 +44,7 @@ public class UIView {
 
     private Scene myScene;
     private File xmlFileFolder = new File("XML");
-    private File styleFileFolder=new File("XML/Styles");
+    private File styleFileFolder = new File("XML/Styles");
     private Grid myGrid;
     private SimReader myXMLReader;
     private StyleReader myStyleReader;
@@ -52,6 +56,8 @@ public class UIView {
     private Text simulationName = new Text();
     private Text authorName = new Text();
     private GridPane specificParameters = new GridPane();
+	private GridView gridView;
+	private ScrollPane sp;
 
     public Scene init (int width, int height) {
 
@@ -73,13 +79,12 @@ public class UIView {
         selectSim.setOnAction(event -> selectSimulation(simBrowser));
         gridPane.add(selectSim, 5, 1);
 
-        Button selectStyle=new Button("Select grid style");
-        FileChooser styleBrowser=new FileChooser();
+        Button selectStyle = new Button("Select grid style");
+        FileChooser styleBrowser = new FileChooser();
         styleBrowser.setInitialDirectory(styleFileFolder);
         selectStyle.setOnAction(event -> selectStyle(styleBrowser));
         gridPane.add(selectStyle, 5, 2);
-        
-        
+
         Button startSim = new Button();
         startSim.setText("Start Simulation");
         startSim.setOnAction( (ActionEvent event) -> animation.play());
@@ -100,10 +105,7 @@ public class UIView {
         randomizeConfig.setOnAction(event -> randomizeGrid());
         gridPane.add(randomizeConfig, 5, 6);
 
-        Button setParameters = new Button("Change Simluation Parameters");
-        setParameters.setOnAction(event -> myGrid.setParameterMap(mySpecificParameters
-                .changeParameters(myXMLReader.populateParameterMap())));
-        gridPane.add(setParameters, 5, 7);
+        
 
         configureSpeedSlider(speedSlider);
         gridPane.add(speedSlider, 5, 8);
@@ -135,20 +137,32 @@ public class UIView {
 
     }
 
-    private void selectStyle(FileChooser styleBrowser)
-    {
-        File selectedStyle=styleBrowser.showOpenDialog(myScene.getWindow());
-        if(selectedStyle!=null)
-        {
+    private void selectStyle (FileChooser styleBrowser) {
+        File selectedStyle = styleBrowser.showOpenDialog(myScene.getWindow());
+        if (selectedStyle != null) {
             try {
-                myStyleReader=new StyleReader();
+                myStyleReader = new StyleReader();
                 myStyleReader.parseStyle(selectedStyle);
+
+    			myGrid = (Grid) Class.forName("cellsociety_team09." + myStyleReader.getMyGridEdge()).newInstance();
+    			myXMLReader.passToGrid(myGrid);
+    			myGrid.isHex = myStyleReader.getMyGridShape() == "HexagonView"; //bad
+
+    			Class<?> clazz = Class.forName("cellsociety_team09." + myStyleReader.getMyGridShape());
+    			Constructor<?> constructor = clazz.getConstructor(Grid.class, Bounds.class);
+    			gridView = (GridView) constructor.newInstance(myGrid, grid.getBoundsInLocal());
+    			
+                if (sp!=null) gridPane.getChildren().remove(sp);
+                sp = new ScrollPane();
+                sp.setContent(gridView);
+                gridPane.add(sp, 0, 0, 4, 8);
             }
-            catch (ParserConfigurationException | SAXException | IOException e) {
+            catch (ParserConfigurationException | SAXException | IOException | InstantiationException | IllegalAccessException | ClassNotFoundException | NoSuchMethodException | SecurityException | IllegalArgumentException | InvocationTargetException e) {
                 e.printStackTrace();
             }
         }
     }
+
     public void createErrorMessage (String header, String content) {
         Alert noSim = new Alert(AlertType.ERROR);
         noSim.setContentText(content);
@@ -159,10 +173,10 @@ public class UIView {
     private void selectSimulation (FileChooser simBrowser) {
         File selectedFile = simBrowser.showOpenDialog(myScene.getWindow());
         if (selectedFile != null) {
-            specificParameters.getChildren().clear();
+            // specificParameters.getChildren().clear();
 
             animation.pause();
-            myGrid = new WrapBorderGrid();
+            myGrid = new NormalBorderGrid();
 
             myXMLReader = new SimReader();
             mySpecificParameters = new SpecificParameters();
@@ -172,23 +186,39 @@ public class UIView {
                 authorName.setText("Simulation Author: " + myXMLReader.getAuthor());
 
                 // IF YOU CHANGE THIS: also change the isHex boolean in grid!
-                SquareView gridView = new SquareView(myGrid, grid.getBoundsInLocal());
+
+                gridView = new SquareView(myGrid, grid.getBoundsInLocal());
                 
-                ScrollPane sp = new ScrollPane();
+                sp = new ScrollPane();
                 sp.setContent(gridView);
                 gridPane.add(sp, 0, 0, 4, 8);
 
-                KeyFrame frame = new KeyFrame(Duration.millis(150), e -> myGrid.step());
+                KeyFrame frame = new KeyFrame(Duration.millis(150), e -> step());
                 animation.setCycleCount(Timeline.INDEFINITE);
                 animation.getKeyFrames().add(frame);
-                mySpecificParameters.displayParameterFields(specificParameters, myXMLReader);
+                mySpecificParameters.displayParameterFields(specificParameters, myXMLReader,myGrid);
+                try{
+                mySpecificParameters.displayStateDistributions(specificParameters, myXMLReader, myGrid);
+                }
+                catch(ArrayIndexOutOfBoundsException e)
+                
+                {
+                    System.out.println("bounds");
+                }
 
             }
             catch (NullPointerException | ParserConfigurationException | SAXException
                     | IOException e) {
                 e.printStackTrace();
-                displayInvalidFile();}}
+                displayInvalidFile();
             }
+        }
+        }
+
+    
+    private void step(){
+    	myGrid.step();
+    }
 
     public void displayInvalidFile () {
         Alert invalidSim = new Alert(AlertType.INFORMATION);
@@ -196,7 +226,7 @@ public class UIView {
         invalidSim.setHeaderText(
                                  "Unfortunately the file you selected does not appear to be " +
                                  "supported by this application");
-        invalidSim.setContentText("Please choose a different simulation XML file");
+        invalidSim.setContentText("Please choose a different XML file");
         invalidSim.show();
     }
 
