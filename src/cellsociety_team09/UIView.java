@@ -160,6 +160,11 @@ public class UIView {
                 Constructor<?> constructor = clazz.getConstructor(Grid.class, Bounds.class);
                 gridView = (GridView) constructor.newInstance(myGrid, grid.getBoundsInLocal());
 
+                mySpecificParameters.displayParameterFields(specificParameters, myXMLReader,
+                                                            myGrid);
+                    mySpecificParameters.displayStateDistributions(specificParameters, myXMLReader,
+                                                                   myGrid);
+                
                 if (sp != null)
                     gridPane.getChildren().remove(sp);
                 sp = new ScrollPane();
@@ -210,16 +215,10 @@ public class UIView {
                 animation.getKeyFrames().add(frame);
                 mySpecificParameters.displayParameterFields(specificParameters, myXMLReader,
                                                             myGrid);
-                try {
                     mySpecificParameters.displayStateDistributions(specificParameters, myXMLReader,
                                                                    myGrid);
-                }
-                catch (ArrayIndexOutOfBoundsException e)
-
-                {
-                    System.out.println("bounds");
-                }
-
+                
+         
             }
             catch (NullPointerException | ParserConfigurationException | SAXException
                     | IOException e) {

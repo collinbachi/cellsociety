@@ -18,7 +18,7 @@ import configurations.ListConfiguration;
 public class ExportingStates extends Writer {
     
     
-    public void modifyXMLFile(SimReader myXMLReader,Grid myGrid) throws TransformerException, ParserConfigurationException, SAXException,IOException
+    public void modifyXMLFile(SimReader myXMLReader,Grid myGrid) throws TransformerException, ParserConfigurationException, SAXException, IOException
     {
         String filePath="XML/"+myXMLReader.getMyFileName()+".xml";
         DocumentBuilderFactory docFactory=DocumentBuilderFactory.newInstance();
