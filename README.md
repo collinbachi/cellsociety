@@ -19,7 +19,7 @@ How it works: The primary goal of this project is to simulate a variety of cellu
 
 Keys/Mouse input: Select the simulation from XML selector. Select a style sheet (optional) to change the style of the simulation. Click start to have it run indefinitely according to the slider bar speed or click increment to see one step at a time. Users may input their own parameter values on the right hand side of the interface and then click on change. Users may also generate a random distribution of cells. Users may click on each cell during the simulation or while the simulation is paused to change its state.
 
-Known bugs: Infinite borders does not expand the scrolling screen although the scroll bar is appearing. The parameters inputted by the user are not checked for valid inputs (for example, some need to be < 1).
+Known bugs: Infinite borders does not expand the scrolling screen although the scroll bar is appearing. The parameters inputted by the user are not checked for valid inputs (for example, some need to be < 1). Foraging Ants must be played at a low speed level, with the slider bar closer to 0. It takes a long time to run.
 
 Extra features: Wrapping neighbors, different shapes, borders, new simulations, style sheets.
 

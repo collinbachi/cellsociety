@@ -9,12 +9,12 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 
 
-public abstract class SugarScape extends SimulationWithPatch {
+public abstract class SugarScape extends Simulation {
 
     public static final int TOTAL_STATES = 5;
     public static final Paint[] COLORS =
-            { Color.WHITE, Color.DARKBLUE, Color.color(178 / 255, 0, 0),
-              Color.color(237 / 255, 0, 0), Color.color(255 / 255, 159 / 255, 159 / 255) };
+            { Color.WHITE, Color.DARKBLUE, Color.rgb(178, 0, 0),
+                Color.rgb(237, 10, 10), Color.rgb(255, 160, 160) };
     public static final String MAX_METABOLISM = "MAX_METABOLISM";
     public static final String MIN_METABOLISM = "MIN_METABOLISM";
     public static final String MAX_VISION = "MAX_VISION";
@@ -56,18 +56,19 @@ public abstract class SugarScape extends SimulationWithPatch {
             }
         }
         while (!agents.isEmpty()) {
-            SugarScapeCell cell = agents.get(randomNum(agents.size()));
-            checkRules(cell);
-            this.updateCell(cell);
-            agents.remove(cell);
+            updateRules(agents);
         }
         while (!otherCells.isEmpty()) {
-            SugarScapeCell cell = otherCells.get(randomNum(otherCells.size()));
-            checkRules(cell);
-            this.updateCell(cell);
-            otherCells.remove(cell);
+            updateRules(otherCells);
         }
 
+    }
+    
+    private void updateRules(List<SugarScapeCell> cells) {
+        SugarScapeCell cell = cells.get(randomNum(cells.size()));
+        checkRules(cell);
+        this.updateCell(cell);
+        cells.remove(cell);
     }
 
     @Override
@@ -143,7 +144,7 @@ public abstract class SugarScape extends SimulationWithPatch {
         if (cellsToChoose.isEmpty())
             return null;
         SugarScapeCell cellToChoose = cellsToChoose.get(0);
-        for (int i = cellsToChoose.size(); i > 0; i--) {
+        for (int i = cellsToChoose.size()-1; i >= 0; i--) {
             SugarScapeCell cell = cellsToChoose.get(i);
             if (cell.getMyPatchAmount() > cellToChoose.getMyPatchAmount()) {
                 cellToChoose = cell;
