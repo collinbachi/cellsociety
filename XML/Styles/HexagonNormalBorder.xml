@@ -1,1 +1,1 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><StyleFile><style><gridShape>TriangleView</gridShape><gridEdge>NormalBorderGrid</gridEdge><scrollable>false</scrollable><outlined>true</outlined><neighborsToConsider>ALL</neighborsToConsider></style></StyleFile>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><StyleFile><style><gridShape>HexagonView</gridShape><gridEdge>WrapBorderGrid</gridEdge><scrollable>false</scrollable><outlined>true</outlined><neighborsToConsider>ALL</neighborsToConsider></style></StyleFile>
