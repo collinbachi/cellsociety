@@ -54,7 +54,7 @@ public abstract class CellWithPatch extends Cell {
     }
     
     public void evaporate(double evaporationRate) {
-        myPatchAmount = (int) (-myPatchAmount * evaporationRate);
+        myPatchAmount = (int) (myPatchAmount * (1-evaporationRate));
     }
     
     public void diffuse(double diffusionRate) {
