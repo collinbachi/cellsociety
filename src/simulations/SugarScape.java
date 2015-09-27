@@ -53,6 +53,9 @@ public abstract class SugarScape extends Simulation {
                 if (cell.checkMyCurrentState(AGENT)) {
                     agents.add((SugarScapeCell) cell);
                 }
+                else {
+                    otherCells.add((SugarScapeCell) cell);
+                }
             }
         }
         while (!agents.isEmpty()) {
@@ -67,8 +70,9 @@ public abstract class SugarScape extends Simulation {
     private void updateRules (List<SugarScapeCell> cells) {
         SugarScapeCell cell = cells.get(randomNum(cells.size()));
         checkRules(cell);
-        this.updateCell(cell);
         cells.remove(cell);
+        setSugarStates((SugarScapeCell) cell);
+        this.updateCell(cell);
     }
 
     @Override
@@ -76,6 +80,7 @@ public abstract class SugarScape extends Simulation {
         for (List<Cell> row : rows) {
             for (Cell cell : row) {
                 SugarScapeCell sugarCell = (SugarScapeCell) cell;
+                myCardinalNeighbors = initializeCardinalNeighbors(cell.getMyNeighbors().length);
                 sugarCell.setMyMaxSugar(randomNum(myMaxInitSugar) + myMinInitSugar);
                 sugarCell.setMyPatchAmount(sugarCell.getMyMaxSugar());
                 if (sugarCell.checkMyCurrentState(AGENT)) {
@@ -88,7 +93,6 @@ public abstract class SugarScape extends Simulation {
     }
 
     public void checkRules (Cell cell) {
-        myCardinalNeighbors = initializeCardinalNeighbors(cell.getMyNeighbors().length);
         growBackSugar((SugarScapeCell) cell);
         if (cell.checkMyCurrentState(AGENT)) {
             List<SugarScapeCell> seenCells = cellsAgentSees((SugarScapeCell) cell);
@@ -96,7 +100,6 @@ public abstract class SugarScape extends Simulation {
             moveToPatch((SugarScapeCell) cell, cellToMoveTo);
             subtractMetabolism(cellToMoveTo);
         }
-
     }
 
     public void setParameters (Map<String, Double> parameterMap) {
@@ -131,10 +134,11 @@ public abstract class SugarScape extends Simulation {
                 currentCell = agent;
                 while (k >= 0) {
                     currentCell = (SugarScapeCell) currentCell.getMyNeighbors()[i];
+                    if (currentCell != null)
+                        seenCells.add(currentCell);
+                    else break;
                     k--;
                 }
-                if (currentCell != null)
-                    seenCells.add(currentCell);
             }
         }
         return seenCells;
@@ -159,31 +163,33 @@ public abstract class SugarScape extends Simulation {
                     .setMyAgentsSugar(agent.getMyAgentsSugar() + cellToMoveTo.getMyPatchAmount());
             cellToMoveTo.setMyPatchAmount(0);
             cellToMoveTo.setMyNextState(AGENT);
-            setSugarStates(agent);
+            agent.setMyAgentsSugar(0);
+            agent.setMyNextState(EMPTY);
         }
     }
 
     private void subtractMetabolism (SugarScapeCell agent) {
-        agent.setMyAgentsSugar(agent.getMyPatchAmount() - agent.getMySugarMetabolism());
-        if (agent.getMyAgentsSugar() <= 0) {
-            setSugarStates(agent);
-        }
+        agent.setMyAgentsSugar(agent.getMyAgentsSugar() - agent.getMySugarMetabolism());
     }
 
     private void setSugarStates (SugarScapeCell cell) {
-        if (cell.getMyPatchAmount() <= 0) {
-            cell.setMyNextState(EMPTY);
+        int state = EMPTY;
+        if (cell.getMyNextState() == AGENT) {
+            state = AGENT;
+        }
+        else if (cell.getMyPatchAmount() <= 0) {
+            state = EMPTY;
         }
         else if (cell.getMyPatchAmount() < cell.getMyMaxSugar() / 2) {
-            cell.setMyNextState(LOW_SUGAR);
+            state = LOW_SUGAR;
         }
         else if (cell.getMyPatchAmount() < cell.getMyMaxSugar()) {
-            cell.setMyNextState(MEDIUM_SUGAR);
+            state = MEDIUM_SUGAR;
         }
         else if (cell.getMyPatchAmount() == cell.getMyMaxSugar()) {
-            cell.setMyNextState(HIGH_SUGAR);
+            state = HIGH_SUGAR;
         }
-        cell.setMyAgentsSugar(0);
+        cell.setMyNextState(state);
     }
 
 }
