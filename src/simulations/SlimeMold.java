@@ -26,13 +26,13 @@ public class SlimeMold extends SimulationWithPatch {
     public static final String CAMP_DROP = "CAMP_DROP";
     public static final String EVAPORATION_RATE = "EVAPORATION_RATE";
     public static final String DIFFUSION_RATE = "DIFFUSION_RATE";
-    
+
     private double myWiggleBias;
     private double myWiggleAngle;
     private double mySniffThreshold;
     private double mySniffAngle;
     private double myCampDrop;
-    
+
     public SlimeMold () {
         super(TOTAL_STATES, COLORS);
     }
@@ -53,11 +53,12 @@ public class SlimeMold extends SimulationWithPatch {
             setNextCampState((SlimeMoldCell) cell);
         }
     }
-    
-    private void setForwardNeighbors(SlimeMoldCell slime) {
+
+    private void setForwardNeighbors (SlimeMoldCell slime) {
         int orientation = slime.getMyOrientation();
         int posOrNeg = 1;
-        if (mySniffAngle < 0) posOrNeg = -1;
+        if (mySniffAngle < 0)
+            posOrNeg = -1;
         if (mySniffAngle % 180 < 45) {
             slime.updateForwardLocations(orientation + posOrNeg * 1);
         }
@@ -68,11 +69,12 @@ public class SlimeMold extends SimulationWithPatch {
             slime.updateForwardLocations(orientation + posOrNeg * 3);
         }
     }
-    
+
     private void wiggleCell (SlimeMoldCell slime, int locationToMove) {
         if (locationToMove > 0) {
             int posOrNeg = 1;
-            if (myWiggleAngle < 0) posOrNeg = -1;
+            if (myWiggleAngle < 0)
+                posOrNeg = -1;
             if (myWiggleAngle % 180 < 45) {
                 locationToMove += posOrNeg * 1 * myWiggleBias;
             }
@@ -86,36 +88,37 @@ public class SlimeMold extends SimulationWithPatch {
         }
         move(slime, locationToMove);
     }
-    
+
     private int orientToMostCamp (SlimeMoldCell slime) {
         setForwardNeighbors(slime);
         SlimeMoldCell[] neighbors = (SlimeMoldCell[]) slime.getMyNeighbors();
-        List<Integer> forwardView = slime.getMyForwardLocations();
+        int[] forwardView = slime.getMyForwardLocations();
         int location = -1;
         for (int i : forwardView) {
             if (neighbors[i] == null) {
-                forwardView.remove(i);
+                forwardView[i] = -1;
             }
         }
-        if (!forwardView.isEmpty()) {
-            int max = 0;
-            for (int i : forwardView) {
-                if (neighbors[i].getMyCampAmount() > max && neighbors[i].getMyCampAmount() > mySniffThreshold) {
+        int max = 0;
+        for (int i : forwardView) {
+            if (i >= 0) {
+                if (neighbors[i].getMyCampAmount() > max &&
+                    neighbors[i].getMyCampAmount() > mySniffThreshold) {
                     location = i;
                 }
             }
         }
         return location;
     }
-    
-    private void move(SlimeMoldCell slime, int locationToMove) {
+
+    private void move (SlimeMoldCell slime, int locationToMove) {
         if (locationToMove > 0) {
             SlimeMoldCell newSlime = (SlimeMoldCell) slime.getMyNeighbors()[locationToMove];
             newSlime.setMyNextState(AMOEBE);
             setNextCampState(slime);
         }
     }
-    
+
     private void setNextCampState (SlimeMoldCell cell) {
         int state = EMPTY;
         if (cell.getMyCampAmount() == 0) {
@@ -132,9 +135,9 @@ public class SlimeMold extends SimulationWithPatch {
         }
         cell.setMyNextState(state);
     }
-    
+
     private void dropCamp (SlimeMoldCell patch) {
-        patch.addToCamp (myCampDrop);
+        patch.addToCamp(myCampDrop);
     }
 
     @Override
@@ -147,11 +150,11 @@ public class SlimeMold extends SimulationWithPatch {
         myEvaporationRate = parameterMap.get(EVAPORATION_RATE);
         myDiffusionRate = parameterMap.get(DIFFUSION_RATE);
     }
-    
+
     @Override
     public void initializeCells (List<ArrayList<Cell>> rows) {
         // Do nothing
-        
+
     }
 
 }

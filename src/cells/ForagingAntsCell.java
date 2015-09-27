@@ -1,15 +1,12 @@
 package cells;
 
-import java.util.List;
-
-
 public class ForagingAntsCell extends CellWithPatch {
 
     private boolean myFoodItem;
     private int myNestPheromones;
     private int myFoodPheromones;
     private int myLives;
-    private List<Integer> myNeighborLocations;
+    private int[] myNeighborLocations;
     private int myNumberOfAnts;
     private boolean isNest;
     private boolean isFood;
@@ -65,8 +62,9 @@ public class ForagingAntsCell extends CellWithPatch {
     }
 
     public void setMyNeighborLocations () {
+        myNeighborLocations = new int[myNeighbors.length];
         for (int i = 0; i < getMyNeighbors().length; i++) {
-            myNeighborLocations.add(i);
+            myNeighborLocations[i] = i;
         }
     }
 
@@ -82,11 +80,7 @@ public class ForagingAntsCell extends CellWithPatch {
         return myFoodPheromones;
     }
 
-    public List<Integer> getMyForwardLocations () {
-        return myForwardLocations;
-    }
-
-    public List<Integer> getMyNeighborLocations () {
+    public int[] getMyNeighborLocations () {
         return myNeighborLocations;
     }
 

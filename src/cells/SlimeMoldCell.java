@@ -1,12 +1,6 @@
 package cells;
 
-import java.util.List;
-
 public class SlimeMoldCell extends CellWithPatch {
-    
-    public List<Integer> getMyForwardLocations () {
-        return myForwardLocations;
-    }
 
     public double getMyCampAmount () {
         return myPatchAmount;
