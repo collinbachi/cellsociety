@@ -9,7 +9,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 
 
-public class SlimeMold extends SimulationWithPatch {
+public class SlimeMold extends Simulation {
     public static final String ID = "SlimeMold";
     private static final int TOTAL_STATES = 5;
     private static final Paint[] COLORS =
@@ -33,6 +33,8 @@ public class SlimeMold extends SimulationWithPatch {
     private double mySniffThreshold;
     private double mySniffAngle;
     private double myCampDrop;
+    private double myEvaporationRate;
+    private double myDiffusionRate;
 
     public SlimeMold () {
         super(TOTAL_STATES, COLORS);

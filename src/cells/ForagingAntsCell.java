@@ -12,6 +12,8 @@ public class ForagingAntsCell extends CellWithPatch {
     private boolean isFood;
 
     public ForagingAntsCell () {
+        myOrientation = 0;
+        myForwardLocations = new int[3];
         myFoodItem = false;
         myNestPheromones = 0;
         myFoodPheromones = 0;
@@ -115,8 +117,8 @@ public class ForagingAntsCell extends CellWithPatch {
 
     @Override
     public void evaporate (double evaporationRate) {
-        myNestPheromones = (int) (-myNestPheromones * evaporationRate);
-        myFoodPheromones = (int) (-myFoodPheromones * evaporationRate);
+        myNestPheromones = (int) (myNestPheromones * evaporationRate);
+        myFoodPheromones = (int) (myFoodPheromones * evaporationRate);
     }
     
     @Override
@@ -127,7 +129,7 @@ public class ForagingAntsCell extends CellWithPatch {
                 int currentNeighborPatch = neighbor.getMyNestPheromones();
                 int patchToAdd = (int) (myNestPheromones*diffusionRate);
                 neighbor.setMyNestPheromones(currentNeighborPatch + patchToAdd);
-                
+
                 currentNeighborPatch = neighbor.getMyFoodPheromones();
                 patchToAdd = (int) (myFoodPheromones*diffusionRate);
                 neighbor.setMyFoodPheromones(currentNeighborPatch + patchToAdd);

@@ -9,7 +9,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 
 
-public abstract class SugarScape extends SimulationWithPatch {
+public abstract class SugarScape extends Simulation {
 
     public static final int TOTAL_STATES = 5;
     public static final Paint[] COLORS =

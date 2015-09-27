@@ -9,7 +9,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 
 
-public class ForagingAnts extends SimulationWithPatch {
+public class ForagingAnts extends Simulation {
     public static final int TOTAL_STATES = 5;
     public static final int EMPTY = 0;
     public static final int LOW_PHEROMONES = 1;
@@ -38,6 +38,8 @@ public class ForagingAnts extends SimulationWithPatch {
     private double myK;
     private double myN;
     private int myInitAnts;
+    private double myEvaporationRate;
+    private double myDiffusionRate;
 
     public ForagingAnts () {
         super(TOTAL_STATES, COLORS);
@@ -57,6 +59,7 @@ public class ForagingAnts extends SimulationWithPatch {
         }
         for (List<Cell> row : rows) {
             for (Cell c : row) {
+                setNextState((ForagingAntsCell) c);
                 updateCell(c);
             }
         }
@@ -79,6 +82,7 @@ public class ForagingAnts extends SimulationWithPatch {
                 }
                 setNextState(cell);
                 updateCell(cell);
+                cell.setMyNeighborLocations();
             }
         }
     }
@@ -90,7 +94,6 @@ public class ForagingAnts extends SimulationWithPatch {
         for (int i = 0; i < numberOfAntsOnCell; i++) {
             findNestOrFood(antCell);
         }
-        setNextState(antCell);
         if (antCell.getMyCurrentState() != EMPTY) {
             antCell.diffuse(myDiffusionRate);
             antCell.evaporate(myEvaporationRate);
@@ -183,26 +186,18 @@ public class ForagingAnts extends SimulationWithPatch {
                                 int[] locationSet,
                                 boolean hasFood) {
         int location = -1;
-        for (int i : locationSet) {
-            ForagingAntsCell ant = (ForagingAntsCell) neighbors[i];
-            if (ant == null)
-                locationSet[i] = -1;
-            if (ant.getMyNumberOfAnts() >= myMaxAnts) {
-                locationSet[i] = -1;
-            }
-        }
         int max = 0;
-        for (int i : locationSet) {
-            if (i >= 0) {
-                ForagingAntsCell ant = (ForagingAntsCell) neighbors[i];
-                if (hasFood && ant.getMyNestPheromones() > max) {
+        for (int i = 0; i < locationSet.length; i++) {
+            ForagingAntsCell ant = (ForagingAntsCell) neighbors[locationSet[i]];
+            if (ant != null && ant.getMyNumberOfAnts() < myMaxAnts) {
+                if (hasFood && ant.getMyNestPheromones() >= max) {
                     max = ant.getMyNestPheromones();
-                    location = i;
+                    location = locationSet[i];
                 }
                 else if (!hasFood &&
                          Math.pow(myK + ant.getMyFoodPheromones(), myN) > max) {
                     max = (int) Math.pow(myK + ant.getMyFoodPheromones(), myN);
-                    location = i;
+                    location = locationSet[i];
                 }
             }
         }
