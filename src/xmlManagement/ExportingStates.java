@@ -18,12 +18,16 @@ import configurations.ListConfiguration;
 public class ExportingStates extends Writer {
     
     
-    public void modifyXMLFile(SimReader myXMLReader,Grid myGrid) throws TransformerException, ParserConfigurationException, SAXException, IOException
+    public void modifyXMLFile(SimReader myXMLReader,Grid myGrid)
     {
         String filePath="XML/"+myXMLReader.getMyFileName()+".xml";
         DocumentBuilderFactory docFactory=DocumentBuilderFactory.newInstance();
-        DocumentBuilder docBuilder=docFactory.newDocumentBuilder();
-        Document doc=docBuilder.parse(filePath);
+        DocumentBuilder docBuilder;
+        try {
+            docBuilder = docFactory.newDocumentBuilder();
+            Document doc;
+            doc = docBuilder.parse(filePath);
+
         
         NodeList cellList=doc.getElementsByTagName(XMLTags.CELL_TAG_TITLE);
         
@@ -35,13 +39,23 @@ public class ExportingStates extends Writer {
             int cellY=listConfig.getCellY(cellList, index);
             Node cellState=cell.getChildNodes().item(2);
             
-            cellState.setTextContent(Integer.toString(myGrid.getCell(cellY, cellX).getMyCurrentState()));
+            cellState.setTextContent(Integer.toString(myGrid.getCell(cellX, cellY).getMyCurrentState()));
             
         }
         
-               super.createFile(doc, filePath);
-       
-        
+        super.createFile(doc, filePath);
+        }
+        catch (ParserConfigurationException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        catch (SAXException | IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        catch (TransformerException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
-
 }

@@ -109,7 +109,7 @@ public class UIView {
 
         Button exportStates = new Button("Export current cell states");
         ExportingStates exporter = new ExportingStates();
-        //exportStates.setOnAction(event -> exporter.modifyXMLFile(myXMLReader, myGrid));
+        exportStates.setOnAction(event -> exporter.modifyXMLFile(myXMLReader, myGrid));
         gridPane.add(exportStates, 5, 7);
 
         configureSpeedSlider(speedSlider);
