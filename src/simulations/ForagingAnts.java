@@ -32,15 +32,12 @@ public class ForagingAnts extends SimulationWithPatch {
     public static final String N = "N";
     public static final int CONSTANT = 2;
 
-    // For Jasper to add to XML
-    private int myAntLife;
     private int myMaxAnts;
     private int myAntsBornPerTime;
     private int myMaxPheromones;
     private double myK;
     private double myN;
     private int myInitAnts;
-    private boolean initialized = false;
 
     public ForagingAnts () {
         super(TOTAL_STATES, COLORS);
@@ -48,9 +45,6 @@ public class ForagingAnts extends SimulationWithPatch {
 
     @Override
     public void update (List<ArrayList<Cell>> rows) {
-        if (!initialized) {
-            initializeCells(rows);
-        }
         for (int i = 0; i < rows.size(); i++) {
             List<Cell> row = rows.get(i);
             for (int j = 0; j < row.size(); j++) {
@@ -68,7 +62,8 @@ public class ForagingAnts extends SimulationWithPatch {
         }
     }
 
-    private void initializeCells (List<ArrayList<Cell>> rows) {
+    @Override
+    public void initializeCells (List<ArrayList<Cell>> rows) {
         for (int i = 0; i < rows.size(); i++) {
             List<Cell> row = rows.get(i);
             for (int j = 0; j < row.size(); j++) {
@@ -76,34 +71,30 @@ public class ForagingAnts extends SimulationWithPatch {
                 if (i == 70 && j == 70) {
                     cell.setMyNestPheromones(myMaxPheromones);
                     cell.addToNumberOfAnts(myInitAnts);
+                    cell.setIsNest(true);
                 }
                 else if (i == 20 && j == 20) {
                     cell.setMyFoodPheromones(myMaxPheromones);
+                    cell.setIsFood(true);
                 }
+                setNextState(cell);
                 updateCell(cell);
             }
         }
-        initialized = true;
     }
 
     @Override
     public void checkRules (Cell cell) {
         ForagingAntsCell antCell = (ForagingAntsCell) cell;
         int numberOfAntsOnCell = antCell.getMyNumberOfAnts();
-        if (numberOfAntsOnCell > 0) {
-            for (int i = 0; i < numberOfAntsOnCell; i++) {
-                if (antCell.getMyLives() == myAntLife) {
-                    kill(antCell);
-                }
-                else {
-                    antForage(antCell);
-                }
-            }
+        for (int i = 0; i < numberOfAntsOnCell; i++) {
+            findNestOrFood(antCell);
         }
-        antCell.incrementLives();
         setNextState(antCell);
-        antCell.diffuse(myDiffusionRate);
-        antCell.evaporate(myEvaporationRate);
+        if (antCell.getMyCurrentState() != EMPTY) {
+            antCell.diffuse(myDiffusionRate);
+            antCell.evaporate(myEvaporationRate);
+        }
     }
 
     private void setNextState (ForagingAntsCell cell) {
@@ -126,14 +117,8 @@ public class ForagingAnts extends SimulationWithPatch {
         cell.setMyNextState(state);
     }
 
-    private void kill (ForagingAntsCell cell) {
-        cell.setMyFoodItem(false);
-        cell.decrementMyNumberOfAnts();
-    }
-
     @Override
     public void setParameters (Map<String, Double> parameterMap) {
-        myAntLife = parameterMap.get(ANT_LIFE).intValue();
         myMaxAnts = parameterMap.get(MAX_ANTS).intValue();
         myAntsBornPerTime = parameterMap.get(ANTS_BORN_PER_TIME).intValue();
         myMaxPheromones = parameterMap.get(MAX_PHEROMONE).intValue();
@@ -144,25 +129,8 @@ public class ForagingAnts extends SimulationWithPatch {
         myInitAnts = parameterMap.get(INIT_ANTS).intValue();
     }
 
-    private void antForage (ForagingAntsCell ant) {
-        if (ant.hasFoodItem()) {
-            findNestOrFood(ant);
-        }
-        else {
-            findNestOrFood(ant);
-        }
-    }
-
-    private boolean atFoodSource (ForagingAntsCell ant) {
-        return ant.getMyFoodPheromones() == myMaxPheromones;
-    }
-
-    private boolean atNest (ForagingAntsCell ant) {
-        return ant.getMyNestPheromones() == myMaxPheromones;
-    }
-
     private void findNestOrFood (ForagingAntsCell ant) {
-        if (atFoodSource(ant) || atNest(ant)) {
+        if (ant.isFood() || ant.isNest()) {
             ant.updateForwardLocations(setOrientation(ant));
         }
         int locationToMove = selectLocation((ForagingAntsCell[]) ant.getMyNeighbors(),
@@ -178,18 +146,20 @@ public class ForagingAnts extends SimulationWithPatch {
                     (ForagingAntsCell) ant.getMyNeighbors()[locationToMove];
             neighborToMoveTo.incrementMyNumberOfAnts();
             ant.decrementMyNumberOfAnts();
-            if (atNest(neighborToMoveTo)) {
+            neighborToMoveTo.setMyFoodItem(ant.hasFoodItem());
+            ant.setMyFoodItem(false);
+            if (neighborToMoveTo.isNest()) {
                 neighborToMoveTo.setMyFoodItem(false);
             }
-            else if (atFoodSource(neighborToMoveTo)) {
+            else if (neighborToMoveTo.isFood()) {
                 neighborToMoveTo.setMyFoodItem(true);
             }
         }
     }
 
     private int setOrientation (ForagingAntsCell ant) {
-        int orientation = -1;
         ForagingAntsCell[] neighbors = (ForagingAntsCell[]) ant.getMyNeighbors();
+        int orientation = randomNum(neighbors.length);
         for (int i = 0; i < neighbors.length; i++) {
             if (neighbors[i] != null) {
                 if (ant.hasFoodItem()) {
@@ -237,10 +207,10 @@ public class ForagingAnts extends SimulationWithPatch {
     }
 
     private void dropPheromones (ForagingAntsCell ant) {
-        if (atFoodSource(ant)) {
+        if (ant.isFood()) {
             ant.setMyFoodPheromones(myMaxPheromones);
         }
-        else if (atNest(ant)) {
+        else if (ant.isNest()) {
             ant.setMyNestPheromones(myMaxPheromones);
         }
         else {

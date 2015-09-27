@@ -1,5 +1,7 @@
 package simulations;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import cells.Cell;
 import javafx.scene.paint.Color;
@@ -66,6 +68,12 @@ public class Segregation extends Simulation {
     @Override
     public void setParameters (Map<String, Double> parameterMap) {
         mySimilarThreshold = parameterMap.get(SIMILAR_THRESHOLD);
+    }
+    
+    @Override
+    public void initializeCells (List<ArrayList<Cell>> rows) {
+        // Do nothing
+        
     }
 
 }

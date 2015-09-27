@@ -1,5 +1,7 @@
 package simulations;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import cells.Cell;
 import javafx.scene.paint.Color;
@@ -44,6 +46,12 @@ public class Conway extends Simulation {
     @Override
     public void setParameters (Map<String, Double> parameterMap) {
         // No parameters to update
+    }
+
+    @Override
+    public void initializeCells (List<ArrayList<Cell>> rows) {
+        // Do nothing
+        
     }
 
 }

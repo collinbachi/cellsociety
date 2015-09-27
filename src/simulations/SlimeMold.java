@@ -1,5 +1,6 @@
 package simulations;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import cells.Cell;
@@ -12,7 +13,7 @@ public class SlimeMold extends SimulationWithPatch {
     public static final String ID = "SlimeMold";
     private static final int TOTAL_STATES = 5;
     private static final Paint[] COLORS =
-            { Color.WHITE, Color.BLUE, Color.BLACK, Color.ORANGE, Color.PURPLE };
+            { Color.WHITE, Color.BLUE, Color.PEACHPUFF, Color.LIGHTCORAL, Color.DARKORANGE };
     private static final int EMPTY = 0;
     private static final int AMOEBE = 1;
     private static final int LOW_CAMP = 2;
@@ -26,14 +27,11 @@ public class SlimeMold extends SimulationWithPatch {
     public static final String EVAPORATION_RATE = "EVAPORATION_RATE";
     public static final String DIFFUSION_RATE = "DIFFUSION_RATE";
     
-    // For Jasper
-    private double myWiggleBias = 0;
-    private double myWiggleAngle = 0;
-    private double mySniffThreshold = 0;
-    private double mySniffAngle = 0;
-    private double myCampDrop = 1;
-//    private double myEvaporationRate = .4;
-//    private double myDiffusionRate = .1;
+    private double myWiggleBias;
+    private double myWiggleAngle;
+    private double mySniffThreshold;
+    private double mySniffAngle;
+    private double myCampDrop;
     
     public SlimeMold () {
         super(TOTAL_STATES, COLORS);
@@ -120,7 +118,10 @@ public class SlimeMold extends SimulationWithPatch {
     
     private void setNextCampState (SlimeMoldCell cell) {
         int state = EMPTY;
-        if (cell.getMyCampAmount() < 50) {
+        if (cell.getMyCampAmount() == 0) {
+            state = EMPTY;
+        }
+        else if (cell.getMyCampAmount() < 50) {
             state = LOW_CAMP;
         }
         else if (cell.getMyCampAmount() < 150) {
@@ -145,6 +146,12 @@ public class SlimeMold extends SimulationWithPatch {
         myCampDrop = parameterMap.get(CAMP_DROP);
         myEvaporationRate = parameterMap.get(EVAPORATION_RATE);
         myDiffusionRate = parameterMap.get(DIFFUSION_RATE);
+    }
+    
+    @Override
+    public void initializeCells (List<ArrayList<Cell>> rows) {
+        // Do nothing
+        
     }
 
 }

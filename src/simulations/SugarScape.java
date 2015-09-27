@@ -38,7 +38,6 @@ public abstract class SugarScape extends SimulationWithPatch {
     protected int mySugarGrowBackInterval;
     protected int[] myCardinalNeighbors = new int[4];
     private int myTicks;
-    private boolean initialized = false;
 
     public SugarScape () {
         super(TOTAL_STATES, COLORS);
@@ -46,9 +45,6 @@ public abstract class SugarScape extends SimulationWithPatch {
 
     @Override
     public void update (List<ArrayList<Cell>> rows) {
-        if (!initialized) {
-            initializeCells(rows);
-        }
         List<SugarScapeCell> agents = new ArrayList<>();
         List<SugarScapeCell> otherCells = new ArrayList<>();
         for (List<Cell> row : rows) {
@@ -73,7 +69,8 @@ public abstract class SugarScape extends SimulationWithPatch {
 
     }
     
-    private void initializeCells(List<ArrayList<Cell>> rows) {
+    @Override
+    public void initializeCells(List<ArrayList<Cell>> rows) {
         for (List<Cell> row : rows) {
             for (Cell cell : row) {
                 SugarScapeCell sugarCell = (SugarScapeCell) cell;
@@ -86,7 +83,6 @@ public abstract class SugarScape extends SimulationWithPatch {
                 
             }
         }
-        initialized = true;
     }
 
     public void checkRules (Cell cell) {
