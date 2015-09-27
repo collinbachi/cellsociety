@@ -22,20 +22,20 @@ public class ForagingAntsCell extends CellWithPatch {
         isNest = false;
         isFood = false;
     }
-    
-    public void setIsNest(boolean isnest) {
+
+    public void setIsNest (boolean isnest) {
         isNest = isnest;
     }
-    
-    public void setIsFood(boolean isfood) {
+
+    public void setIsFood (boolean isfood) {
         isFood = isfood;
     }
-    
-    public boolean isNest() {
+
+    public boolean isNest () {
         return isNest;
     }
-    
-    public boolean isFood() {
+
+    public boolean isFood () {
         return isFood;
     }
 
@@ -120,18 +120,18 @@ public class ForagingAntsCell extends CellWithPatch {
         myNestPheromones = (int) (myNestPheromones * evaporationRate);
         myFoodPheromones = (int) (myFoodPheromones * evaporationRate);
     }
-    
+
     @Override
-    public void diffuse(double diffusionRate) {
+    public void diffuse (double diffusionRate) {
         for (Cell cell : myNeighbors) {
             ForagingAntsCell neighbor = (ForagingAntsCell) cell;
             if (neighbor != null) {
                 int currentNeighborPatch = neighbor.getMyNestPheromones();
-                int patchToAdd = (int) (myNestPheromones*diffusionRate);
+                int patchToAdd = (int) (myNestPheromones * diffusionRate);
                 neighbor.setMyNestPheromones(currentNeighborPatch + patchToAdd);
 
                 currentNeighborPatch = neighbor.getMyFoodPheromones();
-                patchToAdd = (int) (myFoodPheromones*diffusionRate);
+                patchToAdd = (int) (myFoodPheromones * diffusionRate);
                 neighbor.setMyFoodPheromones(currentNeighborPatch + patchToAdd);
             }
         }

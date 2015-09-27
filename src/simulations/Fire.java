@@ -31,9 +31,7 @@ public class Fire extends Simulation {
     public Fire () {
         super(TOTAL_STATES, COLORS);
     }
-    
-    
-    
+
     @Override
     public void checkRules (Cell cell) {
         myCardinalNeighbors = initializeCardinalNeighbors(cell.getMyNeighbors().length);
@@ -78,11 +76,11 @@ public class Fire extends Simulation {
     public void setParameters (Map<String, Double> parameterMap) {
         myProbCatch = parameterMap.get(PROB_CATCH);
     }
-    
+
     @Override
     public void initializeCells (List<ArrayList<Cell>> rows) {
         // Do nothing
-        
+
     }
 
 }

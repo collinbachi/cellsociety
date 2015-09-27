@@ -1,6 +1,5 @@
 package cells;
 
-
 /**
  * Cells that contain the specific functionality used
  * for the Fire Simulation

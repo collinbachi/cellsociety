@@ -64,7 +64,8 @@ public class PredatorPrey extends Simulation {
         for (int i = 0; i < neighbors.length; i++) {
             neighbors[i] = totalNeighbors[myCardinalNeighbors[i]];
         }
-        PredatorPreyCell randomBlankNeighbor = (PredatorPreyCell) getRandomNeighbor(neighbors, EMPTY);
+        PredatorPreyCell randomBlankNeighbor =
+                (PredatorPreyCell) getRandomNeighbor(neighbors, EMPTY);
         if (randomBlankNeighbor != null) {
             randomBlankNeighbor.setMyNextState(FISH);
             reproductionRules(fish, myFishReproductionTime);
@@ -130,11 +131,11 @@ public class PredatorPrey extends Simulation {
         myFishEnergy = parameterMap.get(FISH_ENERGY).intValue();
         myUnitEnergy = parameterMap.get(UNIT_ENERGY).intValue();
     }
-    
+
     @Override
     public void initializeCells (List<ArrayList<Cell>> rows) {
         // Do nothing
-        
+
     }
 
 }

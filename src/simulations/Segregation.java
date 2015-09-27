@@ -30,7 +30,7 @@ public class Segregation extends Simulation {
     public Segregation () {
         super(TOTAL_STATES, COLORS);
     }
-    
+
     @Override
     public void checkRules (Cell cell) {
         int[] neighborInfo = collectNeighborInfo(cell.getMyNeighbors());
@@ -69,11 +69,11 @@ public class Segregation extends Simulation {
     public void setParameters (Map<String, Double> parameterMap) {
         mySimilarThreshold = parameterMap.get(SIMILAR_THRESHOLD);
     }
-    
+
     @Override
     public void initializeCells (List<ArrayList<Cell>> rows) {
         // Do nothing
-        
+
     }
 
 }

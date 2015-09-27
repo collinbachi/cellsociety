@@ -1,6 +1,5 @@
 package cells;
 
-
 /**
  * Cells that contain the specific functionality used
  * for the Predator Prey Simulation
@@ -44,7 +43,7 @@ public class PredatorPreyCell extends Cell {
     public void resetLives () {
         myLives = 0;
     }
-    
+
     public void addToCurrentState (int toAdd) {
         this.myCurrentState += toAdd;
     }
@@ -53,7 +52,7 @@ public class PredatorPreyCell extends Cell {
     public void initializeWithState (int state) {
         myNextState = state;
         myLives = 0;
-        myEnergy = 0;        
+        myEnergy = 0;
     }
 
 }

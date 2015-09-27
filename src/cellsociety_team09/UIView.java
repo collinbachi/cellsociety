@@ -13,12 +13,10 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.geometry.Bounds;
-import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.BorderPane;
@@ -39,7 +37,6 @@ import xmlManagement.StyleReader;
  * @author Jasper Hancock
  */
 
-
 public class UIView {
 
     private Scene myScene;
@@ -58,8 +55,9 @@ public class UIView {
     private GridPane specificParameters = new GridPane();
     private GridView gridView;
     private ScrollPane sp;
-    private final int GRID_ROW_SPAN=10;
-    private final int GRID_COL_SPAN=4;
+    private final int GRID_ROW_SPAN = 10;
+    private final int GRID_COL_SPAN = 4;
+
     public Scene init (int width, int height) {
 
         BorderPane root = new BorderPane();
@@ -161,9 +159,9 @@ public class UIView {
 
                 mySpecificParameters.displayParameterFields(specificParameters, myXMLReader,
                                                             myGrid);
-                    mySpecificParameters.displayStateDistributions(specificParameters, myXMLReader,
-                                                                   myGrid);
-                
+                mySpecificParameters.displayStateDistributions(specificParameters, myXMLReader,
+                                                               myGrid);
+
                 if (sp != null)
                     gridPane.getChildren().remove(sp);
                 sp = new ScrollPane();
@@ -171,7 +169,7 @@ public class UIView {
                 sp.setPrefSize(grid.getWidth(), grid.getHeight());
                 myGrid.setSP(sp);
                 gridPane.add(sp, 0, 0, GRID_COL_SPAN, GRID_ROW_SPAN);
-                
+
             }
             catch (ParserConfigurationException | SAXException | IOException
                     | InstantiationException | IllegalAccessException | ClassNotFoundException
@@ -218,10 +216,9 @@ public class UIView {
                 animation.getKeyFrames().add(frame);
                 mySpecificParameters.displayParameterFields(specificParameters, myXMLReader,
                                                             myGrid);
-                    mySpecificParameters.displayStateDistributions(specificParameters, myXMLReader,
-                                                                   myGrid);
-                
-         
+                mySpecificParameters.displayStateDistributions(specificParameters, myXMLReader,
+                                                               myGrid);
+
             }
             catch (NullPointerException | ParserConfigurationException | SAXException
                     | IOException e) {

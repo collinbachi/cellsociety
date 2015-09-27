@@ -42,7 +42,7 @@ public class Conway extends Simulation {
             // cell remains unchanged
         }
     }
-    
+
     @Override
     public void setParameters (Map<String, Double> parameterMap) {
         // No parameters to update
@@ -51,7 +51,7 @@ public class Conway extends Simulation {
     @Override
     public void initializeCells (List<ArrayList<Cell>> rows) {
         // Do nothing
-        
+
     }
 
 }
