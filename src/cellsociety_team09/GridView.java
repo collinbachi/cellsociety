@@ -49,7 +49,7 @@ public abstract class GridView extends Group{
 				final int jj = j; // wants a final int...
 				c.setOnMousePressed(new EventHandler<MouseEvent>() {
    					public void handle(MouseEvent me) {
-        				System.out.println("Mouse pressed");
+        				//System.out.println("Mouse pressed");
         				myGrid.incrementState(ii, jj);
     			}});
 				row.add(c);
