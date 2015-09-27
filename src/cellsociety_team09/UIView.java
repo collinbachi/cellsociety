@@ -160,7 +160,10 @@ public class UIView {
                 if (sp!=null) gridPane.getChildren().remove(sp);
                 sp = new ScrollPane();
                 sp.setContent(gridView);
+                sp.setPrefSize(grid.getWidth(), grid.getHeight());
+                myGrid.setSP(sp);
                 gridPane.add(sp, 0, 0, 4, 8);
+                
             }
             catch (ParserConfigurationException | SAXException | IOException | InstantiationException | IllegalAccessException | ClassNotFoundException | NoSuchMethodException | SecurityException | IllegalArgumentException | InvocationTargetException e) {
                 e.printStackTrace();

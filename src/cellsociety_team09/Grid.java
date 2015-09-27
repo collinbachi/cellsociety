@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import cells.Cell;
 import cells.CellFactory;
+import javafx.scene.control.ScrollPane;
 import simulations.Simulation;
 import simulations.SimulationFactory;
 
@@ -23,6 +24,7 @@ public abstract class Grid{
 	//remove this later
 	protected GridView myGridView;
 	protected boolean isHex = false;
+	protected ScrollPane sp;
 
 	public void init(int[][] rows, String sim, Map<String, Double> parameterMap){
         SimulationFactory simulationFactory = new SimulationFactory();
@@ -69,9 +71,9 @@ public abstract class Grid{
 
 	public void incrementState(int row, int col){
 		Cell c = myRows.get(row).get(col);
-		System.out.println(c.getMyCurrentState());
+		//System.out.println(c.getMyCurrentState());
 		mySim.initializeCellWithState(c, mySim.getMyTotalStates() > c.getMyCurrentState()+1 ? c.getMyCurrentState()+1 : 0);
-		System.out.println(c.getMyCurrentState());
+		//System.out.println(c.getMyCurrentState());
 		myGridView.updateCells();
 	}
 
@@ -94,5 +96,9 @@ public abstract class Grid{
 	public void setParameterMap(Map<String,Double> newParameterMap)
 	{
 	    mySim.setParameters(newParameterMap);
+	}
+	
+	public void setSP(ScrollPane s){
+		sp = s;
 	}
 }
