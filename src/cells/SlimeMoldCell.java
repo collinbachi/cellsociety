@@ -1,20 +1,6 @@
 package cells;
 
-import java.util.List;
-
 public class SlimeMoldCell extends CellWithPatch {
-    
-    public List<Integer> getMyForwardLocations () {
-        return myForwardLocations;
-    }
-
-    public double getMyCampAmount () {
-        return myPatchAmount;
-    }
-
-    public void setMyCampAmount (int myCampAmount) {
-        this.myPatchAmount = myCampAmount;
-    }
 
     public SlimeMoldCell() {
         myPatchAmount = 0;
@@ -26,8 +12,8 @@ public class SlimeMoldCell extends CellWithPatch {
 
     @Override
     public void initializeWithState (int state) {
-        // TODO Auto-generated method stub
-        
+        myNextState = state;
+        myPatchAmount = 0;
     }
 
 }

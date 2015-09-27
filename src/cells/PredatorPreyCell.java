@@ -51,7 +51,7 @@ public class PredatorPreyCell extends Cell {
 
     @Override
     public void initializeWithState (int state) {
-        setMyNextState(state);
+        myNextState = state;
         myLives = 0;
         myEnergy = 0;        
     }

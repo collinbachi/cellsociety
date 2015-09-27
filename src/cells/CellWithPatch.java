@@ -1,16 +1,17 @@
 package cells;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public abstract class CellWithPatch extends Cell {
     
-    protected List<Integer> myForwardLocations;
+    protected int[] myForwardLocations;
     protected int myOrientation;
     protected int myPatchAmount;
     
     public int getMyPatchAmount () {
         return myPatchAmount;
+    }
+    
+    public int[] getMyForwardLocations () {
+        return myForwardLocations;
     }
 
     public void setMyPatchAmount (int d) {
@@ -19,7 +20,7 @@ public abstract class CellWithPatch extends Cell {
 
     public CellWithPatch() {
         myOrientation = 1;
-        myForwardLocations = new ArrayList<Integer>();
+        myForwardLocations = new int[3];
     }
 
     @Override
@@ -27,15 +28,14 @@ public abstract class CellWithPatch extends Cell {
 
     public void updateForwardLocations(int orientation) {
         myOrientation = orientation;
-        myForwardLocations.add(orientation - 1);
-        myForwardLocations.add(orientation);
-        myForwardLocations.add(orientation + 1);
-        
+        myForwardLocations[0] = orientation - 1;
+        myForwardLocations[1] = orientation;
+        myForwardLocations[2] = orientation + 1;
         if (orientation == 0) {
-            myForwardLocations.set(0, getMyNeighbors().length - 1);
+            myForwardLocations[0] = getMyNeighbors().length - 1;
         }
         else if (orientation == myNeighbors.length - 1) {
-            myForwardLocations.set(myForwardLocations.size()-1, 0);
+            myForwardLocations[2] = 0;
         }
     }
     
@@ -58,7 +58,8 @@ public abstract class CellWithPatch extends Cell {
     }
     
     public void diffuse(double diffusionRate) {
-        for (CellWithPatch neighbor : (CellWithPatch[]) myNeighbors) {
+        for (Cell cell : myNeighbors) {
+            CellWithPatch neighbor = (CellWithPatch) cell;
             if (neighbor != null) {
                 int currentNeighborPatch = neighbor.getMyPatchAmount();
                 int patchToAdd = (int) (myPatchAmount*diffusionRate);

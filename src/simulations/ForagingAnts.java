@@ -133,10 +133,10 @@ public class ForagingAnts extends SimulationWithPatch {
         if (ant.isFood() || ant.isNest()) {
             ant.updateForwardLocations(setOrientation(ant));
         }
-        int locationToMove = selectLocation((ForagingAntsCell[]) ant.getMyNeighbors(),
+        int locationToMove = selectLocation(ant.getMyNeighbors(),
                                             ant.getMyForwardLocations(), ant.hasFoodItem());
         if (locationToMove == -1) {
-            locationToMove = selectLocation((ForagingAntsCell[]) ant
+            locationToMove = selectLocation(ant
                     .getMyNeighbors(), ant.getMyNeighborLocations(), ant.hasFoodItem());
         }
         if (locationToMove != -1) {
@@ -158,18 +158,19 @@ public class ForagingAnts extends SimulationWithPatch {
     }
 
     private int setOrientation (ForagingAntsCell ant) {
-        ForagingAntsCell[] neighbors = (ForagingAntsCell[]) ant.getMyNeighbors();
-        int orientation = randomNum(neighbors.length);
-        for (int i = 0; i < neighbors.length; i++) {
-            if (neighbors[i] != null) {
+        int orientation = randomNum(ant.getMyNeighbors().length);
+        for (int i = 0; i < ant.getMyNeighbors().length; i++) {
+            ForagingAntsCell orientationAnt = (ForagingAntsCell) ant.getMyNeighbors()[orientation];
+            ForagingAntsCell currAnt = (ForagingAntsCell) ant.getMyNeighbors()[i];
+            if (currAnt != null) {
                 if (ant.hasFoodItem()) {
-                    if (neighbors[i].getMyNestPheromones() > neighbors[orientation]
+                    if (currAnt.getMyNestPheromones() > orientationAnt
                             .getMyNestPheromones()) {
                         orientation = i;
                     }
                 }
                 else if (!ant.hasFoodItem() &&
-                         neighbors[i].getMyFoodPheromones() > neighbors[orientation]
+                         currAnt.getMyFoodPheromones() > orientationAnt
                                  .getMyFoodPheromones()) {
                     orientation = i;
                 }
@@ -178,27 +179,29 @@ public class ForagingAnts extends SimulationWithPatch {
         return orientation;
     }
 
-    private int selectLocation (ForagingAntsCell[] neighbors,
-                                List<Integer> locationSet,
+    private int selectLocation (Cell[] neighbors,
+                                int[] locationSet,
                                 boolean hasFood) {
         int location = -1;
         for (int i : locationSet) {
-            if (neighbors[i] == null)
-                locationSet.remove(i);
-            if (neighbors[i].getMyNumberOfAnts() >= myMaxAnts) {
-                locationSet.remove(i);
+            ForagingAntsCell ant = (ForagingAntsCell) neighbors[i];
+            if (ant == null)
+                locationSet[i] = -1;
+            if (ant.getMyNumberOfAnts() >= myMaxAnts) {
+                locationSet[i] = -1;
             }
         }
-        if (!locationSet.isEmpty()) {
-            int max = 0;
-            for (int i : locationSet) {
-                if (hasFood && neighbors[i].getMyNestPheromones() > max) {
-                    max = neighbors[i].getMyNestPheromones();
+        int max = 0;
+        for (int i : locationSet) {
+            if (i >= 0) {
+                ForagingAntsCell ant = (ForagingAntsCell) neighbors[i];
+                if (hasFood && ant.getMyNestPheromones() > max) {
+                    max = ant.getMyNestPheromones();
                     location = i;
                 }
                 else if (!hasFood &&
-                         Math.pow(myK + neighbors[i].getMyFoodPheromones(), myN) > max) {
-                    max = (int) Math.pow(myK + neighbors[i].getMyFoodPheromones(), myN);
+                         Math.pow(myK + ant.getMyFoodPheromones(), myN) > max) {
+                    max = (int) Math.pow(myK + ant.getMyFoodPheromones(), myN);
                     location = i;
                 }
             }
@@ -215,7 +218,8 @@ public class ForagingAnts extends SimulationWithPatch {
         }
         else {
             int max = 0;
-            for (ForagingAntsCell neighbor : (ForagingAntsCell[]) ant.getMyNeighbors()) {
+            for (Cell cell : ant.getMyNeighbors()) {
+                ForagingAntsCell neighbor = (ForagingAntsCell) cell;
                 if (neighbor != null) {
                     int neighborsPheromones =
                             ant.hasFoodItem() ? neighbor.getMyFoodPheromones()
