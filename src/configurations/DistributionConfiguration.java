@@ -1,16 +1,46 @@
 package configurations;
 
+import java.util.ArrayList;
+import java.util.concurrent.ThreadLocalRandom;
 import org.w3c.dom.Element;
 
-public class DistributionConfiguration extends Configuration{
+public class DistributionConfiguration{
 
+    int[] distributionArray=new int[100];
     
     
-    @Override
-    public int[][] populateGrid (int[][] cellArray, Element cellList, int numberOfStates) {
-        // TODO Auto-generated method stub
-        return null;
+    private void fillDistributionArray(ArrayList<Integer> distributions)
+    {
+        int startIndex=0;
+        for(int state=0;state<distributions.size();state++)
+        { 
+            
+            for(int fillerIndex=startIndex;fillerIndex<distributions.get(state)+startIndex;fillerIndex++)
+            {
+                distributionArray[fillerIndex]=state;
+                System.out.println(state);
+            }
+            startIndex=startIndex+distributions.get(state);
+            
+            
+        }
     }
+    public int[][] populateGrid (int[][] cellArray,ArrayList<Integer> distributions) {
+        
+        fillDistributionArray(distributions);
+        
+        for(int x=0;x<cellArray.length;x++)
+        {
+            for (int y=0;y<cellArray[0].length;y++)
+                cellArray[x][y]=distributionArray[ThreadLocalRandom.current().nextInt(0,100)];
+        }
+        
+        
+        
+        return cellArray;
+    }
+    
+    
 
     
 }
