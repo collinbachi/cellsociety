@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.IOException;
 import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
+import configurations.RandomConfiguration;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.beans.value.ChangeListener;
@@ -26,8 +27,8 @@ import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.scene.control.TextField;
 import javafx.util.Duration;
-import xmlManagement.RandomConfiguration;
 import xmlManagement.SimReader;
+import xmlManagement.StyleReader;
 
 
 /*
@@ -39,8 +40,10 @@ public class UIView {
 
     private Scene myScene;
     private File xmlFileFolder = new File("XML");
+    private File styleFileFolder=new File("XML/Styles");
     private Grid myGrid;
     private SimReader myXMLReader;
+    private StyleReader myStyleReader;
     private SpecificParameters mySpecificParameters;
     private GridPane gridPane;
     private Rectangle grid;
@@ -67,38 +70,43 @@ public class UIView {
         selectSim.setText("Select New Simulation");
         FileChooser simBrowser = new FileChooser();
         simBrowser.setInitialDirectory(xmlFileFolder);
-
         selectSim.setOnAction(event -> selectSimulation(simBrowser));
-
         gridPane.add(selectSim, 5, 1);
 
+        Button selectStyle=new Button("Select grid style");
+        FileChooser styleBrowser=new FileChooser();
+        styleBrowser.setInitialDirectory(styleFileFolder);
+        selectStyle.setOnAction(event -> selectStyle(styleBrowser));
+        gridPane.add(selectStyle, 5, 2);
+        
+        
         Button startSim = new Button();
         startSim.setText("Start Simulation");
         startSim.setOnAction( (ActionEvent event) -> animation.play());
-        gridPane.add(startSim, 5, 2);
+        gridPane.add(startSim, 5, 3);
 
         Button stopSim = new Button();
         stopSim.setText("Stop Simulation");
         stopSim.setOnAction(event -> animation.pause());
-        gridPane.add(stopSim, 5, 3);
+        gridPane.add(stopSim, 5, 4);
 
         Button stepSim = new Button();
         stepSim.setText("Increment Simulation");
         stepSim.setOnAction(event -> incrementSimulation());
-        gridPane.add(stepSim, 5, 4);
+        gridPane.add(stepSim, 5, 5);
 
         Button randomizeConfig = new Button();
         randomizeConfig.setText("Generate Random Configuration");
         randomizeConfig.setOnAction(event -> randomizeGrid());
-        gridPane.add(randomizeConfig, 5, 5);
+        gridPane.add(randomizeConfig, 5, 6);
 
         Button setParameters = new Button("Change Simluation Parameters");
         setParameters.setOnAction(event -> myGrid.setParameterMap(mySpecificParameters
                 .changeParameters(myXMLReader.populateParameterMap())));
-        gridPane.add(setParameters, 5, 6);
+        gridPane.add(setParameters, 5, 7);
 
         configureSpeedSlider(speedSlider);
-        gridPane.add(speedSlider, 5, 7);
+        gridPane.add(speedSlider, 5, 8);
 
         GridPane descriptionPane = new GridPane();
         descriptionPane.add(simulationName, 0, 0);
@@ -127,6 +135,20 @@ public class UIView {
 
     }
 
+    private void selectStyle(FileChooser styleBrowser)
+    {
+        File selectedStyle=styleBrowser.showOpenDialog(myScene.getWindow());
+        if(selectedStyle!=null)
+        {
+            try {
+                myStyleReader=new StyleReader();
+                myStyleReader.parseStyle(selectedStyle);
+            }
+            catch (ParserConfigurationException | SAXException | IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
     public void createErrorMessage (String header, String content) {
         Alert noSim = new Alert(AlertType.ERROR);
         noSim.setContentText(content);
@@ -164,22 +186,11 @@ public class UIView {
             }
             catch (NullPointerException | ParserConfigurationException | SAXException
                     | IOException e) {
-                displayInvalidSim();}}
+                e.printStackTrace();
+                displayInvalidFile();}}
             }
-	
-	private void displayParameterSliders()
-	{
-		int rowIndex=0;
-		for(String s: myXMLReader.populateParameterMap().keySet())
-	{
-			Text parameterName=new Text(s);
-			specificParameters.add(parameterName, 0, rowIndex);
-			 
-		}
-	}
-	
 
-    public void displayInvalidSim () {
+    public void displayInvalidFile () {
         Alert invalidSim = new Alert(AlertType.INFORMATION);
         invalidSim.setTitle("Corrupted/Invalid XML File selected");
         invalidSim.setHeaderText(
@@ -194,7 +205,7 @@ public class UIView {
             myGrid.step();
         }
         catch (NullPointerException e) {
-            displayInvalidSim();
+            displayInvalidFile();
         }
     }
 

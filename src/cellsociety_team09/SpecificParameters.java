@@ -26,7 +26,7 @@ public class SpecificParameters {
             TextField inputField = new TextField();
             inputField.setMaxWidth(100);
             inputField.setText(myXMLReader.populateParameterMap().get(s).toString());
-            
+            inputField.setPromptText(s);
             Label parameterName=new Label(s);
             parameterName.setMaxWidth(100);
             parameterName.setFont(new Font("Cambrira",10));
@@ -42,9 +42,9 @@ public class SpecificParameters {
 
     public Map<String, Double> changeParameters (Map<String, Double> parameterMap) {
         for (TextField field : fieldList) {
-
             try {
                 parameterMap.put(field.getPromptText(), Double.parseDouble(field.getText()));
+                System.out.println(field.getText());
             }
             catch (NumberFormatException e)
 

@@ -3,6 +3,10 @@ package cellsociety_team09;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import xmlManagement.FireWriter;
+import xmlManagement.ForagingAntsWriter;
+import xmlManagement.SlimeMoldWriter;
+import xmlManagement.TypicalStyleWriter;
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
 
@@ -37,6 +41,8 @@ public class Main extends Application {
      * Start the program.
      */
     public static void main (String[] args) {
+        SlimeMoldWriter writer=new SlimeMoldWriter();
+        writer.writeFile();
         launch(args);
     }
 }
