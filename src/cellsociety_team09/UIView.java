@@ -3,6 +3,9 @@ package cellsociety_team09;
 import java.awt.List;
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+
 import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
 import configurations.RandomConfiguration;
@@ -11,6 +14,7 @@ import javafx.animation.Timeline;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
+import javafx.geometry.Bounds;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -146,14 +150,19 @@ public class UIView {
                 myStyleReader=new StyleReader();
                 myStyleReader.parseStyle(selectedStyle);
     			myGrid = (Grid) Class.forName("cellsociety_team09." + myStyleReader.getMyGridEdge()).newInstance();
-    			gridView = (GridView) Class.forName("cellsociety_team09." + myStyleReader.getMyGridShape()).newInstance();
+    			myXMLReader.passToGrid(myGrid);
+    			myGrid.isHex = myStyleReader.getMyGridShape() == "HexagonView"; //bad
 
+    			Class<?> clazz = Class.forName("cellsociety_team09." + myStyleReader.getMyGridShape());
+    			Constructor<?> constructor = clazz.getConstructor(Grid.class, Bounds.class);
+    			gridView = (GridView) constructor.newInstance(myGrid, grid.getBoundsInLocal());
+    			
                 if (sp!=null) gridPane.getChildren().remove(sp);
                 sp = new ScrollPane();
                 sp.setContent(gridView);
                 gridPane.add(sp, 0, 0, 4, 8);
             }
-            catch (ParserConfigurationException | SAXException | IOException | InstantiationException | IllegalAccessException | ClassNotFoundException e) {
+            catch (ParserConfigurationException | SAXException | IOException | InstantiationException | IllegalAccessException | ClassNotFoundException | NoSuchMethodException | SecurityException | IllegalArgumentException | InvocationTargetException e) {
                 e.printStackTrace();
             }
         }

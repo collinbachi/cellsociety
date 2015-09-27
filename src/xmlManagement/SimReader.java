@@ -42,6 +42,7 @@ public class SimReader {
 	private Map<String, Double> myParameterMap = new HashMap<String, Double>();
 	private XMLTags xmlTags = new XMLTags();
 	private final double DEFAULT_VALUE = 1;
+	private int[][] initialCellArray;
 
 	public void parseFile(File testFile, Grid grid) throws ParserConfigurationException, SAXException, IOException {
 		DocumentBuilderFactory fac = DocumentBuilderFactory.newInstance();
@@ -61,10 +62,14 @@ public class SimReader {
 
 		ConfigurationFactory gridConfig=new ConfigurationFactory();
 		Configuration config=gridConfig.createConfiguration("List");
+		initialCellArray = config.populateGrid(myCellArray, simDetails, myNumberOfStates); 
 		
-		grid.init(config.populateGrid(myCellArray, simDetails, myNumberOfStates),
-				myFileName, myParameterMap);
+		passToGrid(grid);
 
+	}
+	
+	public void passToGrid(Grid grid){
+		grid.init(initialCellArray, myFileName, myParameterMap);
 	}
 
 	private void populateParameterMap(Map<String, Double> parameterMap, NodeList parameterList) {
