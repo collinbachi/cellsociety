@@ -1,6 +1,7 @@
 package configurations;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 import org.w3c.dom.Element;
 import cellsociety_team09.UIView;
@@ -10,7 +11,7 @@ public class DistributionConfiguration {
 
     int[] distributionArray = new int[100];
 
-    private void fillDistributionArray (ArrayList<Integer> distributions) {
+    private void fillDistributionArray (List<Integer> distributions) {
         int startIndex = 0;
         try {
             for (int state = 0; state < distributions.size(); state++) {
@@ -28,7 +29,7 @@ public class DistributionConfiguration {
         }
     }
 
-    public int[][] populateGrid (int[][] cellArray, ArrayList<Integer> distributions) {
+    public int[][] populateGrid (int[][] cellArray, List<Integer> distributions) {
 
         fillDistributionArray(distributions);
 
