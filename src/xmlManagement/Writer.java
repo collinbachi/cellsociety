@@ -14,7 +14,7 @@ import org.w3c.dom.Element;
 
 public class Writer {
 
-    public void addNodeToElement (Document newFile,
+    protected void addNodeToElement (Document newFile,
                                   Element element,
                                   String fieldName,
                                   String content) {
@@ -24,9 +24,7 @@ public class Writer {
     }
 
     public void createFile (Document newFile,
-                            String myDestinationFile) throws TransformerFactoryConfigurationError,
-                                                      TransformerConfigurationException,
-                                                      TransformerException {
+                            String myDestinationFile) throws TransformerException {
         TransformerFactory transformerFactory = TransformerFactory.newInstance();
         Transformer transformer = transformerFactory.newTransformer();
         DOMSource source = new DOMSource(newFile);

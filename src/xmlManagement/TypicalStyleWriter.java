@@ -4,7 +4,7 @@ public class TypicalStyleWriter extends StyleWriter {
     
     public TypicalStyleWriter(){
         
-        super("NormalStyle.xml", "SQUARE", "FINITE", false, true, "ALL");
+        super("HexagonNormalBorder.xml", "HexagonView", "WrapBorderGrid", false, true, "ALL");
         
     }
 

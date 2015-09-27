@@ -1,5 +1,7 @@
 package simulations;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import cells.Cell;
@@ -75,6 +77,12 @@ public class Fire extends Simulation {
     @Override
     public void setParameters (Map<String, Double> parameterMap) {
         myProbCatch = parameterMap.get(PROB_CATCH);
+    }
+    
+    @Override
+    public void initializeCells (List<ArrayList<Cell>> rows) {
+        // Do nothing
+        
     }
 
 }

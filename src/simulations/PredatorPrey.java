@@ -1,5 +1,7 @@
 package simulations;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import cells.Cell;
 import cells.PredatorPreyCell;
@@ -138,6 +140,12 @@ public class PredatorPrey extends Simulation {
         mySharkReproductionTime = parameterMap.get(SHARK_REPRODUCTION_TIME).intValue();
         myFishEnergy = parameterMap.get(FISH_ENERGY).intValue();
         myUnitEnergy = parameterMap.get(UNIT_ENERGY).intValue();
+    }
+    
+    @Override
+    public void initializeCells (List<ArrayList<Cell>> rows) {
+        // Do nothing
+        
     }
 
 }
