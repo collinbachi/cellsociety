@@ -9,7 +9,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 
 
-public class SlimeMold extends SimulationWithPatch {
+public class SlimeMold extends Simulation {
     public static final String ID = "SlimeMold";
     private static final int TOTAL_STATES = 5;
     private static final Paint[] COLORS =
@@ -33,6 +33,8 @@ public class SlimeMold extends SimulationWithPatch {
     private double mySniffThreshold;
     private double mySniffAngle;
     private double myCampDrop;
+    private double myEvaporationRate;
+    private double myDiffusionRate;
 
     public SlimeMold () {
         super(TOTAL_STATES, COLORS);
@@ -91,7 +93,7 @@ public class SlimeMold extends SimulationWithPatch {
         setForwardNeighbors(slime);
         Cell[] cells = slime.getMyNeighbors();
         int[] forwardView = slime.getMyForwardLocations();
-        int location = -1;
+        int location = 0;
         for (int i = 0; i < forwardView.length; i++) {
             SlimeMoldCell neighbor = (SlimeMoldCell) cells[forwardView[i]];
             if (neighbor == null) {
@@ -112,7 +114,7 @@ public class SlimeMold extends SimulationWithPatch {
     }
 
     private void move (SlimeMoldCell slime, int locationToMove) {
-        if (locationToMove > 0) {
+        if (locationToMove >= 0) {
             SlimeMoldCell newSlime = (SlimeMoldCell) slime.getMyNeighbors()[locationToMove];
             newSlime.setMyNextState(AMOEBE);
             setNextCampState(slime);

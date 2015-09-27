@@ -67,21 +67,21 @@ public class PredatorPrey extends Simulation {
         PredatorPreyCell randomBlankNeighbor = (PredatorPreyCell) getRandomNeighbor(neighbors, EMPTY);
         if (randomBlankNeighbor != null) {
             randomBlankNeighbor.setMyNextState(FISH);
-            fishReproductionRules(fish);
+            reproductionRules(fish, myFishReproductionTime);
             randomBlankNeighbor.setMyLives(fish.getMyLives() + 1);
             fish.resetLives();
         }
         fish.incrementLives();
     }
 
-    private void fishReproductionRules (PredatorPreyCell fish) {
-        if (fish.getMyLives() >= myFishReproductionTime) {
-            fish.setMyNextState(FISH);
-            fish.resetLives();
+    private void reproductionRules (PredatorPreyCell cell, int reproductionTime) {
+        if (cell.getMyLives() >= reproductionTime) {
+            cell.setMyNextState(cell.getMyCurrentState());
         }
         else {
-            fish.setMyNextState(EMPTY);
+            cell.setMyNextState(EMPTY);
         }
+        cell.resetLives();
     }
 
     private void sharkRules (PredatorPreyCell shark) {
@@ -103,17 +103,15 @@ public class PredatorPrey extends Simulation {
         if (fishToEat != null) {
             fishToEat.setMyNextState(SHARK);
             fishToEat.setMyEnergy(shark.getMyEnergy() + myFishEnergy);
-            sharkReproductionRules(shark);
+            reproductionRules(shark, mySharkReproductionTime);
             fishToEat.setMyLives(shark.getMyLives());
-            shark.resetLives();
             shark.setMyEnergy(0);
         }
         else if (spaceToMove != null) {
             spaceToMove.setMyNextState(SHARK);
             spaceToMove.setMyEnergy(shark.getMyEnergy());
-            sharkReproductionRules(shark);
+            reproductionRules(shark, mySharkReproductionTime);
             spaceToMove.setMyLives(shark.getMyLives());
-            shark.resetLives();
             shark.setMyEnergy(0);
         }
         else {
@@ -123,15 +121,6 @@ public class PredatorPrey extends Simulation {
 
     private boolean sharkIsDead (PredatorPreyCell shark) {
         return shark.getMyEnergy() <= -SHARK_ENERGY;
-    }
-
-    private void sharkReproductionRules (PredatorPreyCell shark) {
-        if (shark.getMyLives() >= mySharkReproductionTime) {
-            shark.setMyNextState(SHARK);
-        }
-        else {
-            shark.setMyNextState(EMPTY);
-        }
     }
 
     @Override

@@ -1,10 +1,8 @@
 package cellsociety_team09;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import cells.*;
-import javafx.scene.control.ScrollPane;
-import simulations.*;
+import cells.Cell;
+import cells.CellFactory;
 
 public class InfiniteBorderGrid extends Grid{
 	
@@ -12,33 +10,7 @@ public class InfiniteBorderGrid extends Grid{
 	private ArrayList<Tuple<Cell, Integer>> rightEdges = new ArrayList<Tuple<Cell, Integer>>();
 	private ArrayList<Tuple<Cell, Integer>> topEdges = new ArrayList<Tuple<Cell, Integer>>();
 	private ArrayList<Tuple<Cell, Integer>> bottomEdges = new ArrayList<Tuple<Cell, Integer>>();
-	*/
-	
-
-	@Override
-	protected void initNeighbors(){
-		System.out.println("infinite border grid");
-        int[] xCoords = { -1, -1, -1, 0, 0, 1, 1, 1 };
-        int[] yCoords = { -1, 0, 1, -1, 1, -1, 0, 1 };
-        if (isHex){
-        	int[] xCoords2 = {-1, 0, 1, 1, 0, -1};
-        	int[] yCoords2 = {-1, -1, -1, 0, 1, 0};
-        	xCoords = xCoords2;
-        	yCoords = yCoords2;
-        }
-		for (int i=0; i<myRows.size(); i++){
-			ArrayList<Cell> row = myRows.get(i);
-			for (int j=0; j<row.size(); j++){
-				Cell[] neighbors = new Cell[xCoords.length];
-                for (int k = 0; k < xCoords.length; k++) {
-                    neighbors[k] = safeIndex(i + xCoords[k], j + yCoords[k]) ? myRows.get(i + xCoords[k]).get(j + yCoords[k]) : null;
-                            
-                }
-				myRows.get(i).get(j).setMyNeighbors(neighbors);
-			}
-		}	
-	}
-	
+	*/	
 	
 	private Cell createEdgeCell(int i, int j){
 		/*Cell c = createEmptyCell();
@@ -162,6 +134,12 @@ public class InfiniteBorderGrid extends Grid{
 			row.add(this.createEmptyCell());
 		}
 	}
+
+
+    @Override
+    protected Cell index (int i, int j) {
+        return null;
+    }
 
 
 }
