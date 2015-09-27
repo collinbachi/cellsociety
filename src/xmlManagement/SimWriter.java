@@ -1,19 +1,12 @@
 package xmlManagement;
 
-import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.TransformerFactoryConfigurationError;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import simulations.Simulation;
@@ -26,7 +19,7 @@ import simulations.Simulation;
  * 
  * @author Jasper Hancock
  */
-public abstract class SimWriter extends Writer{
+public abstract class SimWriter extends Writer {
     protected final String myDestinationFile;
     protected final String myName;
     protected final String myTitle;
@@ -62,7 +55,7 @@ public abstract class SimWriter extends Writer{
         try {
             DocumentBuilder dB = docFactory.newDocumentBuilder();
             Document newFile = dB.newDocument();
-            
+
             Element root = newFile.createElement("SimFile");
             newFile.appendChild(root);
             Element sim = newFile.createElement("simulation");
@@ -72,7 +65,7 @@ public abstract class SimWriter extends Writer{
             addSpecificParameters(newFile, sim);
             configureInitialPositions(newFile, sim, myGridWidth, myGridHeight, myPossibleStates);
 
-            createFile(newFile,myDestinationFile);
+            createFile(newFile, myDestinationFile);
 
         }
         catch (ParserConfigurationException | TransformerException e) {
@@ -80,8 +73,6 @@ public abstract class SimWriter extends Writer{
             e.printStackTrace();
         }
     }
-
-    
 
     private void addHeaderData (XMLTags fields, Document newFile, Element sim) {
         addNodeToElement(newFile, sim, fields.NAME_TAG_TITLE, myName);
@@ -135,8 +126,8 @@ public abstract class SimWriter extends Writer{
         sim.appendChild(cells);
     }
 
-    public Map<String, Double> getParameterMap() {
-		return parameterMap;
-	}
+    public Map<String, Double> getParameterMap () {
+        return parameterMap;
+    }
 
 }

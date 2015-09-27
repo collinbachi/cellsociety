@@ -59,7 +59,10 @@ public class SlimeMold extends Simulation {
 
     private void setForwardNeighbors (SlimeMoldCell slime) {
         int orientation = slime.getMyOrientation();
-        if (mySniffAngle % 180 < 45) {
+        if (mySniffAngle == 0) {
+            slime.updateForwardLocations(orientation);
+        }
+        else if (mySniffAngle % 180 < 45) {
             slime.updateForwardLocations(orientation + 1);
         }
         else if (mySniffAngle % 180 < 90) {
@@ -71,18 +74,18 @@ public class SlimeMold extends Simulation {
     }
 
     private void wiggleCell (SlimeMoldCell slime, int locationToMove) {
-        if (locationToMove > 0) {
-            int posOrNeg = 1;
-            if (myWiggleAngle < 0)
-                posOrNeg = -1;
-            if (myWiggleAngle % 180 < 45) {
-                locationToMove += posOrNeg * 1 * myWiggleBias;
+        if (locationToMove >= 0) {
+            if (myWiggleAngle == 0) {
+                locationToMove += 0 * myWiggleBias;
+            }
+            else if (myWiggleAngle % 180 < 45) {
+                locationToMove += 1 * myWiggleBias;
             }
             else if (myWiggleAngle % 180 < 90) {
-                locationToMove += posOrNeg * 2 * myWiggleBias;
+                locationToMove += 2 * myWiggleBias;
             }
             else if (myWiggleAngle % 180 < 135) {
-                locationToMove += posOrNeg * 3 * myWiggleBias;
+                locationToMove += 3 * myWiggleBias;
             }
             locationToMove = slime.wrapAroundNeighbors(locationToMove);
         }
@@ -94,15 +97,9 @@ public class SlimeMold extends Simulation {
         Cell[] cells = slime.getMyNeighbors();
         int[] forwardView = slime.getMyForwardLocations();
         int location = 0;
-        for (int i = 0; i < forwardView.length; i++) {
-            SlimeMoldCell neighbor = (SlimeMoldCell) cells[forwardView[i]];
-            if (neighbor == null) {
-                forwardView[i] = -1;
-            }
-        }
         int max = 0;
         for (int i : forwardView) {
-            if (i >= 0) {
+            if (cells[i] != null) {
                 SlimeMoldCell neighbor = (SlimeMoldCell) cells[i];
                 if (neighbor.getMyPatchAmount() > max &&
                     neighbor.getMyPatchAmount() > mySniffThreshold) {
@@ -117,7 +114,6 @@ public class SlimeMold extends Simulation {
         if (locationToMove >= 0) {
             SlimeMoldCell newSlime = (SlimeMoldCell) slime.getMyNeighbors()[locationToMove];
             newSlime.setMyNextState(AMOEBE);
-            setNextCampState(slime);
         }
     }
 

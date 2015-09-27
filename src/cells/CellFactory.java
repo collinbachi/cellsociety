@@ -1,6 +1,5 @@
 package cells;
 
-
 /**
  * Factory class to generate the concrete cell class needed
  *

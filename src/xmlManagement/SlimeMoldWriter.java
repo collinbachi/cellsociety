@@ -1,11 +1,10 @@
 package xmlManagement;
 
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 import simulations.SlimeMold;
 
+
 public class SlimeMoldWriter extends SimWriter {
-    
+
     private final double myWiggleBias = 0;
     private final double myWiggleAngle = 0;
     private final double mySniffThreshold = 0;
@@ -30,26 +29,24 @@ public class SlimeMoldWriter extends SimWriter {
         super.getParameterMap().put(SlimeMold.EVAPORATION_RATE, myEvaporationRate);
         super.getParameterMap().put(SlimeMold.DIFFUSION_RATE, myDiffusionRate);
 
-        
     }
     /*
-    @Override 
-    public void configureInitialPositions(Document newFile,
-                                           Element sim,
-                                           int width,
-                                           int height,
-                                           int states)
-    {
-        Element cells=newFile.createElement("cells");
-        for(int x=0;x<width;x++){
-            for(int y=0;y<height;y++)
-            {
-                
-            }
-        }
-         
-    }
-    */
-    
+     * @Override
+     * public void configureInitialPositions(Document newFile,
+     * Element sim,
+     * int width,
+     * int height,
+     * int states)
+     * {
+     * Element cells=newFile.createElement("cells");
+     * for(int x=0;x<width;x++){
+     * for(int y=0;y<height;y++)
+     * {
+     * 
+     * }
+     * }
+     * 
+     * }
+     */
 
 }

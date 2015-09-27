@@ -1,6 +1,5 @@
 package xmlManagement;
 
-
 public class ConwayWriter extends SimWriter {
 
     public ConwayWriter () {

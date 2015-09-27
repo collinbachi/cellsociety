@@ -37,8 +37,8 @@ public abstract class Simulation {
             }
         }
     }
-    
-    public abstract void initializeCells(List<ArrayList<Cell>> rows);
+
+    public abstract void initializeCells (List<ArrayList<Cell>> rows);
 
     protected abstract void checkRules (Cell cell);
 

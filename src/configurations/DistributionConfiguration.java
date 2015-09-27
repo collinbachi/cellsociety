@@ -1,9 +1,7 @@
 package configurations;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
-import org.w3c.dom.Element;
 import cellsociety_team09.UIView;
 
 
