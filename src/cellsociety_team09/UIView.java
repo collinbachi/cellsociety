@@ -3,6 +3,9 @@ package cellsociety_team09;
 import java.awt.List;
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+
 import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
 import configurations.RandomConfiguration;
@@ -11,6 +14,7 @@ import javafx.animation.Timeline;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
+import javafx.geometry.Bounds;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -52,6 +56,8 @@ public class UIView {
     private Text simulationName = new Text();
     private Text authorName = new Text();
     private GridPane specificParameters = new GridPane();
+	private GridView gridView;
+	private ScrollPane sp;
 
     public Scene init (int width, int height) {
 
@@ -138,9 +144,21 @@ public class UIView {
                 myStyleReader = new StyleReader();
                 myStyleReader.parseStyle(selectedStyle);
 
+    			myGrid = (Grid) Class.forName("cellsociety_team09." + myStyleReader.getMyGridEdge()).newInstance();
+    			myXMLReader.passToGrid(myGrid);
+    			myGrid.isHex = myStyleReader.getMyGridShape() == "HexagonView"; //bad
+
+    			Class<?> clazz = Class.forName("cellsociety_team09." + myStyleReader.getMyGridShape());
+    			Constructor<?> constructor = clazz.getConstructor(Grid.class, Bounds.class);
+    			gridView = (GridView) constructor.newInstance(myGrid, grid.getBoundsInLocal());
+    			
+                if (sp!=null) gridPane.getChildren().remove(sp);
+                sp = new ScrollPane();
+                sp.setContent(gridView);
+                gridPane.add(sp, 0, 0, 4, 8);
             }
-            catch (ParserConfigurationException | SAXException | IOException e) {
-                displayInvalidFile();
+            catch (ParserConfigurationException | SAXException | IOException | InstantiationException | IllegalAccessException | ClassNotFoundException | NoSuchMethodException | SecurityException | IllegalArgumentException | InvocationTargetException e) {
+                e.printStackTrace();
             }
         }
     }
@@ -158,7 +176,7 @@ public class UIView {
             // specificParameters.getChildren().clear();
 
             animation.pause();
-            myGrid = new WrapBorderGrid();
+            myGrid = new NormalBorderGrid();
 
             myXMLReader = new SimReader();
             mySpecificParameters = new SpecificParameters();
@@ -168,13 +186,14 @@ public class UIView {
                 authorName.setText("Simulation Author: " + myXMLReader.getAuthor());
 
                 // IF YOU CHANGE THIS: also change the isHex boolean in grid!
-                SquareView gridView = new SquareView(myGrid, grid.getBoundsInLocal());
 
-                ScrollPane sp = new ScrollPane();
+                gridView = new SquareView(myGrid, grid.getBoundsInLocal());
+                
+                sp = new ScrollPane();
                 sp.setContent(gridView);
                 gridPane.add(sp, 0, 0, 4, 8);
 
-                KeyFrame frame = new KeyFrame(Duration.millis(150), e -> myGrid.step());
+                KeyFrame frame = new KeyFrame(Duration.millis(150), e -> step());
                 animation.setCycleCount(Timeline.INDEFINITE);
                 animation.getKeyFrames().add(frame);
                 mySpecificParameters.displayParameterFields(specificParameters, myXMLReader,myGrid);
@@ -194,6 +213,11 @@ public class UIView {
                 displayInvalidFile();
             }
         }
+        }
+
+    
+    private void step(){
+    	myGrid.step();
     }
 
     public void displayInvalidFile () {

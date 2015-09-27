@@ -82,6 +82,10 @@ public abstract class Grid{
 			myGridView.updateCells();
 		}
 	}
+	
+	public void updateView(){
+		myGridView.updateCells();
+	}
 
 	public void setGridView(GridView g){
 		myGridView = g;

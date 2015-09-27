@@ -41,8 +41,6 @@ public class Main extends Application {
      * Start the program.
      */
     public static void main (String[] args) {
-        SlimeMoldWriter writer=new SlimeMoldWriter();
-        writer.writeFile();
         launch(args);
     }
 }
