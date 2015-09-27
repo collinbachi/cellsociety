@@ -1,5 +1,7 @@
 package xmlManagement;
 
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import simulations.SlimeMold;
 
 public class SlimeMoldWriter extends SimWriter {
@@ -30,5 +32,24 @@ public class SlimeMoldWriter extends SimWriter {
 
         
     }
+    /*
+    @Override 
+    public void configureInitialPositions(Document newFile,
+                                           Element sim,
+                                           int width,
+                                           int height,
+                                           int states)
+    {
+        Element cells=newFile.createElement("cells");
+        for(int x=0;x<width;x++){
+            for(int y=0;y<height;y++)
+            {
+                
+            }
+        }
+         
+    }
+    */
+    
 
 }

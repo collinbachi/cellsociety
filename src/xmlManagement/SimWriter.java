@@ -61,9 +61,8 @@ public abstract class SimWriter extends Writer{
 
         try {
             DocumentBuilder dB = docFactory.newDocumentBuilder();
-
             Document newFile = dB.newDocument();
-
+            
             Element root = newFile.createElement("SimFile");
             newFile.appendChild(root);
             Element sim = newFile.createElement("simulation");

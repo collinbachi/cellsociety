@@ -22,9 +22,11 @@ public class SpecificParameters {
     
     public void displayParameterFields (GridPane specificParameters, SimReader myXMLReader,Grid myGrid) {
         int rowIndex = 2;
+        specificParameters.getChildren().clear();
+        specificParameters.setMinWidth(400);
         specificParameters.setVgap(30);
+        fieldList.clear();
         for (String s : myXMLReader.populateParameterMap().keySet()) {
-            fieldList = new ArrayList<TextField>();
             TextField inputField = new TextField();
             inputField.setMaxWidth(100);
             inputField.setText(myXMLReader.populateParameterMap().get(s).toString());
@@ -53,7 +55,6 @@ public class SpecificParameters {
         for (TextField field : fieldList) {
             try {
                 parameterMap.put(field.getPromptText(), Double.parseDouble(field.getText()));
-                System.out.println(field.getText());
             }
             catch (NumberFormatException e)
 
@@ -68,12 +69,13 @@ public class SpecificParameters {
     public void displayStateDistributions(GridPane pane,SimReader myXMLReader,Grid myGrid)
     {
         int rowIndex=2;
-        
+        stateList.clear();
         for(int state=0;state<myXMLReader.getNumberOfStates();state++)
         {
             Label stateName=new Label("State "+(state)+":");
             stateName.setFont(new Font("Cambria",10));
             TextField stateField=new TextField();
+            stateField.setMaxWidth(50);
             pane.add(stateName, 3, rowIndex);
             pane.add(stateField, 4, rowIndex);
             stateList.add(stateField);
@@ -89,7 +91,7 @@ public class SpecificParameters {
     {
         ArrayList<Integer> distributionList=new ArrayList<Integer>();
         DistributionConfiguration config=new DistributionConfiguration();
-
+        
         for(TextField field: stateList)
         {
            try{
@@ -97,11 +99,13 @@ public class SpecificParameters {
            }
            catch (NumberFormatException e)
            {
-               
+            UIView popup=new UIView();
+            popup.createErrorMessage("Invalid distribution inputs", "Please input integers");
            }
         }
         myGrid.init(config.populateGrid(myXMLReader.getCellArray(), distributionList), myXMLReader.getMyFileName(), myXMLReader.populateParameterMap());
-        myGrid.step();
+        myGrid.updateView();
+        //myGrid.step();
         
         
     }

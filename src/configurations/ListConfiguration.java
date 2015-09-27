@@ -10,8 +10,8 @@ public class ListConfiguration extends Configuration {
 	public int[][] populateGrid(int[][] cellArray, Element fileContents,int myNumberOfStates) {
 		NodeList cellList=fileContents.getElementsByTagName(XMLTags.CELL_TAG_TITLE);
 		for (int pos = 0; pos < cellList.getLength(); pos++) {
-			int xPos = Integer.parseInt(cellList.item(pos).getChildNodes().item(0).getTextContent());
-			int yPos = Integer.parseInt(cellList.item(pos).getChildNodes().item(1).getTextContent());
+			int xPos = getCellX(cellList, pos);
+			int yPos = getCellY(cellList, pos);
 			int state = Integer.parseInt(cellList.item(pos).getChildNodes().item(2).getTextContent());
 
 			try {
@@ -28,5 +28,15 @@ public class ListConfiguration extends Configuration {
 		return cellArray;
 		
 	}
+
+    public int getCellY (NodeList cellList, int pos) {
+        int yPos = Integer.parseInt(cellList.item(pos).getChildNodes().item(1).getTextContent());
+        return yPos;
+    }
+
+    public int getCellX (NodeList cellList, int pos) {
+        int xPos = Integer.parseInt(cellList.item(pos).getChildNodes().item(0).getTextContent());
+        return xPos;
+    }
 
 }
