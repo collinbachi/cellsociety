@@ -222,7 +222,6 @@ public class UIView {
             }
             catch (NullPointerException | ParserConfigurationException | SAXException
                     | IOException e) {
-                e.printStackTrace();
                 displayInvalidFile();
             }
         }
