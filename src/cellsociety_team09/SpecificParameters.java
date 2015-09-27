@@ -97,7 +97,8 @@ public class SpecificParameters {
            }
            catch (NumberFormatException e)
            {
-               
+            UIView popup=new UIView();
+            popup.createErrorMessage("Invalid distribution inputs", "Please input integers");
            }
         }
         myGrid.init(config.populateGrid(myXMLReader.getCellArray(), distributionList), myXMLReader.getMyFileName(), myXMLReader.populateParameterMap());

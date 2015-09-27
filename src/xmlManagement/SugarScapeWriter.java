@@ -7,6 +7,7 @@ public class SugarScapeWriter extends SimWriter {
 
     private final double myMaxVision = 10;
     private final double mySugarGrowBackInterval = 2;
+    private final double mySugarGrowBackRate=1;
     private final double MAX_METABOLISM = 6;
     private final double MIN_METABOLISM = 1;
     private final double MIN_VISION = 1;
