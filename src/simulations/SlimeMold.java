@@ -91,7 +91,7 @@ public class SlimeMold extends SimulationWithPatch {
         setForwardNeighbors(slime);
         Cell[] cells = slime.getMyNeighbors();
         int[] forwardView = slime.getMyForwardLocations();
-        int location = -1;
+        int location = 0;
         for (int i = 0; i < forwardView.length; i++) {
             SlimeMoldCell neighbor = (SlimeMoldCell) cells[forwardView[i]];
             if (neighbor == null) {
@@ -112,7 +112,7 @@ public class SlimeMold extends SimulationWithPatch {
     }
 
     private void move (SlimeMoldCell slime, int locationToMove) {
-        if (locationToMove > 0) {
+        if (locationToMove >= 0) {
             SlimeMoldCell newSlime = (SlimeMoldCell) slime.getMyNeighbors()[locationToMove];
             newSlime.setMyNextState(AMOEBE);
             setNextCampState(slime);

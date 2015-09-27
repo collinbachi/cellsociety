@@ -17,9 +17,9 @@ public class ForagingAnts extends SimulationWithPatch {
     public static final int HIGH_PHEROMONES = 3;
     public static final int ANT = 4;
     private static final Paint[] COLORS =
-            { Color.WHITE, Color.color(255 / 255, 168 / 255, 168 / 255),
-              Color.color(255 / 255, 20 / 255, 20 / 255),
-              Color.color(141 / 255, 0 / 255, 0 / 255), Color.BLACK };
+            { Color.WHITE, Color.rgb(255, 168, 168),
+              Color.rgb(255, 20, 20),
+              Color.rgb(141, 0, 0), Color.BLACK };
     public static final String ANT_LIFE = "ANT_LIFE";
     public static final String MAX_ANTS = "MAX_ANTS";
     public static final String ANTS_BORN_PER_TIME = "ANTS_BORN_PER_TIME";
