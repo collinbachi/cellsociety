@@ -88,18 +88,26 @@ public class SlimeMold extends Simulation {
                 locationToMove += 3 * myWiggleBias;
             }
             locationToMove = slime.wrapAroundNeighbors(locationToMove);
+            move(slime, locationToMove);
         }
-        move(slime, locationToMove);
+        else {
+            locationToMove = randomNum(slime.getMyNeighbors().length);
+            while (slime.getMyNeighbors()[locationToMove] == null ||
+                   slime.getMyNeighbors()[locationToMove].getMyCurrentState() == AMOEBE) {
+                locationToMove = randomNum(slime.getMyNeighbors().length);
+            }
+            move(slime, locationToMove);
+        }
     }
 
     private int orientToMostCamp (SlimeMoldCell slime) {
         setForwardNeighbors(slime);
         Cell[] cells = slime.getMyNeighbors();
         int[] forwardView = slime.getMyForwardLocations();
-        int location = 0;
+        int location = -1;
         int max = 0;
         for (int i : forwardView) {
-            if (cells[i] != null) {
+            if (cells[i] != null && cells[i].getMyCurrentState() != AMOEBE) {
                 SlimeMoldCell neighbor = (SlimeMoldCell) cells[i];
                 if (neighbor.getMyPatchAmount() > max &&
                     neighbor.getMyPatchAmount() > mySniffThreshold) {
@@ -114,6 +122,7 @@ public class SlimeMold extends Simulation {
         if (locationToMove >= 0) {
             SlimeMoldCell newSlime = (SlimeMoldCell) slime.getMyNeighbors()[locationToMove];
             newSlime.setMyNextState(AMOEBE);
+            slime.setMyNextState(EMPTY);
         }
     }
 
@@ -122,13 +131,13 @@ public class SlimeMold extends Simulation {
         if (cell.getMyPatchAmount() == 0) {
             state = EMPTY;
         }
-        else if (cell.getMyPatchAmount() < 50) {
+        else if (cell.getMyPatchAmount() < 5) {
             state = LOW_CAMP;
         }
-        else if (cell.getMyPatchAmount() < 150) {
+        else if (cell.getMyPatchAmount() < 8) {
             state = MEDIUM_CAMP;
         }
-        else if (cell.getMyPatchAmount() < 300) {
+        else if (cell.getMyPatchAmount() >= 8) {
             state = HIGH_CAMP;
         }
         cell.setMyNextState(state);
