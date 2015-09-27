@@ -106,6 +106,7 @@ public class SpecificParameters {
         }
         myGrid.init(config.populateGrid(myXMLReader.getCellArray(), distributionList), myXMLReader.getMyFileName(), myXMLReader.populateParameterMap());
         myGrid.updateView();
+        myGrid.step();
         
         
     }

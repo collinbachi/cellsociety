@@ -23,10 +23,8 @@ public class Writer {
         element.appendChild(newNode);
     }
 
-    protected void createFile (Document newFile,
-                            String myDestinationFile) throws TransformerFactoryConfigurationError,
-                                                      TransformerConfigurationException,
-                                                      TransformerException {
+    public void createFile (Document newFile,
+                            String myDestinationFile) throws TransformerException {
         TransformerFactory transformerFactory = TransformerFactory.newInstance();
         Transformer transformer = transformerFactory.newTransformer();
         DOMSource source = new DOMSource(newFile);

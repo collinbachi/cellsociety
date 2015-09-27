@@ -5,8 +5,8 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
 import org.xml.sax.SAXException;
 import configurations.RandomConfiguration;
 import javafx.animation.KeyFrame;
@@ -57,9 +57,10 @@ public class UIView {
     private Text simulationName = new Text();
     private Text authorName = new Text();
     private GridPane specificParameters = new GridPane();
-	private GridView gridView;
-	private ScrollPane sp;
-
+    private GridView gridView;
+    private ScrollPane sp;
+    private final int GRID_ROW_SPAN=10;
+    private final int GRID_COL_SPAN=4;
     public Scene init (int width, int height) {
 
         BorderPane root = new BorderPane();
@@ -68,10 +69,10 @@ public class UIView {
         gridPane = new GridPane();
         gridPane.setHgap(20);
         gridPane.setVgap(20);
-        //gridPane.setPadding(new Insets(0, 10, 0, 10));
+        // gridPane.setPadding(new Insets(0, 10, 0, 10));
 
         grid = new Rectangle(500, 500);
-        gridPane.add(grid, 0, 0, 4, 8);
+        gridPane.add(grid, 0, 0, GRID_COL_SPAN, GRID_ROW_SPAN);
 
         Button selectSim = new Button();
         selectSim.setText("Select New Simulation");
@@ -105,13 +106,11 @@ public class UIView {
         randomizeConfig.setText("Generate Random Configuration");
         randomizeConfig.setOnAction(event -> randomizeGrid());
         gridPane.add(randomizeConfig, 5, 6);
-        
-        Button exportStates=new Button("Export current cell states");
-        ExportingStates exporter=new ExportingStates();
-       // exportStates.setOnAction(event -> exporter.modifyXMLFile(myXMLReader, myGrid));
-        gridPane.add(exportStates, 5, 7);
 
-        
+        Button exportStates = new Button("Export current cell states");
+        ExportingStates exporter = new ExportingStates();
+        //exportStates.setOnAction(event -> exporter.modifyXMLFile(myXMLReader, myGrid));
+        gridPane.add(exportStates, 5, 7);
 
         configureSpeedSlider(speedSlider);
         gridPane.add(speedSlider, 5, 8);
@@ -120,7 +119,6 @@ public class UIView {
         descriptionPane.add(simulationName, 0, 0);
         descriptionPane.add(authorName, 0, 1);
 
-       
         root.setCenter(gridPane);
         root.setBottom(descriptionPane);
         root.setRight(specificParameters);
@@ -151,20 +149,27 @@ public class UIView {
                 myStyleReader = new StyleReader();
                 myStyleReader.parseStyle(selectedStyle);
 
-    			myGrid = (Grid) Class.forName("cellsociety_team09." + myStyleReader.getMyGridEdge()).newInstance();
-    			myXMLReader.passToGrid(myGrid);
-    			myGrid.isHex = myStyleReader.getMyGridShape() == "HexagonView"; //bad
+                myGrid =
+                        (Grid) Class.forName("cellsociety_team09." + myStyleReader.getMyGridEdge())
+                                .newInstance();
+                myXMLReader.passToGrid(myGrid);
+                myGrid.isHex = myStyleReader.getMyGridShape() == "HexagonView"; // bad
 
-    			Class<?> clazz = Class.forName("cellsociety_team09." + myStyleReader.getMyGridShape());
-    			Constructor<?> constructor = clazz.getConstructor(Grid.class, Bounds.class);
-    			gridView = (GridView) constructor.newInstance(myGrid, grid.getBoundsInLocal());
-    			
-                if (sp!=null) gridPane.getChildren().remove(sp);
+                Class<?> clazz =
+                        Class.forName("cellsociety_team09." + myStyleReader.getMyGridShape());
+                Constructor<?> constructor = clazz.getConstructor(Grid.class, Bounds.class);
+                gridView = (GridView) constructor.newInstance(myGrid, grid.getBoundsInLocal());
+
+                if (sp != null)
+                    gridPane.getChildren().remove(sp);
                 sp = new ScrollPane();
                 sp.setContent(gridView);
-                gridPane.add(sp, 0, 0, 4, 8);
+                gridPane.add(sp, 0, 0, GRID_COL_SPAN, GRID_ROW_SPAN);
             }
-            catch (ParserConfigurationException | SAXException | IOException | InstantiationException | IllegalAccessException | ClassNotFoundException | NoSuchMethodException | SecurityException | IllegalArgumentException | InvocationTargetException e) {
+            catch (ParserConfigurationException | SAXException | IOException
+                    | InstantiationException | IllegalAccessException | ClassNotFoundException
+                    | NoSuchMethodException | SecurityException | IllegalArgumentException
+                    | InvocationTargetException e) {
                 e.printStackTrace();
             }
         }
@@ -195,20 +200,22 @@ public class UIView {
                 // IF YOU CHANGE THIS: also change the isHex boolean in grid!
 
                 gridView = new SquareView(myGrid, grid.getBoundsInLocal());
-                
+
                 sp = new ScrollPane();
                 sp.setContent(gridView);
-                gridPane.add(sp, 0, 0, 4, 8);
+                gridPane.add(sp, 0, 0, GRID_COL_SPAN, GRID_ROW_SPAN);
 
                 KeyFrame frame = new KeyFrame(Duration.millis(150), e -> step());
                 animation.setCycleCount(Timeline.INDEFINITE);
                 animation.getKeyFrames().add(frame);
-                mySpecificParameters.displayParameterFields(specificParameters, myXMLReader,myGrid);
-                try{
-                mySpecificParameters.displayStateDistributions(specificParameters, myXMLReader, myGrid);
+                mySpecificParameters.displayParameterFields(specificParameters, myXMLReader,
+                                                            myGrid);
+                try {
+                    mySpecificParameters.displayStateDistributions(specificParameters, myXMLReader,
+                                                                   myGrid);
                 }
-                catch(ArrayIndexOutOfBoundsException e)
-                
+                catch (ArrayIndexOutOfBoundsException e)
+
                 {
                     System.out.println("bounds");
                 }
@@ -220,11 +227,10 @@ public class UIView {
                 displayInvalidFile();
             }
         }
-        }
+    }
 
-    
-    private void step(){
-    	myGrid.step();
+    private void step () {
+        myGrid.step();
     }
 
     public void displayInvalidFile () {

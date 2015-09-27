@@ -18,7 +18,7 @@ import configurations.ListConfiguration;
 public class ExportingStates extends Writer {
     
     
-    public void modifyXMLFile(SimReader myXMLReader,Grid myGrid) throws ParserConfigurationException, SAXException, IOException, TransformerConfigurationException, TransformerFactoryConfigurationError, TransformerException
+    public void modifyXMLFile(SimReader myXMLReader,Grid myGrid) throws TransformerException, ParserConfigurationException, SAXException,IOException
     {
         String filePath="XML/"+myXMLReader.getMyFileName()+".xml";
         DocumentBuilderFactory docFactory=DocumentBuilderFactory.newInstance();
@@ -38,6 +38,7 @@ public class ExportingStates extends Writer {
             cellState.setTextContent(Integer.toString(myGrid.getCell(cellY, cellX).getMyCurrentState()));
             
         }
+        
                super.createFile(doc, filePath);
        
         
