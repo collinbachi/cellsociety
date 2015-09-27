@@ -14,7 +14,6 @@ public class ForagingAntsWriter extends SimWriter {
     private final double myK = .001;
     private final double myN = 10;
     private final double myInitAnts=10;
-    private boolean initialized=false;
 
     public ForagingAntsWriter () {
         super("ForagingAnts.xml", "Watch the little people run", "Walk on the wild side", "Brenna Milligan", 25, 25, 5);

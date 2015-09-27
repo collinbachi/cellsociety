@@ -40,6 +40,7 @@ public abstract class Grid{
 			myRows.add(cellRow);
 		}
 		initNeighbors();
+		mySim.initializeCells(myRows);
 	}
 
 	protected abstract void initNeighbors();

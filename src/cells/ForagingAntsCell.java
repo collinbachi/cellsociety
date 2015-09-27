@@ -11,6 +11,8 @@ public class ForagingAntsCell extends CellWithPatch {
     private int myLives;
     private List<Integer> myNeighborLocations;
     private int myNumberOfAnts;
+    private boolean isNest;
+    private boolean isFood;
 
     public ForagingAntsCell () {
         myFoodItem = false;
@@ -18,6 +20,24 @@ public class ForagingAntsCell extends CellWithPatch {
         myFoodPheromones = 0;
         myNumberOfAnts = 0;
         myLives = 0;
+        isNest = false;
+        isFood = false;
+    }
+    
+    public void setIsNest(boolean isnest) {
+        isNest = isnest;
+    }
+    
+    public void setIsFood(boolean isfood) {
+        isFood = isfood;
+    }
+    
+    public boolean isNest() {
+        return isNest;
+    }
+    
+    public boolean isFood() {
+        return isFood;
     }
 
     public int getMyLives () {
@@ -104,7 +124,8 @@ public class ForagingAntsCell extends CellWithPatch {
     
     @Override
     public void diffuse(double diffusionRate) {
-        for (ForagingAntsCell neighbor : (ForagingAntsCell[]) myNeighbors) {
+        for (Cell cell : myNeighbors) {
+            ForagingAntsCell neighbor = (ForagingAntsCell) cell;
             if (neighbor != null) {
                 int currentNeighborPatch = neighbor.getMyNestPheromones();
                 int patchToAdd = (int) (myNestPheromones*diffusionRate);
