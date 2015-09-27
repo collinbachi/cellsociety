@@ -22,6 +22,8 @@ public class SpecificParameters {
     
     public void displayParameterFields (GridPane specificParameters, SimReader myXMLReader,Grid myGrid) {
         int rowIndex = 2;
+        specificParameters.getChildren().clear();
+        specificParameters.setMinWidth(400);
         specificParameters.setVgap(30);
         for (String s : myXMLReader.populateParameterMap().keySet()) {
             fieldList = new ArrayList<TextField>();
@@ -74,6 +76,7 @@ public class SpecificParameters {
             Label stateName=new Label("State "+(state)+":");
             stateName.setFont(new Font("Cambria",10));
             TextField stateField=new TextField();
+            stateField.setMaxWidth(50);
             pane.add(stateName, 3, rowIndex);
             pane.add(stateField, 4, rowIndex);
             stateList.add(stateField);
@@ -102,7 +105,7 @@ public class SpecificParameters {
            }
         }
         myGrid.init(config.populateGrid(myXMLReader.getCellArray(), distributionList), myXMLReader.getMyFileName(), myXMLReader.populateParameterMap());
-        myGrid.step();
+        myGrid.updateView();
         
         
     }

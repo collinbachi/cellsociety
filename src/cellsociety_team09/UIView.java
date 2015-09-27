@@ -31,6 +31,7 @@ import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.scene.control.TextField;
 import javafx.util.Duration;
+import xmlManagement.ExportingStates;
 import xmlManagement.SimReader;
 import xmlManagement.StyleReader;
 
@@ -67,7 +68,7 @@ public class UIView {
         gridPane = new GridPane();
         gridPane.setHgap(20);
         gridPane.setVgap(20);
-        gridPane.setPadding(new Insets(0, 10, 0, 10));
+        //gridPane.setPadding(new Insets(0, 10, 0, 10));
 
         grid = new Rectangle(500, 500);
         gridPane.add(grid, 0, 0, 4, 8);
@@ -104,6 +105,11 @@ public class UIView {
         randomizeConfig.setText("Generate Random Configuration");
         randomizeConfig.setOnAction(event -> randomizeGrid());
         gridPane.add(randomizeConfig, 5, 6);
+        
+        Button exportStates=new Button("Export current cell states");
+        ExportingStates exporter=new ExportingStates();
+       // exportStates.setOnAction(event -> exporter.modifyXMLFile(myXMLReader, myGrid));
+        gridPane.add(exportStates, 5, 7);
 
         
 
@@ -114,6 +120,7 @@ public class UIView {
         descriptionPane.add(simulationName, 0, 0);
         descriptionPane.add(authorName, 0, 1);
 
+       
         root.setCenter(gridPane);
         root.setBottom(descriptionPane);
         root.setRight(specificParameters);
@@ -128,7 +135,7 @@ public class UIView {
             myGrid.init(randomizer.populateGrid(myXMLReader.getCellArray(), null,
                                                 myXMLReader.getNumberOfStates()),
                         myXMLReader.getMyFileName(), myXMLReader.populateParameterMap());
-            myGrid.step();
+            myGrid.updateView();
         }
         catch (NullPointerException e) {
             createErrorMessage("No simulation has been loaded yet",

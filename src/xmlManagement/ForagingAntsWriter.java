@@ -17,7 +17,7 @@ public class ForagingAntsWriter extends SimWriter {
     private boolean initialized=false;
 
     public ForagingAntsWriter () {
-        super("ForagingAnts.xml", "Watch the little people run", "Walk on the wild side", "Brenna Milligan", 25, 25, 5);
+        super("XML/ForagingAnts.xml", "Foraging Ants", "Foraging Ants", "Brenna Milligan", 100, 100, 5);
 
     }
 

@@ -14,7 +14,7 @@ import org.w3c.dom.Element;
 
 public class Writer {
 
-    public void addNodeToElement (Document newFile,
+    protected void addNodeToElement (Document newFile,
                                   Element element,
                                   String fieldName,
                                   String content) {
@@ -23,7 +23,7 @@ public class Writer {
         element.appendChild(newNode);
     }
 
-    public void createFile (Document newFile,
+    protected void createFile (Document newFile,
                             String myDestinationFile) throws TransformerFactoryConfigurationError,
                                                       TransformerConfigurationException,
                                                       TransformerException {

@@ -29,6 +29,7 @@ public class SugarScapeWriter extends SimWriter {
         super.getParameterMap().put(SugarScape.MIN_VISION, MIN_VISION);
         super.getParameterMap().put(SugarScape.MAX_INIT_SUGAR, MAX_INIT_SUGAR);
         super.getParameterMap().put(SugarScape.MIN_INIT_SUGAR, MIN_INIT_SUGAR);
+        super.getParameterMap().put(SugarScape.SUGAR_GROW_BACK_RATE, mySugarGrowBackRate);
 
     }
 
